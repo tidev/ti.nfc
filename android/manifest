@@ -1,0 +1,18 @@
+#
+# this is your module manifest and used by Titanium
+# during compilation, packaging, distribution, etc.
+#
+version: 1.0.0
+apiversion: 2
+description: Near Field Communication (NFC)
+author: Jeff English
+license: Apache Public License v2
+copyright: Copyright (c) 2013 by Appcelerator, Inc.
+
+
+# these should not be edited
+name: nfc
+moduleid: ti.nfc
+guid: 50513178-f1da-40e1-8031-75c08db86d6f
+platform: android
+minsdk: 3.0.0.GA
