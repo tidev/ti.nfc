@@ -7,6 +7,12 @@
 	<iphone>
 	</iphone>
 	<android xmlns:android="http://schemas.android.com/apk/res/android">
+		<manifest>
+			<uses-permission android:name="android.permission.NFC" />
+			<uses-sdk android:minSdkVersion="10"/>
+			<!-- If your application uses NFC functionality, but that functionality is not crucial to your application, you can omit the uses-feature element and check for NFC avalailbility at runtime by checking to see if getDefaultAdapter() is null. -->
+			<uses-feature android:name="android.hardware.nfc" android:required="true" />
+		</manifest>
 	</android>
 	<mobileweb>
 	</mobileweb>
