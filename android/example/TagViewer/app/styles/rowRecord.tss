@@ -1,0 +1,20 @@
+"#rowRecord": {
+	height: Ti.UI.SIZE,
+	layout: 'vertical',
+	className: "rowRecord"
+},
+"#tagData": {
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE,
+	backgroundColor: '#f0f0f0',
+	borderColor: 'gray',
+	borderWidth: 0,
+	color: 'black',
+	textAlign: 'left',
+	focusable: false,
+	editable: false,
+	font: {
+		fontSize: '16dp',
+		fontFamily: 'DroidSans'
+	}	
+}

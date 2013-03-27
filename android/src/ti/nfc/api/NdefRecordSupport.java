@@ -6,9 +6,6 @@ import java.util.Locale;
 import android.net.Uri;
 import android.nfc.NdefRecord;
 
-
-//BUGBUG -- define this as an interface with base, 14, and 16 level support objects
-
 public class NdefRecordSupport {
     /**
      * NFC Forum "URI Record Type Definition"<p>

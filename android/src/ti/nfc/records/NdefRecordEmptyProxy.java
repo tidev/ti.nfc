@@ -1,7 +1,11 @@
 package ti.nfc.records;
 
+import org.appcelerator.kroll.annotations.Kroll;
+
+import ti.nfc.NfcModule;
 import android.nfc.NdefRecord;
 
+@Kroll.proxy(creatableInModule = NfcModule.class)
 public class NdefRecordEmptyProxy extends NdefRecordProxy 
 {
 	public NdefRecordEmptyProxy() {

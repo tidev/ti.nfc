@@ -1,0 +1,9 @@
+<Alloy>
+	<Window class="container">
+		<Label>Scan a tag</Label>
+		<ScrollView>
+			<TextArea id="tagData"/>
+		</ScrollView>
+		<Button onClick="onClear">Clear</Button>
+	</Window>
+</Alloy>

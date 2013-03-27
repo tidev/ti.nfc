@@ -1,0 +1,19 @@
+"Label": {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	color: "#000",
+	font: {
+		fontSize: '20dp',
+		fontFamily: 'DroidSans'
+	}
+},
+".name": {
+	font: {
+		fontSize: '20dp',
+		fontFamily: 'DroidSans',
+		fontWeight: 'bold'
+	}
+},
+".row": {
+	layout: 'horizontal'
+}
