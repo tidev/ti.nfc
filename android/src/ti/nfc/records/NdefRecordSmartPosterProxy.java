@@ -1,3 +1,11 @@
+/**
+ * Appcelerator NFC module
+ * Copyright (c) 2013 by Appcelerator, Inc. All Rights Reserved.
+ * Licensed under the terms of the Apache Public License
+ * Please see the LICENSE included with this distribution for details.
+ *
+ */
+
 package ti.nfc.records;
 
 import java.nio.charset.Charset;
@@ -47,7 +55,7 @@ public class NdefRecordSmartPosterProxy extends NdefRecordProxy
 			String language = Locale.getDefault().getLanguage();
 			String encoding = NfcModule.ENCODING_UTF8;
 			records.add(NdefRecordApi.getInstance().createText(title, language, encoding));
-		} else
+		} 
 		if (hasProperty(NfcConstants.PROPERTY_URI)) {
 			String uri = TiConvert.toString(getProperty(NfcConstants.PROPERTY_URI));
 			records.add(NdefRecordApi.getInstance().createUri(uri));

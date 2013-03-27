@@ -1,3 +1,31 @@
+/**
+ * Appcelerator NFC module
+ * Copyright (c) 2013 by Appcelerator, Inc. All Rights Reserved.
+ * Licensed under the terms of the Apache Public License
+ * Please see the LICENSE included with this distribution for details.
+ *
+ */
+
+/* 
+ * Portions of this file include the Android Open Source Project [http://source.android.com]
+ * 
+ * Copyright (C) 2010 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * Code modified from the api level 14 NdefRecord.java file with Titanium-specific modifications.
+ */
+
 package ti.nfc.api;
 
 import java.nio.charset.Charset;
@@ -5,9 +33,6 @@ import java.util.Locale;
 
 import android.net.Uri;
 import android.nfc.NdefRecord;
-
-
-//BUGBUG -- define this as an interface with base, 14, and 16 level support objects
 
 public class NdefRecordSupport {
     /**

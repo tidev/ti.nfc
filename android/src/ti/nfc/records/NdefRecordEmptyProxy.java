@@ -1,7 +1,19 @@
+/**
+ * Appcelerator NFC module
+ * Copyright (c) 2013 by Appcelerator, Inc. All Rights Reserved.
+ * Licensed under the terms of the Apache Public License
+ * Please see the LICENSE included with this distribution for details.
+ *
+ */
+
 package ti.nfc.records;
 
+import org.appcelerator.kroll.annotations.Kroll;
+
+import ti.nfc.NfcModule;
 import android.nfc.NdefRecord;
 
+@Kroll.proxy(creatableInModule = NfcModule.class)
 public class NdefRecordEmptyProxy extends NdefRecordProxy 
 {
 	public NdefRecordEmptyProxy() {
