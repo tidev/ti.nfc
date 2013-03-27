@@ -1,0 +1,39 @@
+".container": {
+	backgroundColor:'white',
+	exitOnClose: true
+},
+"#title": {
+	top: 0,
+	left: 0,
+	width: Ti.UI.FILL,
+	height: '40dp',
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER
+},
+"#instructions": {
+	top: '48dp',
+	left: '4dp',
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE,
+	font: {
+		fontSize: '16dp',
+		fontFamily: 'DroidSans'
+	},
+	textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT
+},
+"#records": {
+	top: '48dp',
+	bottom: '48dp',
+	left: '4dp',
+	right: '4dp',
+	backgroundColor:"white",
+	font: {
+		fontSize: '20dp',
+		fontFamily: 'DroidSans'
+	}
+},
+"Button": {
+	left: 0,
+	right: 0,
+	bottom: 0,
+	height: '40dp'
+},

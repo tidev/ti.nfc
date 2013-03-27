@@ -1,0 +1,5 @@
+"#rowMessage": {
+	height: Ti.UI.SIZE,
+	layout: 'vertical',
+	className: 'rowMessage'
+}

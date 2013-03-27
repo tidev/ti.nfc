@@ -1,0 +1,37 @@
+".container": {
+	backgroundColor:'white',
+	layout: 'vertical',
+	exitOnClose: true
+},
+".name": {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	color: "#000",
+	font: {
+		fontSize: '20dp',
+		fontFamily: 'DroidSans',
+		fontWeight: 'bold'
+	}
+}, 
+".row": {
+	top: '10dp',
+	left: '10dp',
+	right: '10dp',
+	layout: 'horizontal'
+},
+"#typeSpinner": {
+	top: '10dp',
+	left: '10dp',
+	right: '10dp',
+	color: 'black',
+	font: {
+		fontSize: '20dp',
+		fontFamily: 'DroidSans'
+	}
+},
+"#callbackSwitch": {
+	left: '4dp',
+	titleOn: 'Yes',
+	titleOff: 'No',
+	value: true,
+}
