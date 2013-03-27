@@ -1,3 +1,11 @@
+/**
+ * Appcelerator NFC module
+ * Copyright (c) 2013 by Appcelerator, Inc. All Rights Reserved.
+ * Licensed under the terms of the Apache Public License
+ * Please see the LICENSE included with this distribution for details.
+ *
+ */
+
 package ti.nfc.records;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
