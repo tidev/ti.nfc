@@ -1,0 +1,10 @@
+<Alloy>
+	<Window class="container">
+		<Label class="name">Select type of message to send</Label>
+		<Picker id="typeSpinner" onChange="onTypeSelected"/>
+		<View class="row">
+			<Label class="name">Use callback:</Label>
+			<Switch id="callbackSwitch" onChange="onCallbackSelected"/>
+		</View>
+	</Window>
+</Alloy>

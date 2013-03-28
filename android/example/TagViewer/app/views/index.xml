@@ -1,0 +1,8 @@
+<Alloy>
+	<Window class="container">
+		<Label id="title" class="name">Scan a tag</Label>
+		<Label id="instructions">Scan a tag or tap another Android phone with NFC to view tag data</Label>
+		<TableView id="records"/>
+		<Button onClick="onClear">Clear</Button>
+	</Window>
+</Alloy>

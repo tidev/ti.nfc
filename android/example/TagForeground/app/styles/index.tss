@@ -1,0 +1,48 @@
+".container": {
+	backgroundColor:'white',
+	exitOnClose: true
+},
+"Label": {
+	top: 0,
+	left: 0,
+	right: 0,
+	height: '40dp',
+	color: 'black',
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	font: {
+		fontSize: '20dp',
+		fontFamily: 'DroidSans',
+		fontWeight: 'bold'
+	}
+},
+"ScrollView": {
+	top: '48dp',
+	bottom: '48dp',
+	left: 0,
+	right: 0,
+	contentWidth: 'auto',
+	contentHeight: 'auto',
+	showVerticalScrollIndicator: true,
+	backgroundColor: 'lightgray'
+},
+"Button": {
+	left: '4dp',
+	right: '4dp',
+	bottom: 0,
+	height: '40dp'
+},
+"#tagData": {
+	width: Ti.UI.FILL,
+	height: Ti.UI.FILL,
+	backgroundColor: '#f0f0f0',
+	borderColor: 'gray',
+	borderWidth: 0,
+	color: 'black',
+	textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
+	focusable: false,
+	editable: false,
+	font: {
+		fontSize: '16dp',
+		fontFamily: 'DroidSans'
+	}	
+}

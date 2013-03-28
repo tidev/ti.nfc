@@ -1,0 +1,12 @@
+<Alloy>
+	<TableViewRow class="container">
+		<View class="row">
+			<Label class="name" text="Tag ID: "/>
+			<Label id="tagId"/>
+		</View>
+		<View class="row">
+			<Label id="techListLabel" class="name" text="Tech List: "/>
+			<Label id="techList"/>
+		</View>
+	</TableViewRow>
+</Alloy>

@@ -1,0 +1,9 @@
+<Alloy>
+	<TableViewRow>
+		<View class="row">
+			<Label class="name" text="Record Type: "/>
+			<Label id="recordType"/>
+		</View>
+		<TextArea id="tagData"/>
+	</TableViewRow>
+</Alloy>
