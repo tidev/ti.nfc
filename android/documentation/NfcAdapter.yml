@@ -1,0 +1,269 @@
+---
+name: Modules.Nfc.NfcAdapter
+summary: Represents the local NFC adapter.
+description: |
+    The NFC adapter gives you access to the features of the NFC device. The NFC adapter proxy is always
+    associated with the activity that was the current activity when it was created.
+
+    Use the <Modules.Nfc.createNfcAdapter> method to create an NFC adapter.
+
+    See also:
+    [NfcAdapter](http://developer.android.com/reference/android/nfc/NfcAdapter.html)
+extends: Titanium.Proxy
+since: "1.0.0"
+platforms: [android]
+
+methods:
+  - name: isEnabled
+    since: "1.0.0"
+    platforms: [android]
+    summary: Return true if this NFC Adapter has any features enabled.
+    returns:
+        type: Boolean
+
+  - name: isNdefPushEnabled
+    since: "1.0.0"
+    platforms: [android]
+    summary: Return true if the NDEF Push (Android Beam) feature is enabled.
+    returns:
+        type: Boolean
+
+  - name: onNewIntent
+    since: "1.0.0"  
+    platforms: [android]
+    summary: Processes a new intent received by an application.
+    description: |
+        The NFC tag dispatch system will dispatch an intent to your application when it discovers a tag
+        that matches your application's intent filters. Intents received by your application after it has
+        started MUST be passed to this method in order to be processed and parsed for processing by your
+        application. If the intent is recognized as an NFC action, this method will call your
+        `onNdefDiscovered`, `onTagDiscovered`, or `onTechDiscovered' callback with the parsed information.
+        You should add an event listener to the current activity for the `newintent` event in your application 
+        and call this method with the received intent.
+    parameters:
+      - name: intent
+        summary: The Android intent received by your application
+        type: Titanium.Android.Intent
+
+  - name: disableForegroundDispatch
+    since: "1.0.0"
+    platforms: [android]    
+    summary: Disable foreground dispatch to the current activity.
+
+  - name: disableForegroundNdefPush
+    since: "1.0.0"
+    platforms: [android]   
+    summary: Disable NDEF message push over P2P.
+    description: |
+        This method was deprecated in API level 14. Use `setNdefPushMessage` instead.
+
+  - name: enableForegroundDispatch
+    since: "1.0.0"
+    platforms: [android]   
+    summary: Enable foreground dispatch to the current activity.
+    description: |
+        See also:
+        [enableForegroundDispatch](http://developer.android.com/reference/android/nfc/NfcAdapter.html#enableForegroundDispatch(android.app.Activity, android.app.PendingIntent, android.content.IntentFilter[], java.lang.String[][]))
+    parameters:
+      - name: dispatchFilter
+        summary: A filter specifying intent, intent filters and technology lists used to match dispatch intents.
+        type: Modules.Nfc.NfcForegroundDispatchFilter
+
+  - name: enableForegroundNdefPush
+    since: "1.0.0"
+    platforms: [android]
+    summary: Enable NDEF message push over P2P.
+    description: |
+        This method was deprecated in API level 14. Use `setNdefPushMessage` instead.
+    parameters:
+      - name: message
+        summary: An NDEF message to push over NFC.
+        type: Modules.Nfc.NdefMessage
+
+  - name: setNdefPushMessage
+    since: "1.0.0"
+    platforms: [android]
+    summary:
+    description: |
+        See also:
+        [setNdefPushMessage](http://developer.android.com/reference/android/nfc/NfcAdapter.html#setNdefPushMessage(android.nfc.NdefMessage, android.app.Activity, android.app.Activity...))
+    parameters:
+      - name: message
+        summary: An NDEF message to push over NFC, or null to disable
+        type: Modules.Nfc.NdefMessage
+
+properties:
+  - name: onPushComplete
+    summary: Callback function to execute on successful Android Beam operation.
+    description: |
+        This method is only available on Android 4.0 (API 14) and above. 
+
+        See also:
+        [setOnNdefPushCompleteCallback](http://developer.android.com/reference/android/nfc/NfcAdapter.html#setOnNdefPushCompleteCallback(android.nfc.NfcAdapter.OnNdefPushCompleteCallback, android.app.Activity, android.app.Activity...))
+        in the Android Developer Reference.
+    type: Callback
+    since: "1.0.0"
+
+  - name: onPushMessage
+    summary: Callback function used to dynamically generated NDEF messsages to send using Android Beam.
+    description: |
+        The callback function must return an NDEF message to be used for the Android Beam operation.
+        This method is only available on Android 4.0 (API 14) and above. 
+
+        See also:
+        [setNdefPushMessageCallback](http://developer.android.com/reference/android/nfc/NfcAdapter.html#setNdefPushMessageCallback(android.nfc.NfcAdapter.CreateNdefMessageCallback, android.app.Activity, android.app.Activity...))
+        in the Android Developer Reference.
+    type: Callback
+    since: "1.0.0"
+
+  - name: onNdefDiscovered
+    summary: Callback function to execute when a tag with NDEF payload is discovered.
+    description: |
+        See also:
+        [ACTION_NDEF_DISCOVERED](http://developer.android.com/reference/android/nfc/NfcAdapter.html#ACTION_NDEF_DISCOVERED)
+    type: Callback<NdefDiscovered>
+    since: "1.0.0"
+
+  - name: onTagDiscovered
+    summary: Callback function to execute when a tag is discovered.
+    description: |
+        See also:
+        [ACTION_TAG_DISCOVERED](http://developer.android.com/reference/android/nfc/NfcAdapter.html#ACTION_TAG_DISCOVERED)
+    type: Callback<NdefDiscovered>
+    since: "1.0.0"
+
+  - name: onTechDiscovered
+    summary: Callback function to execute when a tag is discovered and activities are registered for the specific technologies on the tag.
+    description: |
+        See also:
+        [ACTION_TECH_DISCOVERED](http://developer.android.com/reference/android/nfc/NfcAdapter.html#ACTION_TECH_DISCOVERED)
+    type: Callback<NdefDiscovered>
+    since: "1.0.0"
+
+examples:
+  - title: Foreground Dispatch
+    example: |
+        This example uses foreground dispatch to receive NDEF messages only when the application is in the foreground.
+
+            // Create the NFC adapter to be associated with this activity. 
+            // There should only be ONE adapter created per activity.
+            nfcAdapter = nfc.createNfcAdapter({
+                onNdefDiscovered: handleDiscovery,
+                onTagDiscovered: handleDiscovery,
+                onTechDiscovered: handleDiscovery
+            });
+    
+            // It's possible that the device does not support NFC. Check it here
+            // before we go any further.
+            if (!nfcAdapter.isEnabled()) {
+                alert('NFC is not enabled on this device');
+                return;
+            }
+    
+            // All tag scans are received by the activity as a new intent. Each
+            // scan intent needs to be passed to the nfc adapter for processing.
+            var act = Ti.Android.currentActivity;
+            act.addEventListener('newintent', function(e) {
+                nfcAdapter.onNewIntent(e.intent);
+            });
+    
+            // To enable NFC dispatching only while the application is in the foreground,
+            // the application must signal the module whenever the application state changes.
+            act.addEventListener('resume', function(e) {
+                nfcAdapter.enableForegroundDispatch(dispatchFilter);
+            });
+            act.addEventListener('pause', function(e) {
+                nfcAdapter.disableForegroundDispatch();
+            });
+    
+            // This application is only interested in receiving NFC messages while
+            // in the foreground. So the dispatch filter must be defined to identify
+            // what types of NFC messages to receive.
+            dispatchFilter = nfc.createNfcForegroundDispatchFilter({
+                intentFilters: [
+                    { action: nfc.ACTION_NDEF_DISCOVERED, mimeType: 'text/plain' },
+                    { action: nfc.ACTION_NDEF_DISCOVERED, scheme: 'http', host: 'www.appcelerator.com' }
+                ],
+                techLists: [
+                    [ "android.nfc.tech.NfcF" ],
+                    [ "android.nfc.tech.Ndef" ],
+                    [ "android.nfc.tech.MifareClassic" ],
+                    [ "android.nfc.tech.NfcA" ]
+                ]
+            });
+
+  - title: Push Message
+    example: |
+        This example sets a default push message to send using Android Beam.
+
+            // Create the NFC adapter to be associated with this activity. 
+            // There should only be ONE adapter created per activity.
+            nfcAdapter = nfc.createNfcAdapter({});
+    
+            // It's possible that the device does not support NFC. Check it here
+            // before we go any further.
+            if (!nfcAdapter.isNdefPushEnabled()) {
+                alert('NFC is not enabled on this device');
+                return;
+            }
+ 
+            // Set the default Ndef message to send when tapped
+            var textRecord = nfc.createNdefRecordText({
+                text: "NDEF Push Sample"
+            });
+            var msg = nfc.createNdefMessage({
+                records: [ textRecord ]
+            });
+            nfcAdapter.setNdefPushMessage(msg);
+
+  - title: Push Message Callback
+    example: |
+        This example uses the push message callback to dynamically create the NDEF message as needed.
+
+            // Create the NFC adapter to be associated with this activity. 
+            // There should only be ONE adapter created per activity.
+            nfcAdapter = nfc.createNfcAdapter({
+                onPushMessage: function() {
+                    if (sendText) {
+                        ndefRecord = nfc.createNdefRecordText({
+                            text: "Hello"
+                        });
+                    } else {
+                        ndefRecord = nfc.createNdefRecordUri({
+                            uri: "http://www.appcelerator.com"
+                        });
+                    }
+                    return nfc.createNdefMessage({
+                        records: [
+                            ndefRecord 
+                        ]
+                    });
+                }
+            });
+    
+            // It's possible that the device does not support NFC. Check it here
+            // before we go any further.
+            if (!nfcAdapter.isEnabled()) {
+                alert('NFC is not enabled on this device');
+                return;
+            }
+
+---
+name: NdefDiscovered
+summary: Argument passed to the callback when an NDEF message, tag, or technology is discovered.
+properties:
+  - name: action
+    summary: Identifies the action from the intent.
+    description: |
+        This value will be one of the constants defined on the <Modules.Nfc> module object (ACTION_NDEF_DISCOVERED, ACTION_TAG_DISCOVERED, or
+        ACTION_TECH_DISCOVERED).
+    type: String
+
+  - name: tag
+    summary: NFC tag proxy identifying the tag was was discovered.
+    type: Modules.Nfc.NfcTag
+
+  - name: messsages
+    summary: Array of NDEF messages parsed from the tag.
+    type: Array<Modules.Nfc.NdefMessage>
+

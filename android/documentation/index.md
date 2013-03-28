@@ -2,15 +2,12 @@
 
 ## Description
 
-
-## Prerequisites and Setup
-
-Android API level 10
+This module provides access to Near Field Communication (NFC) functionality, allowing applications to read NDEF 
+messages in NFC tags. A "tag" may actually be another device that appears as a tag.
 
 ## Getting Started
 
-View the [Using Titanium Modules](http://docs.appcelerator.com/titanium/latest/#!/guide/Using_Titanium_Modules) document for instructions on getting
-started with using this module in your application.
+View the [Using Titanium Modules](http://docs.appcelerator.com/titanium/latest/#!/guide/Using_Titanium_Modules) document for instructions on getting started with using this module in your application.
 
 ## Accessing the Module
 
@@ -20,18 +17,13 @@ Use `require` to access this module from JavaScript:
 
 The `nfc` variable is a reference to the Module object.
 
-
-## Methods
-
-
-## Properties
-
-## Constants
-
-## Events
-
 ## Usage
 See the example applications in the `example` folder of the module.
+
+## Documentation
+
+  * [Nfc Module API Reference Documentation](http://docs.appcelerator.com/titanium/latest/#!/api/Modules.Nfc)
+  * [Near Field Communication](http://developer.android.com/guide/topics/connectivity/nfc/index.html)
 
 ## Author
 
