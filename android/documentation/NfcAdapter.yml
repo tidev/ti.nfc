@@ -3,7 +3,9 @@ name: Modules.Nfc.NfcAdapter
 summary: Represents the local NFC adapter.
 description: |
     The NFC adapter gives you access to the features of the NFC device. The NFC adapter proxy is always
-    associated with the activity that was the current activity when it was created.
+    associated with the activity that was the current activity when it was created. The NFC Adapter must
+    be created after the activity has been opened. You can use the window `open` event to know when the
+    activity has been opened.
 
     Use the <Modules.Nfc.createNfcAdapter> method to create an NFC adapter.
 
@@ -62,6 +64,10 @@ methods:
     platforms: [android]   
     summary: Enable foreground dispatch to the current activity.
     description: |
+        The foreground dispatch system allows an activity to intercept an intent and claim priority over other activities that handle the same intent.
+        When using foreground dispatching, you must process the `pause` and `resume` events on the activity. See the `Foreground Dispatch` example
+        for an example of enabling and disabling foreground dispatch during these events.
+
         See also:
         [enableForegroundDispatch](http://developer.android.com/reference/android/nfc/NfcAdapter.html#enableForegroundDispatch(android.app.Activity, android.app.PendingIntent, android.content.IntentFilter[], java.lang.String[][]))
     parameters:
