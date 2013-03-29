@@ -1,0 +1,226 @@
+---
+name: Modules.Nfc.NdefRecord
+summary: Represents an immutable NDEF record.
+description: |
+    The NDEF record is the base type for more type-specific NDEF records. You will generally
+    work with the type-specific NDEF records (e.g. NdefRecordText, NdefRecordUri, etc.) which have
+    more applicable properties for each type of record.
+
+    Use one of the <Modules.Nfc.createNdefRecordApplication>, <Modules.Nfc.createNdefRecordEmpty>, 
+    <Modules.Nfc.createNdefRecordExternal>, <Modules.Nfc.createNdefRecordMedia>, <Modules.Nfc.createNdefRecordSmartPoster>,
+    <Modules.Nfc.createNdefRecordText>, <Modules.Nfc.createNdefRecordUnknown>, or <Modules.Nfc.createNdefRecordUri> method 
+    variants to create an NDEF record.
+
+    See also:
+    [NdefRecord](http://developer.android.com/reference/android/nfc/NdefRecord.html)
+extends: Titanium.Proxy
+since: "1.0.0"
+platforms: [android]
+creatable: false
+excludes:
+    properties: [bubbleParent]
+
+methods:
+  - name: getRecordType
+    summary: Returns the record type.
+    description: |
+        This is the class name of the NDEF record (e.g. NdefRecordText)
+    returns:
+        type: String   
+
+  - name: getId
+    summary: Returns the variable length ID.
+    returns:
+        type: String
+
+  - name: getTnf
+    summary: Returns the 3-bit TNF.
+    returns:
+        type: Number
+
+  - name: getType
+    summary: Returns the variable length Type field.
+    returns:
+        type: String
+
+  - name: getHashCode
+    summary: Returns the integer hash code for this object.
+    returns:
+        type: Number
+
+properties:
+  - name: payload
+    summary: The variable length payload for the record.
+    type: Titanium.Blob
+
+  - name: recordType
+    summary: The record type.
+    permission: read-only
+    type: String 
+
+  - name: id
+    summary: The variable length ID.
+    permission: read-only
+    type: String
+
+  - name: tnf
+    summary: The 3-bit TNF.
+    permission: read-only    
+    type: Number
+
+  - name: type
+    summary: The variable length Type field.
+    permission: read-only    
+    type: String
+
+  - name: hashCode
+    summary: The integer hash code for this object.
+    permission: read-only    
+    type: Number
+
+---
+name: Modules.Nfc.NdefRecordApplication
+summary: Represents an immutable NDEF record indicating the package that should be used to handle the entire NDEF message.
+description: |
+    This record type was introduced in Android 4.0 (API level 14).
+
+    See also:
+    [createApplicationRecord](http://developer.android.com/reference/android/nfc/NdefRecord.html#createApplicationRecord(java.lang.String))
+
+extends: Modules.Nfc.NdefRecord
+since: "1.0.0"
+platforms: [android]
+excludes:
+    properties: [bubbleParent]
+
+properties:
+  - name: packageName
+    summary: Application package name.
+    type: String
+
+---
+name: Modules.Nfc.NdefRecordEmpty
+summary: Represents an immutable NDEF record that is empty.
+extends: Modules.Nfc.NdefRecord
+since: "1.0.0"
+platforms: [android]
+excludes:
+    properties: [bubbleParent]
+    
+---
+name: Modules.Nfc.NdefRecordExternal
+summary: Represents an immutable NDEF record containing external (application-specific) data.
+description: |
+    See also:
+    [createExternal](http://developer.android.com/reference/android/nfc/NdefRecord.html#createExternal(java.lang.String, java.lang.String, byte[]))
+extends: Modules.Nfc.NdefRecord
+since: "1.0.0"
+platforms: [android]
+excludes:
+    properties: [bubbleParent]
+    
+properties:
+  - name: domain
+    summary: Domain name of issuing organization.
+    type: String
+
+  - name: domainType
+    summary: Domain-specific type of data.
+    type: String
+
+---
+name: Modules.Nfc.NdefRecordMedia
+summary: Represents an immutable NDEF record containing MIME data.
+description: |
+    See also:
+    [createMime](http://developer.android.com/reference/android/nfc/NdefRecord.html#createMime(java.lang.String, byte[]))
+extends: Modules.Nfc.NdefRecord
+since: "1.0.0"
+platforms: [android]
+excludes:
+    properties: [bubbleParent]
+    
+properties:
+  - name: mimeType
+    summary: A valid MIME type.
+    type: String
+
+---
+name: Modules.Nfc.NdefRecordSmartPoster
+summary: Represents an immutable NDEF record containing a Smart Poster message.
+extends: Modules.Nfc.NdefRecord
+since: "1.0.0"
+platforms: [android]
+excludes:
+    properties: [bubbleParent]
+    
+properties:
+  - name: title
+    summary: Title for the Smart Poster.
+    type: String
+    optional: true
+
+  - name: uri
+    summary: Uri for the external resource.
+    type: String
+
+  - name: action
+    summary: Recommended action.
+    type: Number
+    optional: true
+
+  - name: mimeType
+    summary: A valid MIME type for the external resource.
+    type: String
+    optional: true
+
+---
+name: Modules.Nfc.NdefRecordText
+summary: Represents an immutable NDEF record containing text.
+extends: Modules.Nfc.NdefRecord
+since: "1.0.0"
+platforms: [android]
+excludes:
+    properties: [bubbleParent]
+    
+properties:
+  - name: text
+    summary: Text.
+    type: String
+
+  - name: languageCode
+    summary: Language code. Defaults to current locale.
+    type: String
+    optional: true
+
+  - name: encoding
+    summary: Encoding format. Default is ENCODING_UTF8 ("UTF-8");
+    type: String
+    optional: true
+
+---
+name: Modules.Nfc.NdefRecordUnknown
+summary: Represents an immutable NDEF record containing an unknown data format.
+extends: Modules.Nfc.NdefRecord
+since: "1.0.0"
+platforms: [android]
+excludes:
+    properties: [bubbleParent]
+    
+---
+name: Modules.Nfc.NdefRecordUri
+summary: Represents an immutable NDEF record containing a URI.
+description: |
+    See also:
+    [createUri](http://developer.android.com/reference/android/nfc/NdefRecord.html#createUri(java.lang.String))
+extends: Modules.Nfc.NdefRecord
+since: "1.0.0"
+platforms: [android]
+excludes:
+    properties: [bubbleParent]
+    
+properties:
+  - name: uri
+    summary: URI or URL.
+    type: String
+    

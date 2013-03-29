@@ -1,0 +1,401 @@
+---
+name: Modules.Nfc
+summary: Near Field Communication (NFC) module
+description: |
+    This module provides access to Near Field Communication (NFC) functionality, allowing applications to read NDEF 
+    messages in NFC tags. A "tag" may actually be another device that appears as a tag.
+
+    ### NFC Resources
+
+    -   [Near Field Communication](http://developer.android.com/guide/topics/connectivity/nfc/index.html)
+    -   [android.nfc](http://developer.android.com/reference/android/nfc/package-summary.html)
+
+    ### Requirements
+
+    -   An NFC capable device is required.
+    -   Android API level 10
+
+    ### Getting Started
+
+    -   View the [Using Titanium Modules](http://docs.appcelerator.com/titanium/latest/#!/guide/Using_Titanium_Modules) 
+        document for instructions on getting started with using this module in your application.
+
+    ### Accessing the Module
+
+    -   Use `require` to access this module from JavaScript:
+            var nfc = require("ti.nfc");
+        The `nfc` variable is a reference to the Module object.
+
+    ### Tag Dispatching and Intent Filters
+
+    -   The Android [tag dispatch system](http://developer.android.com/guide/topics/connectivity/nfc/nfc.html#tag-dispatch)
+        is responsible for dispatching NFC messages to the appropriate application. In the
+        situation where you are not using foreground dispatching, you will need to define intent-filters in the 
+        tiapp.xml file to specify which types of NFC messages the application wants to receive. By using intent-filters in
+        the tiapp.xml file, the application will be automatically started if a matching
+        NFC message is dispatched. 
+  
+        Add code similar to the following to your tiapp.xml file:
+
+        - Replace occurrences of the activity name with your activity name.
+        - `android:launchMode="singleTask"` is needed so that new intents that result from NFC message dispatching do not start a new activity in your application.
+        - Replace the NFC specific intent filters with filters appropriate for your application.
+  
+                <android xmlns:android="http://schemas.android.com/apk/res/android">
+                    <manifest>
+                        <application>
+                            <activity android:name=".TagviewerActivity"
+                             android:label="TagViewer" android:theme="@style/Theme.Titanium"
+                             android:configChanges="keyboardHidden|orientation"
+                             android:launchMode="singleTask">
+                                <intent-filter>
+                                    <action android:name="android.intent.action.MAIN" />
+                                    <category android:name="android.intent.category.LAUNCHER" />
+                                </intent-filter>
+                                <intent-filter>
+                                    <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+                                    <category android:name="android.intent.category.DEFAULT"/>
+                                    <data android:mimeType="text/plain"/>
+                                </intent-filter>
+                                <intent-filter>
+                                    <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+                                    <category android:name="android.intent.category.DEFAULT"/>
+                                    <data android:scheme="http"/>
+                                </intent-filter>
+                            </activity>
+                        </application>
+                    </manifest>
+                </android>
+
+        Note that if you are using [foreground dispatching](http://developer.android.com/guide/topics/connectivity/nfc/advanced-nfc.html#foreground-dispatch)
+        you do not need to define intent filters in the application's tiapp.xml file.
+
+    ### Creating an Adapter
+
+    -   The NFC adapter gives you access to the features of the NFC device. The NFC adapter proxy is always
+        associated with the activity that was the current activity when it was created. Therefore, the NFC 
+        Adapter should be created after the activity has been opened. You can use the window `open` event to know
+        when the activity has been opened. 
+
+            $.index.addEventListener('open', function(e) {
+                nfcAdapter = nfc.createNfcAdapter({
+                    onNdefDiscovered: handleDiscovery,
+                    onTagDiscovered: handleDiscovery,
+                    onTechDiscovered: handleDiscovery
+                });
+            });
+
+    ### Handling Intents
+
+    -   NFC Intents are dispatched to an activity by the Android tag dispatch system. When your activity receives a new intent,
+        it must forward the intent to the `onNewIntent` method of the NFC adapter for processing.
+
+            var act = Ti.Android.currentActivity;
+            act.addEventListener('newintent', function(e) {
+                nfcAdapter.onNewIntent(e.intent);
+            });
+
+        If your application is started as the result of an NFC intent, that intent will automatically be processed when the
+        NFC module is loaded.
+
+    ### Foreground Dispatch
+
+    -   The foreground dispatch system allows an activity to intercept an intent and claim priority over other activities that handle the same intent.
+        When using foreground dispatching, you must process the `pause` and `resume` events on the activity and enable or disable
+        foreground dispatching.
+
+            var act = Ti.Android.currentActivity;
+            act.addEventListener('resume', function(e) {
+                nfcAdapter.enableForegroundDispatch(dispatchFilter);
+            });
+            act.addEventListener('pause', function(e) {
+                nfcAdapter.disableForegroundDispatch();
+            });
+
+    ### Example applications
+
+    -   Example applications are located in the `example` folder of the module:
+
+        - `TagBeam` demonstrates how to use Android Beam to send messages to another NFC capable device.
+        - `TagForeground` demonstrates how to read NFC tags only when the application is in the foreground.
+        - `TagViewer` demonstrates how to receive NFC tag intents even when the application is not running.
+
+extends: Titanium.Module
+since: "1.0.0"
+platforms: [android]
+excludes:
+    methods: [addEventListener, fireEvent, removeEventListener, applyProperties]
+    properties: [bubbleParent]
+
+properties:
+
+  - name: ACTION_NDEF_DISCOVERED
+    summary: |
+        Intent to start an activity when a tag with NDEF payload is discovered.
+    type: String
+    permission: read-only
+    since: "1.0.0"
+
+  - name: ACTION_TAG_DISCOVERED
+    summary: |
+        Intent to start an activity when a tag is discovered.
+    type: String
+    permission: read-only
+    since: "1.0.0"
+
+  - name: ACTION_TECH_DISCOVERED
+    summary: |
+        Intent to start an activity when a tag is discovered and activities are registered for the specific technologies on the tag.
+    type: String
+    permission: read-only
+    since: "1.0.0"
+
+  - name: TNF_ABSOLUTE_URI
+    summary: |
+        Used with ndefRecord records.
+        Indicates the type field contains an absolute-URI BNF construct defined by RFC 3986.
+    type: Number
+    permission: read-only
+    since: "1.0.0"
+
+  - name: TNF_EMPTY
+    summary: |
+        Used with ndefRecord records.
+        Indicates the record is empty.
+    type: Number
+    permission: read-only
+    since: "1.0.0"
+
+  - name: TNF_EXTERNAL_TYPE
+    summary: |
+        Used with ndefRecord records.
+        Indicates the type field contains an external type name.
+    type: Number
+    permission: read-only
+    since: "1.0.0"
+
+  - name: TNF_MIME_MEDIA
+    summary: |
+        Used with ndefRecord records.    
+        Indicates the type field contains a media-type BNF construct, defined by RFC 2046.
+    type: Number
+    permission: read-only
+    since: "1.0.0"
+
+  - name: TNF_UNCHANGED
+    summary: |
+        Used with ndefRecord records.    
+        Indicates the payload is an intermediate or final chunk of a chunked NDEF Record.
+    type: Number
+    permission: read-only
+    since: "1.0.0"
+
+  - name: TNF_UNKNOWN
+    summary: |
+        Used with ndefRecord records.    
+        Indicates the payload type is unknown.
+    type: Number
+    permission: read-only
+    since: "1.0.0"
+
+  - name: TNF_WELL_KNOWN
+    summary: |
+        Used with ndefRecord records.    
+        Indicates the type field contains a well-known RTD type name.
+    type: Number
+    permission: read-only
+    since: "1.0.0"     
+
+  - name: RTD_ALTERNATIVE_CARRIER
+    summary: |
+        Used with ndefRecord records.    
+        RTD Alternative Carrier type. For use with TNF_WELL_KNOWN.
+    type: String
+    permission: read-only
+    since: "1.0.0"     
+
+  - name: RTD_HANDOVER_CARRIER
+    summary: |
+        Used with ndefRecord records.    
+        RTD Handover Carrier type. For use with TNF_WELL_KNOWN.
+    type: String
+    permission: read-only
+    since: "1.0.0"     
+
+  - name: RTD_HANDOVER_REQUEST
+    summary: |
+        Used with ndefRecord records.    
+        RTD Handover Request type. For use with TNF_WELL_KNOWN.
+    type: String
+    permission: read-only
+    since: "1.0.0"  
+
+  - name: RTD_HANDOVER_SELECT
+    summary: |
+        Used with ndefRecord records.    
+        RTD Handover Select type. For use with TNF_WELL_KNOWN.
+    type: String
+    permission: read-only
+    since: "1.0.0"  
+
+  - name: RTD_SMART_POSTER
+    summary: |
+        Used with ndefRecord records.    
+        RTD Smart Poster type. For use with TNF_WELL_KNOWN.
+    type: String
+    permission: read-only
+    since: "1.0.0"  
+
+  - name: RTD_TEXT
+    summary: |
+        Used with ndefRecord records.    
+        RTD Text type. For use with TNF_WELL_KNOWN.
+    type: String
+    permission: read-only
+    since: "1.0.0"
+
+  - name: RTD_URI
+    summary: |
+        Used with ndefRecord records.    
+        RTD URI type. For use with TNF_WELL_KNOWN.
+    type: String
+    permission: read-only
+    since: "1.0.0"  
+
+  - name: TECH_ISODEP
+    summary: |
+        Available tag technology used with getTechList and AdapterProxy
+    type: Number
+    permission: read-only
+    since: "1.0.0"  
+
+  - name: TECH_MIFARE_CLASSIC
+    summary: |
+        Available tag technology used with getTechList and AdapterProxy
+    type: Number
+    permission: read-only
+    since: "1.0.0"  
+
+  - name: TECH_MIFARE_ULTRALIGHT
+    summary: |
+        Available tag technology used with getTechList and AdapterProxy
+    type: Number
+    permission: read-only
+    since: "1.0.0"  
+
+  - name: TECH_NDEF
+    summary: |
+        Available tag technology used with getTechList and AdapterProxy
+    type: Number
+    permission: read-only
+    since: "1.0.0"  
+
+  - name: TECH_NDEFFORMATABLE
+    summary: |
+        Available tag technology used with getTechList and AdapterProxy
+    type: Number
+    permission: read-only
+    since: "1.0.0"  
+
+  - name: TECH_NFCA
+    summary: |
+        Available tag technology used with getTechList and AdapterProxy
+    type: Number
+    permission: read-only
+    since: "1.0.0"  
+
+  - name: TECH_NFCB
+    summary: |
+        Available tag technology used with getTechList and AdapterProxy
+    type: Number
+    permission: read-only
+    since: "1.0.0"  
+
+  - name: TECH_NFCF
+    summary: |
+        Available tag technology used with getTechList and AdapterProxy
+    type: Number
+    permission: read-only
+    since: "1.0.0"  
+
+  - name: TECH_NFCV
+    summary: |
+        Available tag technology used with getTechList and AdapterProxy
+    type: Number
+    permission: read-only
+    since: "1.0.0"  
+
+  - name: ENCODING_UTF8
+    summary: |
+        Used with ndefRecord records.    
+        Indicates UTF-8 text encoding.
+    type: String
+    permission: read-only
+    since: "1.0.0"         
+
+  - name: ENCODING_UTF16
+    summary: |
+        Used with ndefRecord records.    
+        Indicates UTF-16 text encoding.
+    type: String
+    permission: read-only
+    since: "1.0.0"  
+
+  - name: RECOMMENDED_ACTION_UNKNOWN
+    summary: |
+        Used with NdefSmartPoster records (RTD_SMART_POSTER)
+    type: Number
+    permission: read-only
+    since: "1.0.0"  
+
+  - name: RECOMMENDED_ACTION_DO_ACTION
+    summary: |
+        Used with NdefSmartPoster records (RTD_SMART_POSTER)
+    type: Number
+    permission: read-only
+    since: "1.0.0"  
+
+  - name: RECOMMENDED_ACTION_SAVE_FOR_LATER
+    summary: |
+        Used with NdefSmartPoster records (RTD_SMART_POSTER)
+    type: Number
+    permission: read-only
+    since: "1.0.0"  
+
+  - name: RECOMMENDED_ACTION_OPEN_FOR_EDITING
+    summary: |
+        Used with NdefSmartPoster records (RTD_SMART_POSTER)
+    type: Number
+    permission: read-only
+    since: "1.0.0"  
+
+examples:
+  - title: Creating NFC Adapter
+    example: |
+        This example demonstrates the proper technique for creating an NFC adapter in the current activity. The
+        NFC Adapater should be created after the activity has been opened.
+
+            var nfc = require('ti.nfc');
+            var nfcAdapter = null;
+
+            $.index.addEventListener('open', function(e) {
+                // Must wait until the activity has been opened before setting up NFC
+                // Create the NFC adapter to be associated with this activity. 
+                // There should only be ONE adapter created per activity.
+                nfcAdapter = nfc.createNfcAdapter({
+                    onNdefDiscovered: handleDiscovery,
+                    onTagDiscovered: handleDiscovery,
+                    onTechDiscovered: handleDiscovery
+                });
+
+                // It's possible that the device does not support NFC. Check it here
+                // before we go any further.
+                if (!nfcAdapter.isEnabled()) {
+                    alert('NFC is not enabled on this device');
+                    return;
+                }
+            });
+
+            $.index.open();
+
+

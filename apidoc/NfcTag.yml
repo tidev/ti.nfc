@@ -1,0 +1,32 @@
+---
+name: Modules.Nfc.NfcTag
+summary: Represents an NFC tag that has been discovered
+desription: |
+    See also:
+    [Tag](http://developer.android.com/reference/android/nfc/Tag.html)
+extends: Titanium.Proxy
+since: "1.0.0"
+platforms: [android]
+createable: false
+
+methods:
+  - name: getId
+    summary: Returns the tag identifier (if it has one)
+    returns:
+        type: String   
+
+  - name: getTechList
+    summary: Returns the technologies available in this tag, as fully qualified class names.
+    returns:
+        type: Array<String>
+
+properties:
+  - name: id
+    summary: Tag identifier (if it has one)
+    permission: read-only
+    type: String
+
+  - name: techList
+    summary: Technologies available in this tag, as fully qualified class names.
+    permission: read-only
+    type: Array<String>
