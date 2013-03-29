@@ -1,0 +1,24 @@
+---
+name: Modules.Nfc.NdefMessage
+summary: Represents an immutable NDEF message.
+description: |
+    Use the <Modules.Nfc.createNdefMessage> method to create an NDEF message.
+
+    See also:
+    [NdefMessage](http://developer.android.com/reference/android/nfc/NdefMessage.html)
+extends: Titanium.Proxy
+since: "1.0.0"
+platforms: [android]
+excludes:
+    properties: [bubbleParent]
+    
+methods:
+  - name: toByte
+    summary: Return the NDEF message as raw bytes.
+    returns:
+        type: Titanium.Blob
+
+properties:
+  - name: records
+    summary: NDEF records inside this NDEF message.
+    type: Array<Modules.Nfc.NdefRecord>

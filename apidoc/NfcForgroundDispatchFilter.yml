@@ -1,0 +1,98 @@
+---
+name: Modules.Nfc.NfcForegroundDispatchFilter
+summary: A filter specifying intent, intent filters and technology lists used to match dispatch intents.
+description: |
+    The <enableForegroundDispatch> method is used to give priority to the foreground activity when dispatching
+    a discovered tag to an application. This proxy is used to specify the intent, intent filters, and technology
+    lists used to filter the dispatched intents. This proxy automatically creates the required pending intent and
+    will create an intent for the current activity if one is not provided.
+
+    Use the <Modules.Nfc.createNfcForegroundDispatchFilter> method to create a foreground dispatch filter.
+
+    See also:
+    [enableForegroundDispatch](http://developer.android.com/reference/android/nfc/NfcAdapter.html#enableForegroundDispatch(android.app.Activity, android.app.PendingIntent, android.content.IntentFilter[], java.lang.String[][]))
+extends: Titanium.Proxy
+since: "1.0.0"
+platforms: [android]
+
+properties:
+  - name: intent
+    summary: The intent to start the dispatch when matched.
+    description: |
+        This optional property allows you to override the default behavior for dispatching the
+        intent. If an intent is not provided (the default behavior), then an intent based on the current
+        activity is automatically created with a flag of FLAG_ACTIVITY_SINGLE_TOP.
+    type: Titanium.Android.Intent
+    optional: true
+
+  - name: intentFilters
+    summary: The intent filters to override dispatching for, or null to always dispatch.
+    type: Array<NfcIntentFilter>
+    optional: true
+
+  - name: techLists
+    summary: The tech lists used to perform matching for dispatching the ACTION_TECH_DISCOVERED intent.
+    type: Array<Array<String>>
+    optional: true
+
+examples:
+  - title: Foreground Dispatch filter
+    example: |
+        This example creates a dispatch filter used to filter NDEF messages that are of mime type 'text/plain' or
+        URI from 'http://www.appcelerator.com'. Additionally, the filter will match tags with the specified
+        technologies. The dispatch filter is then used when calling the `enableForegroundDispatch` API of the
+        <Modules.Nfc.NfcAdapter> proxy.
+
+            dispatchFilter = nfc.createNfcForegroundDispatchFilter({
+                intentFilters: [
+                    { action: nfc.ACTION_NDEF_DISCOVERED, mimeType: 'text/plain' },
+                    { action: nfc.ACTION_NDEF_DISCOVERED, scheme: 'http', host: 'www.appcelerator.com' }
+                ],
+                techLists: [
+                    [ "android.nfc.tech.NfcF", "android.nfc.tech.NfcA", "android.nfc.Ndef" ],
+                    [ "android.nfc.tech.Ndef" ],
+                    [ "android.nfc.tech.MifareClassic" ],
+                    [ "android.nfc.tech.NfcA" ]
+                ]
+            });
+
+            // All tag scans are received by the activity as a new intent. Each
+            // scan intent needs to be passed to the nfc adapter for processing.
+            var act = Ti.Android.currentActivity;
+            act.addEventListener('newintent', function(e) {
+                nfcAdapter.onNewIntent(e.intent);
+            });
+
+            // To enable NFC dispatching only while the application is in the foreground,
+            // the application must signal the module whenever the application state changes.
+            act.addEventListener('resume', function(e) {
+                nfcAdapter.enableForegroundDispatch(dispatchFilter);
+            });
+            act.addEventListener('pause', function(e) {
+                nfcAdapter.disableForegroundDispatch();
+            });
+
+---
+name: NfcIntentFilter
+summary: Intent filter.
+properties:
+  - name: action
+    summary: Identifies the action from the intent.
+    description: |
+        This value will be one of the constants defined on the <Modules.Nfc> module object (ACTION_NDEF_DISCOVERED, ACTION_TAG_DISCOVERED, or
+        ACTION_TECH_DISCOVERED).
+    type: String
+
+  - name: mimeType
+    summary: A valid MIME type.
+    type: String
+
+  - name: scheme
+    summary: Data scheme to match against.
+    type: String
+    optional: true
+
+  - name: host
+    summary: Data authority to match against.
+    type: String
+    optional: true
