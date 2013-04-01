@@ -116,7 +116,7 @@ public class NfcForegroundDispatchFilter extends KrollProxy
 						}
 					}
 					
-					// Support for "sheme" and "hosts"
+					// Support for "sheme" and "host"
 					if (kd.containsKey(NfcConstants.PROPERTY_SCHEME)) {
 						intentFilter.addDataScheme(kd.getString(NfcConstants.PROPERTY_SCHEME));
 					}
