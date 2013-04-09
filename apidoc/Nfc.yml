@@ -2,8 +2,8 @@
 name: Modules.Nfc
 summary: Near Field Communication (NFC) module
 description: |
-    This module provides access to Near Field Communication (NFC) functionality, allowing applications to read NDEF 
-    messages in NFC tags. A "tag" may actually be another device that appears as a tag.
+    This module provides access to Near Field Communication (NFC) functionality, allowing applications to read and write  
+    NFC tags. A "tag" may actually be another device that appears as a tag.
 
     ### NFC Resources
 
@@ -23,7 +23,9 @@ description: |
     ### Accessing the Module
 
     -   Use `require` to access this module from JavaScript:
+
             var nfc = require("ti.nfc");
+
         The `nfc` variable is a reference to the Module object.
 
     ### Tag Dispatching and Intent Filters
@@ -119,6 +121,7 @@ description: |
         - `TagBeam` demonstrates how to use Android Beam to send messages to another NFC capable device.
         - `TagForeground` demonstrates how to read NFC tags only when the application is in the foreground.
         - `TagViewer` demonstrates how to receive NFC tag intents even when the application is not running.
+        - `TagWriter` demonstrates how to write to an NFC tag using the Ndef tag technology data format.
 
 extends: Titanium.Module
 since: "1.0.0"
@@ -264,63 +267,63 @@ properties:
 
   - name: TECH_ISODEP
     summary: |
-        Available tag technology used with getTechList and AdapterProxy
+        Available tag technology used with getTechList and AdapterProxy.
     type: Number
     permission: read-only
     since: "1.0.0"  
 
   - name: TECH_MIFARE_CLASSIC
     summary: |
-        Available tag technology used with getTechList and AdapterProxy
+        Available tag technology used with getTechList and AdapterProxy.
     type: Number
     permission: read-only
     since: "1.0.0"  
 
   - name: TECH_MIFARE_ULTRALIGHT
     summary: |
-        Available tag technology used with getTechList and AdapterProxy
+        Available tag technology used with getTechList and AdapterProxy.
     type: Number
     permission: read-only
     since: "1.0.0"  
 
   - name: TECH_NDEF
     summary: |
-        Available tag technology used with getTechList and AdapterProxy
+        Available tag technology used with getTechList and AdapterProxy.
     type: Number
     permission: read-only
     since: "1.0.0"  
 
   - name: TECH_NDEFFORMATABLE
     summary: |
-        Available tag technology used with getTechList and AdapterProxy
+        Available tag technology used with getTechList and AdapterProxy.
     type: Number
     permission: read-only
     since: "1.0.0"  
 
   - name: TECH_NFCA
     summary: |
-        Available tag technology used with getTechList and AdapterProxy
+        Available tag technology used with getTechList and AdapterProxy.
     type: Number
     permission: read-only
     since: "1.0.0"  
 
   - name: TECH_NFCB
     summary: |
-        Available tag technology used with getTechList and AdapterProxy
+        Available tag technology used with getTechList and AdapterProxy.
     type: Number
     permission: read-only
     since: "1.0.0"  
 
   - name: TECH_NFCF
     summary: |
-        Available tag technology used with getTechList and AdapterProxy
+        Available tag technology used with getTechList and AdapterProxy.
     type: Number
     permission: read-only
     since: "1.0.0"  
 
   - name: TECH_NFCV
     summary: |
-        Available tag technology used with getTechList and AdapterProxy
+        Available tag technology used with getTechList and AdapterProxy.
     type: Number
     permission: read-only
     since: "1.0.0"  
@@ -343,31 +346,175 @@ properties:
 
   - name: RECOMMENDED_ACTION_UNKNOWN
     summary: |
-        Used with NdefSmartPoster records (RTD_SMART_POSTER)
+        Used with NdefSmartPoster records (RTD_SMART_POSTER).
     type: Number
     permission: read-only
     since: "1.0.0"  
 
   - name: RECOMMENDED_ACTION_DO_ACTION
     summary: |
-        Used with NdefSmartPoster records (RTD_SMART_POSTER)
+        Used with NdefSmartPoster records (RTD_SMART_POSTER).
     type: Number
     permission: read-only
     since: "1.0.0"  
 
   - name: RECOMMENDED_ACTION_SAVE_FOR_LATER
     summary: |
-        Used with NdefSmartPoster records (RTD_SMART_POSTER)
+        Used with NdefSmartPoster records (RTD_SMART_POSTER).
     type: Number
     permission: read-only
     since: "1.0.0"  
 
   - name: RECOMMENDED_ACTION_OPEN_FOR_EDITING
     summary: |
-        Used with NdefSmartPoster records (RTD_SMART_POSTER)
+        Used with NdefSmartPoster records (RTD_SMART_POSTER).
     type: Number
     permission: read-only
     since: "1.0.0"  
+
+  - name: TAG_TYPE_NFC_FORUM_TYPE_1
+    summary: |
+        Used with TECH_NDEF tag technology.
+        NFC Forum Tag Type 1.
+    type: String
+    permission: read-only
+    since: "1.1.0"
+
+  - name: TAG_TYPE_NFC_FORUM_TYPE_2
+    summary: |
+        Used with TECH_NDEF tag technology.
+        NFC Forum Tag Type 2.
+    type: String
+    permission: read-only
+    since: "1.1.0"
+
+  - name: TAG_TYPE_NFC_FORUM_TYPE_3
+    summary: |
+        Used with TECH_NDEF tag technology.
+        NFC Forum Tag Type 3.
+    type: String
+    permission: read-only
+    since: "1.1.0"
+
+  - name: TAG_TYPE_NFC_FORUM_TYPE_4
+    summary: |
+        Used with TECH_NDEF tag technology.
+        NFC Forum Tag Type 4.
+    type: String
+    permission: read-only
+    since: "1.1.0"
+
+  - name: TAG_TYPE_MIFARE_CLASSIC
+    summary: |
+        Used with TECH_NDEF tag technology.
+        NDEF on MIFARE Classic.
+    type: String
+    permission: read-only
+    since: "1.1.0"
+
+  - name: MIFARE_TAG_TYPE_CLASSIC
+    summary: |
+        Used with TECH_MIFARE_CLASSIC tag technology.
+        A MIFARE Classic tag.
+    type: Number
+    permission: read-only
+    since: "1.1.0"
+
+  - name: MIFARE_TAG_TYPE_PLUS
+    summary: |
+        Used with TECH_MIFARE_CLASSIC tag technology.
+        A MIFARE Plus tag.
+    type: Number
+    permission: read-only
+    since: "1.1.0"
+
+  - name: MIFARE_TAG_TYPE_PRO
+    summary: |
+        Used with TECH_MIFARE_CLASSIC tag technology.
+        A MIFARE Pro tag.
+    type: Number
+    permission: read-only
+    since: "1.1.0"
+
+  - name: MIFARE_TAG_TYPE_UNKNOWN
+    summary: |
+        Used with TECH_MIFARE_CLASSIC tag technology.
+        A MIFARE Classic compatible card of unknown type.
+    type: Number
+    permission: read-only
+    since: "1.1.0"
+
+  - name: MIFARE_BLOCK_SIZE
+    summary: |
+        Used with TECH_MIFARE_CLASSIC tag technology.
+        Size of a MIFARE CLassic block (in bytes).
+    type: Number
+    permission: read-only
+    since: "1.1.0"
+
+  - name: MIFARE_SIZE_1K
+    summary: |
+        Used with TECH_MIFARE_CLASSIC tag technology.
+        Tag contains 16 sectors, each with 4 blocks.
+    type: Number
+    permission: read-only
+    since: "1.1.0"
+
+  - name: MIFARE_SIZE_2K
+    summary: |
+        Used with TECH_MIFARE_CLASSIC tag technology.
+        Tag contains 32 sectors, each with 4 blocks.
+    type: Number
+    permission: read-only
+    since: "1.1.0"
+
+  - name: MIFARE_SIZE_4K
+    summary: |
+        Used with TECH_MIFARE_CLASSIC tag technology.
+        Tag contains 40 sectors.
+    type: Number
+    permission: read-only
+    since: "1.1.0"
+
+  - name: MIFARE_SIZE_MINI
+    summary: |
+        Used with TECH_MIFARE_CLASSIC tag technology.
+        Tag contains 5 sectors, each with 4 blocks.
+    type: Number
+    permission: read-only
+    since: "1.1.0"
+
+  - name: MIFARE_ULTRALIGHT_PAGE_SIZE
+    summary: |
+        Used with TECH_MIFARE_ULTRALIGHT tag technology.
+        Size of a MIFARE Ultralight page (in bytes).
+    type: Number
+    permission: read-only
+    since: "1.1.0"
+
+  - name: MIFARE_ULTRALIGHT_TYPE_ULTRALIGHT
+    summary: |
+        Used with TECH_MIFARE_ULTRALIGHT tag technology.
+        A MIFARE Ultralight tag.
+    type: Number
+    permission: read-only
+    since: "1.1.0"
+
+  - name: MIFARE_ULTRALIGHT_TYPE_ULTRALIGHT_C
+    summary: |
+        Used with TECH_MIFARE_ULTRALIGHT tag technology.
+        A MIFARE Ultralight C tag.
+    type: Number
+    permission: read-only
+    since: "1.1.0"
+
+  - name: MIFARE_ULTRALIGHT_TYPE_UNKNOWN
+    summary: |
+        Used with TECH_MIFARE_ULTRALIGHT tag technology.
+        A MIFARE Ultralight compatible tag of unknown type.
+    type: Number
+    permission: read-only
+    since: "1.1.0"
 
 examples:
   - title: Creating NFC Adapter

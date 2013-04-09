@@ -1,0 +1,12 @@
+<Alloy>
+	<Window class="container">
+		<Label>Scan a tag</Label>
+		<ScrollView>
+			<TextArea id="tagData"/>
+		</ScrollView>
+		<View id="buttonsRow">
+			<Button id="writeButton" onClick="onWrite">Write</Button>
+			<Button onClick="onClear">Clear</Button>
+		</View>
+	</Window>
+</Alloy>

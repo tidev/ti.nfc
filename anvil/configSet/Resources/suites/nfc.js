@@ -71,6 +71,27 @@ module.exports = new function ()
 		valueOf(testRun, nfc.TECH_NFCF).shouldBeString();
 		valueOf(testRun, nfc.TECH_NFCV).shouldBeString();
 
+	    valueOf(testRun, nfc.TAG_TYPE_NFC_FORUM_TYPE_1).shouldBeString();
+		valueOf(testRun, nfc.TAG_TYPE_NFC_FORUM_TYPE_2).shouldBeString();
+		valueOf(testRun, nfc.TAG_TYPE_NFC_FORUM_TYPE_3).shouldBeString();
+		valueOf(testRun, nfc.TAG_TYPE_NFC_FORUM_TYPE_4).shouldBeString();
+		valueOf(testRun, nfc.TAG_TYPE_MIFARE_CLASSIC).shouldBeString();
+		
+		valueOf(testRun, nfc.MIFARE_TAG_TYPE_CLASSIC).shouldBeNumber();
+		valueOf(testRun, nfc.MIFARE_TAG_TYPE_PLUS).shouldBeNumber();
+		valueOf(testRun, nfc.MIFARE_TAG_TYPE_PRO).shouldBeNumber();
+		valueOf(testRun, nfc.MIFARE_TAG_TYPE_UNKNOWN).shouldBeNumber();
+		valueOf(testRun, nfc.MIFARE_BLOCK_SIZE).shouldBeNumber();
+		valueOf(testRun, nfc.MIFARE_SIZE_1K).shouldBeNumber();
+		valueOf(testRun, nfc.MIFARE_SIZE_2K).shouldBeNumber();
+		valueOf(testRun, nfc.MIFARE_SIZE_4K).shouldBeNumber();
+		valueOf(testRun, nfc.MIFARE_SIZE_MINI).shouldBeNumber();
+
+		valueOf(testRun, nfc.MIFARE_ULTRALIGHT_PAGE_SIZE).shouldBeNumber();
+		valueOf(testRun, nfc.MIFARE_ULTRALIGHT_TYPE_ULTRALIGHT).shouldBeNumber();
+		valueOf(testRun, nfc.MIFARE_ULTRALIGHT_TYPE_ULTRALIGHT_C).shouldBeNumber();
+		valueOf(testRun, nfc.MIFARE_ULTRALIGHT_TYPE_UNKNOWN).shouldBeNumber();
+	
 		finish(testRun);
 	};
 
@@ -322,6 +343,180 @@ module.exports = new function ()
 		valueOf(testRun, filter.intent).shouldBeUndefined();
 		valueOf(testRun, filter.intentFilters).shouldBeArray();
 		valueOf(testRun, filter.techLists).shouldBeArray();
+
+		finish(testRun);
+	}
+
+	// Helper function to verify the superclass of type-specific records
+	function verifyTagTechnology(testRun, tech) {
+		valueOf(testRun, tech.isValid).shouldBeFunction();
+		valueOf(testRun, tech.close).shouldBeFunction();
+		valueOf(testRun, tech.connect).shouldBeFunction();
+		valueOf(testRun, tech.isConnected).shouldBeFunction();
+	}
+
+	this.testTagTechnologyIsoDep = function (testRun)
+	{
+		var tech = nfc.createTagTechnologyIsoDep();
+
+		valueOf(testRun, tech).shouldBeObject();
+		valueOf(testRun, tech.getHiLayerResponse).shouldBeFunction();
+		valueOf(testRun, tech.getHistoricalBytes).shouldBeFunction();
+		valueOf(testRun, tech.getMaxTransceiveLength).shouldBeFunction();
+		valueOf(testRun, tech.getTimeout).shouldBeFunction();
+		valueOf(testRun, tech.isExtendedLengthApduSupported).shouldBeFunction();
+		valueOf(testRun, tech.setTimeout).shouldBeFunction();
+		valueOf(testRun, tech.transceive).shouldBeFunction();
+
+		verifyTagTechnology(testRun, tech);
+
+		finish(testRun);
+	}
+
+	this.testTagTechnologyMifareClassic = function (testRun)
+	{
+		var tech = nfc.createTagTechnologyMifareClassic();
+
+		valueOf(testRun, tech).shouldBeObject();
+		valueOf(testRun, tech.KEY_DEFAULT).shouldNotBeNull();
+		valueOf(testRun, tech.KEY_MIFARE_APPLICATION_DIRECTORY).shouldNotBeNull();
+		valueOf(testRun, tech.KEY_NFC_FORUM).shouldNotBeNull();
+
+		valueOf(testRun, tech.authenticateSectorWithKeyA).shouldBeFunction();
+		valueOf(testRun, tech.authenticateSectorWithKeyB).shouldBeFunction();
+		valueOf(testRun, tech.blockToSector).shouldBeFunction();
+		valueOf(testRun, tech.decrement).shouldBeFunction();
+		valueOf(testRun, tech.getBlockCount).shouldBeFunction();
+		valueOf(testRun, tech.getBlockCountInSector).shouldBeFunction();
+		valueOf(testRun, tech.getMaxTransceiveLength).shouldBeFunction();
+		valueOf(testRun, tech.getSectorCount).shouldBeFunction();
+		valueOf(testRun, tech.getSize).shouldBeFunction();
+		valueOf(testRun, tech.getTimeout).shouldBeFunction();
+		valueOf(testRun, tech.getType).shouldBeFunction();
+		valueOf(testRun, tech.increment).shouldBeFunction();
+		valueOf(testRun, tech.readBlock).shouldBeFunction();
+		valueOf(testRun, tech.restore).shouldBeFunction();
+		valueOf(testRun, tech.sectorToBlock).shouldBeFunction();
+		valueOf(testRun, tech.setTimeout).shouldBeFunction();
+		valueOf(testRun, tech.transceive).shouldBeFunction();
+		valueOf(testRun, tech.transfer).shouldBeFunction();
+		valueOf(testRun, tech.writeBlock).shouldBeFunction();
+
+		verifyTagTechnology(testRun, tech);
+
+		finish(testRun);
+	}
+
+	this.testTagTechnologyMifareUltralight = function (testRun)
+	{
+		var tech = nfc.createTagTechnologyMifareUltralight();
+
+		valueOf(testRun, tech).shouldBeObject();
+		valueOf(testRun, tech.getMaxTransceiveLength).shouldBeFunction();
+		valueOf(testRun, tech.getTimeout).shouldBeFunction();
+		valueOf(testRun, tech.getType).shouldBeFunction();
+		valueOf(testRun, tech.readPages).shouldBeFunction();
+		valueOf(testRun, tech.setTimeout).shouldBeFunction();
+		valueOf(testRun, tech.transceive).shouldBeFunction();
+		valueOf(testRun, tech.writePage).shouldBeFunction();
+
+		verifyTagTechnology(testRun, tech);
+
+		finish(testRun);
+	}
+
+	this.testTagTechnologyNdefFormatable = function (testRun)
+	{
+		var tech = nfc.createTagTechnologyNdefFormatable();
+
+		valueOf(testRun, tech).shouldBeObject();
+		valueOf(testRun, tech.format).shouldBeFunction();
+		valueOf(testRun, tech.formatReadOnly).shouldBeFunction();
+
+		verifyTagTechnology(testRun, tech);
+
+		finish(testRun);
+	}
+
+	this.testTagTechnologyNdefProxy = function (testRun)
+	{
+		var tech = nfc.createTagTechnologyNdef();
+
+		valueOf(testRun, tech).shouldBeObject();
+		valueOf(testRun, tech.canMakeReadOnly).shouldBeFunction();
+		valueOf(testRun, tech.getCachedNdefMessage).shouldBeFunction();
+		valueOf(testRun, tech.getMaxSize).shouldBeFunction();
+		valueOf(testRun, tech.getNdefMessage).shouldBeFunction();
+		valueOf(testRun, tech.getType).shouldBeFunction();
+		valueOf(testRun, tech.isWritable).shouldBeFunction();
+		valueOf(testRun, tech.makeReadOnly).shouldBeFunction();
+		valueOf(testRun, tech.writeNdefMessage).shouldBeFunction();
+
+		verifyTagTechnology(testRun, tech);
+
+		finish(testRun);
+	}
+
+	this.testTagTechnologyNfcA = function (testRun)
+	{
+		var tech = nfc.createTagTechnologyNfcA();
+
+		valueOf(testRun, tech).shouldBeObject();
+		valueOf(testRun, tech.getAtqa).shouldBeFunction();
+		valueOf(testRun, tech.getMaxTransceiveLength).shouldBeFunction();
+		valueOf(testRun, tech.getSak).shouldBeFunction();
+		valueOf(testRun, tech.getTimeout).shouldBeFunction();
+		valueOf(testRun, tech.setTimeout).shouldBeFunction();
+		valueOf(testRun, tech.transceive).shouldBeFunction();
+
+		verifyTagTechnology(testRun, tech);
+
+		finish(testRun);
+	}
+
+	this.testTagTechnologyNfcB = function (testRun)
+	{
+		var tech = nfc.createTagTechnologyNfcB();
+
+		valueOf(testRun, tech).shouldBeObject();
+		valueOf(testRun, tech.getApplicationData).shouldBeFunction();
+		valueOf(testRun, tech.getMaxTransceiveLength).shouldBeFunction();
+		valueOf(testRun, tech.getProtocolInfo).shouldBeFunction();
+		valueOf(testRun, tech.transceive).shouldBeFunction();
+
+		verifyTagTechnology(testRun, tech);
+
+		finish(testRun);
+	}
+
+	this.testTagTechnologyNfcF = function (testRun)
+	{
+		var tech = nfc.createTagTechnologyNfcF();
+
+		valueOf(testRun, tech).shouldBeObject();
+		valueOf(testRun, tech.getManufacturer).shouldBeFunction();
+		valueOf(testRun, tech.getMaxTransceiveLength).shouldBeFunction();
+		valueOf(testRun, tech.getSystemCode).shouldBeFunction();
+		valueOf(testRun, tech.getTimeout).shouldBeFunction();
+		valueOf(testRun, tech.setTimeout).shouldBeFunction();
+		valueOf(testRun, tech.transceive).shouldBeFunction();
+
+		verifyTagTechnology(testRun, tech);
+
+		finish(testRun);
+	}
+
+	this.testTagTechnologyNfcV = function (testRun)
+	{
+		var tech = nfc.createTagTechnologyNfcV();
+
+		valueOf(testRun, tech).shouldBeObject();
+		valueOf(testRun, tech.getDsfId).shouldBeFunction();
+		valueOf(testRun, tech.getMaxTransceiveLength).shouldBeFunction();
+		valueOf(testRun, tech.getResponseFlags).shouldBeFunction();
+		valueOf(testRun, tech.transceive).shouldBeFunction();
+
+		verifyTagTechnology(testRun, tech);
 
 		finish(testRun);
 	}

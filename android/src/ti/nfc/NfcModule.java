@@ -13,6 +13,9 @@ import org.appcelerator.kroll.annotations.Kroll;
 
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
+import android.nfc.tech.MifareClassic;
+import android.nfc.tech.MifareUltralight;
+import android.nfc.tech.Ndef;
 import android.util.Log;
 
 @Kroll.module(name="Nfc", id="ti.nfc")
@@ -51,11 +54,33 @@ public class NfcModule extends KrollModule
 	@Kroll.constant public static final String TECH_MIFARE_ULTRALIGHT = "android.nfc.tech.MifareUltralight";// MifareUltralight.class.getName();
 	@Kroll.constant public static final String TECH_NDEF = "android.nfc.tech.Ndef"; 						// Ndef.class.getName();
 	@Kroll.constant public static final String TECH_NDEFFORMATABLE = "android.nfc.tech.NdefFormatable"; 	// NdefFormatable.class.getName();
+	@Kroll.constant public static final String TECH_NDEF_FORMATABLE = "android.nfc.tech.NdefFormatable"; 	// NdefFormatable.class.getName();
 	@Kroll.constant public static final String TECH_NFCA = "android.nfc.tech.NfcA"; 						// NfcA.class.getName();
 	@Kroll.constant public static final String TECH_NFCB = "android.nfc.tech.NfcB"; 						// NfcB.class.getName();
 	@Kroll.constant public static final String TECH_NFCF = "android.nfc.tech.NfcF"; 						// NfcF.class.getName();
 	@Kroll.constant public static final String TECH_NFCV = "android.nfc.tech.NfcV"; 						// NfcV.class.getName();
+	
+	@Kroll.constant public static final String TAG_TYPE_NFC_FORUM_TYPE_1 = android.nfc.tech.Ndef.NFC_FORUM_TYPE_1;
+	@Kroll.constant public static final String TAG_TYPE_NFC_FORUM_TYPE_2 = android.nfc.tech.Ndef.NFC_FORUM_TYPE_2;
+	@Kroll.constant public static final String TAG_TYPE_NFC_FORUM_TYPE_3 = android.nfc.tech.Ndef.NFC_FORUM_TYPE_3;
+	@Kroll.constant public static final String TAG_TYPE_NFC_FORUM_TYPE_4 = android.nfc.tech.Ndef.NFC_FORUM_TYPE_4;
+	@Kroll.constant public static final String TAG_TYPE_MIFARE_CLASSIC = android.nfc.tech.Ndef.MIFARE_CLASSIC;
 		
+	@Kroll.constant public static final int MIFARE_TAG_TYPE_CLASSIC = MifareClassic.TYPE_CLASSIC;
+	@Kroll.constant public static final int MIFARE_TAG_TYPE_PLUS = MifareClassic.TYPE_PLUS;
+	@Kroll.constant public static final int MIFARE_TAG_TYPE_PRO = MifareClassic.TYPE_PRO;
+	@Kroll.constant public static final int MIFARE_TAG_TYPE_UNKNOWN = MifareClassic.TYPE_UNKNOWN;
+	@Kroll.constant public static final int MIFARE_BLOCK_SIZE = MifareClassic.BLOCK_SIZE;
+	@Kroll.constant public static final int MIFARE_SIZE_1K = MifareClassic.SIZE_1K;
+	@Kroll.constant public static final int MIFARE_SIZE_2K = MifareClassic.SIZE_2K;
+	@Kroll.constant public static final int MIFARE_SIZE_4K = MifareClassic.SIZE_4K;
+	@Kroll.constant public static final int MIFARE_SIZE_MINI = MifareClassic.SIZE_MINI;
+
+	@Kroll.constant public static final int MIFARE_ULTRALIGHT_PAGE_SIZE = MifareUltralight.PAGE_SIZE;
+	@Kroll.constant public static final int MIFARE_ULTRALIGHT_TYPE_ULTRALIGHT = MifareUltralight.TYPE_ULTRALIGHT;
+	@Kroll.constant public static final int MIFARE_ULTRALIGHT_TYPE_ULTRALIGHT_C = MifareUltralight.TYPE_ULTRALIGHT_C;
+	@Kroll.constant public static final int MIFARE_ULTRALIGHT_TYPE_UNKNOWN = MifareUltralight.TYPE_UNKNOWN;
+	
 	public NfcModule() {
 		super();
 		Log.d(NfcConstants.LCAT, "NfcModule Loaded");
