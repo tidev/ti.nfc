@@ -16,32 +16,30 @@ import android.nfc.Tag;
 @Kroll.proxy
 public class NfcTagProxy extends KrollProxy 
 {
-	private String _id;
-	private String[] _techList;
-	
-	public NfcTagProxy() {
-		super();
-	}
+	private Tag _tag;
 	
 	public NfcTagProxy(Tag tag) {
-		this();
-
-		byte[] id = tag.getId();
-		if (id != null) {
-			_id = bytesToString(id).toString();
-		}		
-		
-		_techList = tag.getTechList();
+		super();
+		_tag = tag;
+	}
+	
+	public Tag getTag() {
+		return _tag;
 	}
 	
 	@Kroll.getProperty @Kroll.method
 	public String getId() {
-		return _id;
+		String result = null;
+		byte[] id = _tag.getId();
+		if (id != null) {
+			result = bytesToString(id).toString();
+		}	
+		return result;
 	}
 	
 	@Kroll.getProperty @Kroll.method
 	public String[] getTechList() {
-		return _techList;
+		return _tag.getTechList();
 	}
 	
     private static StringBuilder bytesToString(byte[] bs) {

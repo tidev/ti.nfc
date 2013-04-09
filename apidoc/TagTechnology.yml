@@ -1,0 +1,710 @@
+---
+name: Modules.Nfc.TagTechnology
+summary: Represents an interface to a specific tag technology.
+description: |
+    NFC tags are based on a number of independently developed technologies and offer a wide range of
+    capabilities. The TagTechnology proxies provide access to these different technologies and capabilities.
+    The TagTechnology proxy is the base type for more type-specific tag technologies. You will
+    work with the type-specific tag technology proxies which provide capabilities for each tag technology.
+
+    Use one of the <Modules.Nfc.createTagTechnologyIsoDep>, <Modules.Nfc.createTagTechnologyMifareClassic>,
+    <Modules.Nfc.createTagTechnologyMifareUltralight>, <Modules.Nfc.createTagTechnologyNdefFormatable>,
+    <Modules.Nfc.createTagTechnologyNdef>, <Modules.Nfc.createTagTechnologyNfcA>,
+    <Modules.Nfc.createTagTechnologyNfcB>, <Modules.Nfc.createTagTechnologyNfcF>, <Modules.Nfc.createTagTechnologyNfcV>
+    method variants to create a tag technology proxy.
+
+    See also:
+    [TagTechnology](http://developer.android.com/reference/android/nfc/tech/TagTechnology.html)
+extends: Titanium.Proxy
+since: "1.1.0"
+platforms: [android]
+createable: false
+excludes:
+    methods: [addEventListener, fireEvent, removeEventListener, applyProperties]
+    properties: [bubbleParent]
+
+methods:
+  - name: isValid
+    summary: Return true if this tag technology was successfully obtained.
+    returns:
+        type: Boolean   
+
+  - name: close
+    summary: Disable I/O operations to the tag and release resources.
+
+  - name: connect
+    summary: Enable I/O operations to the tag.
+    description: |
+        Only one Tag Technology proxy can be connected to a Tag at a time.
+
+  - name: isConnected
+    summary: Returns true if connect has completed, and close has not been called, and the tag is not known to be out of range.
+    returns:
+        type: Boolean
+
+properties:
+  - name: tag
+    summary: The tag technology that has been discovered.
+    description: |
+        When a tag is discovered, a <Modules.Nfc.NfcTag> proxy is created and passed as a property to the `onNdefDiscovered`, `onTagDiscovered`, or
+        `onTechDiscovered` callback (see <Modules.Nfc.NfcAdapter.NdefDiscovered>).
+    type: Modules.Nfc.NfcTag
+
+examples:
+  - title: Write Ndef Tag
+    example: |
+        This example uses the TECH_NDEF tag technology to write a <Modules.Nfc.NdefMessage> message to a tag.
+
+            var tech = nfc.createTagTechnologyNdef({
+                tag: scannedTag
+            });
+
+            if (!tech.isValid()) {
+                alert("Failed to create Ndef tag type");
+                return;
+            }
+
+            // Attempt to write an Ndef record to the tag
+            try {
+                tech.connect();
+
+                // It's possible that the tag is not writable, so we need to check first.
+                if (!tech.isWritable()) {
+                    alert ("Tag is not writable");
+                } else {
+                    // Create a new message to write to the tag
+                    var date = new Date();
+                    var textRecord = nfc.createNdefRecordText({
+                        text: "Titanium NFC module. Tag updated on " + date.toLocaleString() + "!!!"
+                    });
+                    var msg = nfc.createNdefMessage({
+                        records: [ textRecord ]
+                    });
+                
+                    // Write to the tag
+                    tech.writeNdefMessage(msg);
+                }
+            } catch (e) {
+                alert("Error: " + e.message);
+            } finally {
+                if (tech.isConnected()) {
+                    tech.close();
+                }
+            }
+
+---
+name: Modules.Nfc.TagTechnologyIsoDep
+summary: Provides access to ISO-DEP (ISO 14443-4) properties and I/O operations on a <Modules.Nfc.NfcTag>.
+description: |
+    Use the <Modules.Nfc.createTagTechnologyIsoDep> method to create this tag technology.
+
+    See also:
+    [IsoDep](http://developer.android.com/reference/android/nfc/tech/IsoDep.html)
+
+extends: Modules.Nfc.TagTechnology
+since: "1.1.0"
+platforms: [android]
+excludes:
+    methods: [addEventListener, fireEvent, removeEventListener, applyProperties]
+    properties: [bubbleParent]
+
+methods:
+  - name: getHiLayerResponse
+    summary: Return the higher layer response bytes for NfcB tags.
+    returns:
+        summary: ISO-DEP historical bytes, or null if this is not a NfcB tag.
+        type: Titanium.Buffer
+
+  - name: getHistoricalBytes
+    summary: Return the ISO-DEP historical bytes for NfcA tags.
+    returns:
+        summary: ISO-DEP historical bytes, or null if this is not a NfcA tag.
+        type: Titanium.Buffer
+
+  - name: getMaxTransceiveLength
+    summary: Return the maximum number of bytes that can be sent with `transceive`.
+    returns:
+        type: Number
+
+  - name: getTimeout
+    summary: Get the current timeout for `transceive` in milliseconds.
+    returns:
+        type: Number
+
+  - name: isExtendedLengthApduSupported
+    summary: Whether the NFC adapter on this device supports extended length APDUs.
+    returns:
+        type: Boolean
+
+  - name: setTimeout
+    summary: Set the timeout of `transceive` in milliseconds.
+    parameters:
+      - name: timeout
+        summary: Timeout value in milliseconds
+        type: Number
+
+  - name: transceive
+    summary: Send raw ISO-DEP data to the tag and receive the response.
+    returns:
+        summary: Response bytes received.
+        type: Titanium.Buffer
+    parameters:
+      - name: data
+        summary: Bytes to send.
+        type: Titanium.Buffer
+
+---
+name: Modules.Nfc.TagTechnologyMifareClassic
+summary: Provides access to MIFARE Classic properties and I/O operations on a <Modules.Nfc.NfcTag>.
+description: |
+    Use the <Modules.Nfc.createTagTechnologyMifareClassic> method to create this tag technology.
+
+    See also:
+    [MifareClassic](http://developer.android.com/reference/android/nfc/tech/MifareClassic.html)
+
+extends: Modules.Nfc.TagTechnology
+since: "1.1.0"
+platforms: [android]
+excludes:
+    methods: [addEventListener, fireEvent, removeEventListener, applyProperties]
+    properties: [bubbleParent]
+
+properties:
+  - name: KEY_DEFAULT
+    summary: The default factory key.
+    type: Titanium.Buffer
+    permission: read-only
+
+  - name: KEY_MIFARE_APPLICATION_DIRECTORY
+    summary: The well-known key for tags formatted according to the MIFARE Application Directory (MAD) specification.
+    type: Titanium.Buffer
+    permission: read-only
+
+  - name: KEY_NFC_FORUM
+    summary: The well-known key for tags formatted according to the NDEF on MIFARE Classic specification.
+    type: Titanium.Buffer
+    permission: read-only
+
+methods:
+  - name: authenticateSectorWithKeyA
+    summary: Authenticate a sector with key A.
+    returns:
+        summary: Returns true on success, false on authentication failure.
+        type: Boolean
+    parameters:
+      - name: sectorIndex
+        summary: Index of sector to authenticate, starting from 0.
+        type: Number
+      - name: key
+        summary: 6-byte authentication key.
+        type: Titanium.Buffer
+
+  - name: authenticateSectorWithKeyB
+    summary: Authenticate a sector with key B.
+    returns:
+       summary: Returns true on success, false on authentication failure.
+       type: Boolean
+    parameters:
+      - name: sectorIndex
+        summary: Index of sector to authenticate, starting from 0.
+        type: Number
+      - name: key
+        summary: 6-byte authentication key.
+        type: Titanium.Buffer
+
+  - name: blockToSector
+    summary: Return the sector that contains a given block.
+    returns:
+        type: Number
+    parameters:
+      - name: blockIndex
+        summary: Index of block to lookup, starting from 0.
+        type: Number
+
+  - name: decrement
+    summary: Decrement a value block, storing the result in the temporary block on the tag.
+    parameters:
+      - name: blockIndex
+        summary: Index of block to decrement, starting from 0.
+        type: Number
+      - name: value
+        summary: Non-negative to decrement by.
+        type: Number
+
+  - name: getBlockCount
+    summary: Return the total number of MIFARE Classic blocks.
+    returns:
+        type: Number
+
+  - name: getBlockCountInSector
+    summary: Return the number of blocks in the given sector.
+    returns:
+        type: Number
+    parameters:
+      - name: sectorIndex
+        summary: Index of sector, starting from 0.
+        type: Number
+
+  - name: getMaxTransceiveLength
+    summary: Return the maximum number of bytes that can be sent with `transceive`.
+    returns:
+        type: Number
+
+  - name: getSectorCount
+    summary: Return the number of MIFARE Classic sectors.
+    returns:
+        type: Number
+
+  - name: getSize
+    summary: Return the size of the tag in bytes.
+    returns:
+        type: Number
+
+  - name: getTimeout
+    summary: Get the current `transceive` timeout in milliseconds.
+    returns:
+        type: Number
+
+  - name: getType
+    summary: Return the type of this MIFARE Classic compatible tag.
+    returns:
+        type: Number
+
+  - name: increment
+    summary: Increment a value block, storing the result in the temporary block on the tag.
+    parameters:
+      - name: blockIndex
+        summary: Index of block to increment, starting from 0.
+        type: Number
+      - name: value
+        summary: Non-negative to increment by.
+        type: Number
+
+  - name: readBlock
+    summary: Read 16-byte block.
+    returns:
+        summary: 16 byte block.
+        type: Titanium.Buffer
+    parameters:
+      - name: blockIndex
+        summary: Index of block to read, starting from 0.
+        type: Number
+
+  - name: restore
+    summary: Copy from a value block to the temporary block.
+    parameters:
+      - name: blockIndex
+        summary: Index of block to copy from.
+        type: Number
+
+  - name: sectorToBlock
+    summary: Return the first block of a given sector.
+    returns:
+        type: Number
+    parameters:
+      - name: sectorIndex
+        summary: Index of sector to lookup, starting from 0.
+        type: Number
+
+  - name: setTimeout
+    summary: Set the `transceive` timeout in milliseconds.
+    parameters:
+      - name: timeout
+        summary: Timeout value in milliseconds.
+        type: Number
+
+  - name: transceive
+    summary: Send raw NfcA data to the tag and receive the response.
+    returns:
+        summary: Response bytes received.
+        type: Titanium.Buffer
+    parameters:
+      - name: data
+        summary: Bytes to send.
+        type: Titanium.Buffer
+
+  - name: transfer
+    summary: Copy from the temporary block to a value block.
+    parameters:
+      - name: blockIndex
+        summary: Index of block to copy to.
+        type: Number
+
+  - name: writeBlock
+    summary: Write 16-byte block.
+    parameters:
+      - name: blockIndex
+        summary: Index of block to write, starting from 0.
+        type: Number
+      - name: data
+        summary: 16 bytes of data to write.
+        type: Titanium.Buffer
+
+---
+name: Modules.Nfc.TagTechnologyMifareUltralight
+summary: Provides access to MIFARE Ultralight properties and I/O operations on a <Modules.Nfc.NfcTag>.
+description: |
+    Use the <Modules.Nfc.createTagTechnologyMifareUltralight> method to create this tag technology.
+
+    See also:
+    [MifareUltralight](http://developer.android.com/reference/android/nfc/tech/MifareUltralight.html)
+
+extends: Modules.Nfc.TagTechnology
+since: "1.1.0"
+platforms: [android]
+excludes:
+    methods: [addEventListener, fireEvent, removeEventListener, applyProperties]
+    properties: [bubbleParent]
+
+methods:
+  - name: getMaxTransceiveLength
+    summary: Return the maximum number of bytes that can be sent with `transceive`.
+    returns:
+        type: Number
+
+  - name: getTimeout
+    summary: Get the current `transceive` timeout in milliseconds.
+    returns:
+        type: Number
+
+  - name: getType
+    summary: Return the MIFARE Ultralight type of the tag.
+    description: |
+        One of MIFARE_ULTRALIGHT_TYPE_ULTRALIGHT, MIFARE_ULTRALIGHT_TYPE_ULTRALIGHT_C, or MIFARE_ULTRALIGHT_TYPE_UNKNOWN.
+    returns:
+        type: Number
+
+  - name: readPages
+    summary: Read 4 pages (16 bytes).
+    returns:
+        summary: 4 pages (16 bytes)
+        type: Titanium.Buffer
+    parameters:
+      - name: pageOffset
+        summary: Index of first page to read, starting from 0.
+        type: Number
+
+  - name: setTimeout
+    summary: Set the `transceive` timeout in milliseconds.
+    parameters:
+      - name: timeout
+        summary: Timeout value in milliseconds.
+        type: Number
+
+  - name: transceive
+    summary: Send raw NfcA data to the tag and receive the response.
+    returns:
+        summary: Response bytes received.
+        type: Titanium.Buffer
+    parameters:
+      - name: data
+        summary: Bytes to send.
+        type: Titanium.Buffer
+
+  - name: writePage
+    summary: Write 1 page (4 bytes).
+    parameters:
+      - name: pageOffset
+        summary: Index of page to write, starting from 0.
+        type: Number
+      - name: data
+        summary: 4 bytes to write.
+        type: Titanium.Buffer
+
+---
+name: Modules.Nfc.TagTechnologyNdefFormatable
+summary: Provide access to NDEF format operations on a <Modules.Nfc.NfcTag>.
+description: |
+    Use the <Modules.Nfc.createTagTechnologyNdefFormatable> method to create this tag technology.
+
+    See also:
+    [NdefFormatable](http://developer.android.com/reference/android/nfc/tech/NdefFormatable.html)
+
+extends: Modules.Nfc.TagTechnology
+since: "1.1.0"
+platforms: [android]
+excludes:
+    methods: [addEventListener, fireEvent, removeEventListener, applyProperties]
+    properties: [bubbleParent]
+
+methods:
+  - name: format
+    summary: Format a tag as NDEF, and write a <Modules.Nfc.NdefMessage>.
+    parameters:
+      - name: message
+        summary: The NDEF message to write after formatting, can be null.
+        type: Modules.Nfc.NdefMessage
+
+  - name: formatReadOnly
+    summary: Formats a tag as NDEF, write a <Modules.Nfc.NdefMessage>, and make read-only.
+    parameters:
+      - name: message
+        summary: The NDEF message to write after formatting
+        type: Modules.Nfc.NdefMessage
+
+---
+name: Modules.Nfc.TagTechnologyNdef
+summary: Provides access to NDEF content and operations on a <Modules.Nfc.NfcTag>.
+description: |
+    Use the <Modules.Nfc.createTagTechnologyNdef> method to create this tag technology.
+
+    See also:
+    [Ndef](http://developer.android.com/reference/android/nfc/tech/Ndef.html)
+
+extends: Modules.Nfc.TagTechnology
+since: "1.1.0"
+platforms: [android]
+excludes:
+    methods: [addEventListener, fireEvent, removeEventListener, applyProperties]
+    properties: [bubbleParent]
+
+methods:
+  - name: canMakeReadOnly
+    summary: Indicates whether a tag can be made read-only with `makeReadOnly`.
+    returns:
+        summary: true if it is possible to make this tag read-only.
+        type: Boolean
+
+  - name: getCachedNdefMessage
+    summary: Get the <Modules.Nfc.NdefMessage> that was read from the tag at discovery time.
+    returns:
+        summary: NDEF Message read from the tag at discovery time, can be null.
+        type: Modules.Nfc.NdefMessage
+
+  - name: getMaxSize
+    summary: Get the maximum NDEF message size in bytes.
+    returns:
+        type: Number
+
+  - name: getNdefMessage
+    summary: Read the current <Modules.Nfc.NdefMessage> on this tag.
+    returns:
+        summary: The NDEF Message, can be null.
+        type: Modules.Nfc.NdefMessage
+
+  - name: getType
+    summary: Get the NDEF tag type.
+    description: |
+        One of TAG_TYPE_NFC_FORUM_TYPE_1, TAG_TYPE_NFC_FORUM_TYPE_2, TAG_TYPE_NFC_FORUM_TYPE_3,
+        TAG_TYPE_NFC_FORUM_TYPE_4, TAG_TYPE_MIFARE_CLASSIC, or another NDEF tag type that has not
+        yet been formalized in the Android API.
+    returns:
+        type: String
+
+  - name: isWritable
+    summary: Determine if the tag is writable.
+    returns:
+        summary: true if the tag is writable.
+        type: Boolean
+
+  - name: makeReadOnly
+    summary: Make a tag read-only.
+    returns:
+        summary: true on success, false if it is not possible to make this tag read-only.
+        type: Boolean
+
+  - name: writeNdefMessage
+    summary: Overwrite the <Modules.Nfc.NdefMessage> on this tag.
+    parameters:
+      - name: message
+        summary: The <Modules.Nfc.NdefMessage> to write
+        type: Modules.Nfc.NdefMessage
+
+---
+name: Modules.Nfc.TagTechnologyNfcA
+summary: Provides access to NFC-A (ISO 14443-3A) properties and I/O operations on a <Modules.Nfc.NfcTag>.
+description: |
+    Use the <Modules.Nfc.createTagTechnologyNfcA> method to create this tag technology.
+
+    See also:
+    [NfcA](http://developer.android.com/reference/android/nfc/tech/NfcA.html)
+
+extends: Modules.Nfc.TagTechnology
+since: "1.1.0"
+platforms: [android]
+excludes:
+    methods: [addEventListener, fireEvent, removeEventListener, applyProperties]
+    properties: [bubbleParent]
+
+methods:
+  - name: getAtqa
+    summary: Return the ATQA/SENS_RES bytes from tag discovery.
+    returns:
+        summary: ATQA/SENS_RES bytes.
+        type: Titanium.Buffer
+
+  - name: getMaxTransceiveLength
+    summary: Return the maximum number of bytes that can be sent with `transceive`.
+    returns:
+        type: Number
+
+  - name: getSak
+    summary: Return the SAK/SEL_RES bytes from tag discovery.
+    returns:
+        summary: SAK bytes.
+        type: Number
+
+  - name: getTimeout
+    summary: Get the current `transceive` timeout in milliseconds.
+    returns:
+        type: Number
+
+  - name: setTimeout
+    summary: Set the timeout of `transceive` in milliseconds.
+    parameters:
+      - name: timeout
+        summary: Timeout value in milliseconds
+        type: Number
+
+  - name: transceive
+    summary: Send raw NFC-A commands to the tag and receive the response.
+    returns:
+        summary: Response bytes received.
+        type: Titanium.Buffer
+    parameters:
+      - name: data
+        summary: Bytes to send.
+        type: Titanium.Buffer
+
+---
+name: Modules.Nfc.TagTechnologyNfcB
+summary: Provides access to NFC-B (ISO 14443-3B) properties and I/O operations on a <Modules.Nfc.NfcTag>.
+description: |
+    Use the <Modules.Nfc.createTagTechnologyNfcB> method to create this tag technology.
+
+    See also:
+    [NfcB](http://developer.android.com/reference/android/nfc/tech/NfcB.html)
+
+extends: Modules.Nfc.TagTechnology
+since: "1.1.0"
+platforms: [android]
+excludes:
+    methods: [addEventListener, fireEvent, removeEventListener, applyProperties]
+    properties: [bubbleParent]
+
+methods:
+  - name: getApplicationData
+    summary: Return the Application Data bytes from ATQB/SENSB_RES at tag discovery.
+    returns:
+        summary: Application Data bytes from ATQB/SENSB_RES bytes
+        type: Titanium.Buffer
+
+  - name: getMaxTransceiveLength
+    summary: Return the maximum number of bytes that can be sent with `transceive`.
+    returns:
+        type: Number
+
+  - name: getProtocolInfo
+    summary: Return the Protocol Info bytes from ATQB/SENSB_RES at tag discovery.
+    returns:
+        summary: Protocol Info bytes from ATQB/SENSB_RES bytes.
+        type: Titanium.Buffer
+
+  - name: transceive
+    summary: Send raw NFC-B commands to the tag and receive the response.
+    returns:
+        summary: Response bytes received.
+        type: Titanium.Buffer
+    parameters:
+      - name: data
+        summary: Bytes to send.
+        type: Titanium.Buffer
+
+---
+name: Modules.Nfc.TagTechnologyNfcF
+summary: Provides access to NFC-F (JIS 6319-4) properties and I/O operations on a <Modules.Nfc.NfcTag>.
+description: |
+    Use the <Modules.Nfc.createTagTechnologyNfcF> method to create this tag technology.
+
+    See also:
+    [NfcF](http://developer.android.com/reference/android/nfc/tech/NfcF.html)
+
+extends: Modules.Nfc.TagTechnology
+since: "1.1.0"
+platforms: [android]
+excludes:
+    methods: [addEventListener, fireEvent, removeEventListener, applyProperties]
+    properties: [bubbleParent]
+
+methods:
+  - name: getManufacturer
+    summary: Return the Manufacturer bytes from tag discovery.
+    returns:
+        summary: Manufacturer bytes.
+        type: Titanium.Buffer
+
+  - name: getMaxTransceiveLength
+    summary: Return the maximum number of bytes that can be sent with `transceive`.
+    returns:
+        type: Number
+
+  - name: getSystemCode
+    summary: Return the System Code bytes from tag discovery.
+    returns:
+        summary: System Code bytes.
+        type: Titanium.Buffer
+
+  - name: getTimeout
+    summary: Get the current `transceive` timeout in milliseconds.
+    returns:
+        type: Number
+
+  - name: setTimeout
+    summary: Set the timeout of `transceive` in milliseconds.
+    parameters:
+      - name: timeout
+        summary: Timeout value in milliseconds
+        type: Number
+
+  - name: transceive
+    summary: Send raw NFC-F commands to the tag and receive the response.
+    returns:
+        summary: Response bytes received.
+        type: Titanium.Buffer
+    parameters:
+      - name: data
+        summary: Bytes to send.
+        type: Titanium.Buffer
+
+---
+name: Modules.Nfc.TagTechnologyNfcV
+summary: Provides access to NFC-V (ISO 15693) properties and I/O operations on a <Modules.Nfc.NfcTag>.
+description: |
+    Use the <Modules.Nfc.createTagTechnologyNfcV> method to create this tag technology.
+
+    See also:
+    [NfcV](http://developer.android.com/reference/android/nfc/tech/NfcV.html)
+
+extends: Modules.Nfc.TagTechnology
+since: "1.1.0"
+platforms: [android]
+excludes:
+    methods: [addEventListener, fireEvent, removeEventListener, applyProperties]
+    properties: [bubbleParent]
+
+methods:
+  - name: getDsfId
+    summary: Return the DSF ID bytes from tag discovery.
+    returns:
+        type: Number
+
+  - name: getMaxTransceiveLength
+    summary: Return the maximum number of bytes that can be sent with `transceive`.
+    returns:
+        type: Number
+
+  - name: getResponseFlags
+    summary: Return the Response Flag bytes from tag discovery.
+    returns:
+        summary: Response Flag bytes.
+        type: Number
+
+  - name: transceive
+    summary: Send raw NFC-V commands to the tag and receive the response.
+    returns:
+        summary: Response bytes received.
+        type: Titanium.Buffer
+    parameters:
+      - name: data
+        summary: Bytes to send.
+        type: Titanium.Buffer

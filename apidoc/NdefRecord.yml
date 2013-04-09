@@ -16,8 +16,9 @@ description: |
 extends: Titanium.Proxy
 since: "1.0.0"
 platforms: [android]
-creatable: false
+createable: false
 excludes:
+    methods: [addEventListener, fireEvent, removeEventListener, applyProperties]
     properties: [bubbleParent]
 
 methods:
@@ -91,6 +92,7 @@ extends: Modules.Nfc.NdefRecord
 since: "1.0.0"
 platforms: [android]
 excludes:
+    methods: [addEventListener, fireEvent, removeEventListener, applyProperties]
     properties: [bubbleParent]
 
 properties:
@@ -105,6 +107,7 @@ extends: Modules.Nfc.NdefRecord
 since: "1.0.0"
 platforms: [android]
 excludes:
+    methods: [addEventListener, fireEvent, removeEventListener, applyProperties]
     properties: [bubbleParent]
     
 ---
@@ -117,6 +120,7 @@ extends: Modules.Nfc.NdefRecord
 since: "1.0.0"
 platforms: [android]
 excludes:
+    methods: [addEventListener, fireEvent, removeEventListener, applyProperties]
     properties: [bubbleParent]
     
 properties:
@@ -138,6 +142,7 @@ extends: Modules.Nfc.NdefRecord
 since: "1.0.0"
 platforms: [android]
 excludes:
+    methods: [addEventListener, fireEvent, removeEventListener, applyProperties]
     properties: [bubbleParent]
     
 properties:
@@ -152,6 +157,7 @@ extends: Modules.Nfc.NdefRecord
 since: "1.0.0"
 platforms: [android]
 excludes:
+    methods: [addEventListener, fireEvent, removeEventListener, applyProperties]
     properties: [bubbleParent]
     
 properties:
@@ -181,6 +187,7 @@ extends: Modules.Nfc.NdefRecord
 since: "1.0.0"
 platforms: [android]
 excludes:
+    methods: [addEventListener, fireEvent, removeEventListener, applyProperties]
     properties: [bubbleParent]
     
 properties:
@@ -205,6 +212,7 @@ extends: Modules.Nfc.NdefRecord
 since: "1.0.0"
 platforms: [android]
 excludes:
+    methods: [addEventListener, fireEvent, removeEventListener, applyProperties]
     properties: [bubbleParent]
     
 ---
@@ -217,6 +225,7 @@ extends: Modules.Nfc.NdefRecord
 since: "1.0.0"
 platforms: [android]
 excludes:
+    methods: [addEventListener, fireEvent, removeEventListener, applyProperties]
     properties: [bubbleParent]
     
 properties:

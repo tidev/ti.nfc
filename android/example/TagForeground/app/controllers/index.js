@@ -4,7 +4,27 @@
  * This application demonstrates how to use the NFC module to enable
  * NFC message dispatching only when the application is in the foreground.
  * 
- * No additional activity/intent-filters are needed to support this functionality. 
+ * Before running this application, add code similar to the following to your application's
+ * tiapp.xml file. Note the following:
+ *   - The activity name for your application may be different
+ *   - android:launchMode="singleTask" is needed so that new intents that result from
+ *     NFC message dispatching do not start a new activity in your application
+ * 
+ *  <android xmlns:android="http://schemas.android.com/apk/res/android">
+ *    <manifest>
+ *      <application>
+ *        <activity android:name=".TagForegroundActivity"
+ *            android:label="TagForeground" android:theme="@style/Theme.Titanium"
+ *            android:configChanges="keyboardHidden|orientation"
+ *            android:launchMode="singleTask">
+ *          <intent-filter>
+ *            <action android:name="android.intent.action.MAIN" />
+ *            <category android:name="android.intent.category.LAUNCHER" />
+ *          </intent-filter>
+ *        </activity>
+ *      </application>
+ *    </manifest>
+ *  </android>
  */
 
 var nfc = require('ti.nfc');

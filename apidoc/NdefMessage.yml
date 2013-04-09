@@ -10,6 +10,7 @@ extends: Titanium.Proxy
 since: "1.0.0"
 platforms: [android]
 excludes:
+    methods: [addEventListener, fireEvent, removeEventListener, applyProperties]
     properties: [bubbleParent]
     
 methods:
