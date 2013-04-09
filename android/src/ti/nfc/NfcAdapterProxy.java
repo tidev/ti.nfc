@@ -148,6 +148,11 @@ public class NfcAdapterProxy extends KrollProxy implements CreateNdefMessageCall
 	}
 	
 	private void processIntent(Intent intent) {
+		// Verify that we have an intent AND that the intent has an action
+		if ((intent == null) || (intent.getAction() == null)) {
+			return;
+		}
+		
 		String action = intent.getAction();
 		String name;
 		
