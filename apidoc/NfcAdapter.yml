@@ -89,14 +89,26 @@ methods:
   - name: setNdefPushMessage
     since: "1.0.0"
     platforms: [android]
-    summary:
+    summary: Set a static <Module.Nfc.NdefMessage> to send using Android Beam.
     description: |
         See also:
         [setNdefPushMessage](http://developer.android.com/reference/android/nfc/NfcAdapter.html#setNdefPushMessage(android.nfc.NdefMessage, android.app.Activity, android.app.Activity...))
     parameters:
       - name: message
-        summary: An NDEF message to push over NFC, or null to disable
+        summary: An NDEF message to push over NFC, or null to disable.
         type: Modules.Nfc.NdefMessage
+
+  - name: setBeamPushUris
+    since: "1.2.0"
+    platforms: [android]
+    summary: Set one or more Uris to send using Android Beam.
+    description: |
+        See also
+        [setBeamPushUris](http://developer.android.com/reference/android/nfc/NfcAdapter.html#setBeamPushUris(android.net.Uri[], android.app.Activity))
+    parameters:
+      - name: Uris
+        summary: An array of Uri(s) to push over Android Beam.
+        type: Array<String>
 
 properties:
   - name: onPushComplete
@@ -121,6 +133,17 @@ properties:
         in the Android Developer Reference.
     type: Callback
     since: "1.0.0"
+
+  - name: onBeamPushUris
+    summary: Callback function used to dynamically generate one or more Uris to send using Android Beam.
+    description: |
+        The callback function must return an array of Uri(s) to be pushed.
+        This method is only available on Android 4.0 (API 16) and above.
+
+        See also:
+        [setBeamPushUrisCallback](http://developer.android.com/reference/android/nfc/NfcAdapter.html#setBeamPushUrisCallback(android.nfc.NfcAdapter.CreateBeamUrisCallback, android.app.Activity))
+    type: Callback
+    since: "1.2.0"
 
   - name: onNdefDiscovered
     summary: Callback function to execute when a tag with NDEF payload is discovered.

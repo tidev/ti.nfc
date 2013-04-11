@@ -16,8 +16,6 @@ import org.appcelerator.titanium.util.TiConvert;
 
 import ti.nfc.NfcConstants;
 import ti.nfc.NfcModule;
-import ti.nfc.api.NdefRecordApi;
-import ti.nfc.api.NdefRecordSupport;
 
 import android.nfc.NdefRecord;
 
@@ -38,7 +36,7 @@ public class NdefRecordApplicationProxy extends NdefRecordProxy
 	public NdefRecord getRecord() {
 		String packageName = TiConvert.toString(getProperty(NfcConstants.PROPERTY_PACKAGE_NAME));
 		
-		return NdefRecordApi.getInstance().createApplication(packageName);
+		return NdefRecordApi.createApplication(packageName);
 	}
 	
 	public static NdefRecordApplicationProxy parse(NdefRecord record) {

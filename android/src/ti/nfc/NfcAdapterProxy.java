@@ -8,6 +8,7 @@
 
 package ti.nfc;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.appcelerator.kroll.KrollDict;
@@ -18,12 +19,15 @@ import org.appcelerator.kroll.annotations.Kroll;
 import org.appcelerator.kroll.common.AsyncResult;
 import org.appcelerator.kroll.common.TiMessenger;
 import org.appcelerator.titanium.TiApplication;
+import org.appcelerator.titanium.TiFileProxy;
 import org.appcelerator.titanium.proxy.IntentProxy;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
+import android.nfc.NfcAdapter.CreateBeamUrisCallback;
 import android.nfc.Tag;
 import android.nfc.NfcAdapter.CreateNdefMessageCallback;
 import android.nfc.NfcAdapter.OnNdefPushCompleteCallback;
@@ -38,9 +42,10 @@ import android.util.Log;
 	NfcConstants.PROPERTY_ON_PUSH_MESSAGE,
 	NfcConstants.PROPERTY_ON_NDEF_DISCOVERED,
 	NfcConstants.PROPERTY_ON_TAG_DISCOVERED,
-	NfcConstants.PROPERTY_ON_TECH_DISCOVERED
+	NfcConstants.PROPERTY_ON_TECH_DISCOVERED,
+	NfcConstants.PROPERTY_ON_BEAM_PUSH_URIS
 })
-public class NfcAdapterProxy extends KrollProxy implements CreateNdefMessageCallback, OnNdefPushCompleteCallback 
+public class NfcAdapterProxy extends KrollProxy
 {
 	private NfcAdapter _adapter;
 
@@ -49,7 +54,7 @@ public class NfcAdapterProxy extends KrollProxy implements CreateNdefMessageCall
    	private static final int MSG_ENABLE_FOREGROUND_DISPATCH = MSG_FIRST_ID + 101;
    	private static final int MSG_DISABLE_FOREGROUND_NDEF_PUSH = MSG_FIRST_ID + 102;
    	private static final int MSG_ENABLE_FOREGROUND_NDEF_PUSH = MSG_FIRST_ID + 103;
-   	
+
 	public NfcAdapterProxy() {
 		super();
 	}
@@ -93,13 +98,11 @@ public class NfcAdapterProxy extends KrollProxy implements CreateNdefMessageCall
 		if (kd.containsKey(NfcConstants.PROPERTY_ON_PUSH_COMPLETE)) {
 			setPushCompleteCallback(kd.get(NfcConstants.PROPERTY_ON_PUSH_COMPLETE));
 		}
+		if (kd.containsKey(NfcConstants.PROPERTY_ON_BEAM_PUSH_URIS)){
+			setBeamUrisCallback(kd.get(NfcConstants.PROPERTY_ON_BEAM_PUSH_URIS));
+		}
 	}
 
-	@Override
-	public void onNdefPushComplete(NfcEvent arg) {
-		dispatchCallback(NfcConstants.PROPERTY_ON_PUSH_COMPLETE, null);
-	}
-	
 	@Override
 	public void onPropertyChanged(String name, Object value)
 	{
@@ -107,46 +110,13 @@ public class NfcAdapterProxy extends KrollProxy implements CreateNdefMessageCall
 			setPushMessageCallback(value);
 		} else if (name.equals(NfcConstants.PROPERTY_ON_PUSH_COMPLETE)) {
 			setPushCompleteCallback(value);
+		} else if (name.equals(NfcConstants.PROPERTY_ON_BEAM_PUSH_URIS)) {
+			setBeamUrisCallback(value);
 		}
 		
 		super.onPropertyChanged(name, value);
 	}
 
-	@Override
-	public NdefMessage createNdefMessage(NfcEvent arg) {
-		// We need to call the registered callback method to get the NdefMessage
-		// to return. If the callback does not return a valid NdefMessage then we
-		// fall back to the default
-		KrollFunction callback = (KrollFunction)getProperty(NfcConstants.PROPERTY_ON_PUSH_MESSAGE);
-		if (callback != null) {
-			HashMap<String, String> event = new HashMap<String, String>();
-			Object result = callback.call(getKrollObject(), event);
-			if (result instanceof NdefMessageProxy) {
-				NdefMessageProxy proxy = (NdefMessageProxy)result;
-				return proxy.getMessage();
-			}
-		}
-		return null;
-	}
-	
-	private void setPushMessageCallback(Object value) {
-		// The push message callback allows the application to return a different NDEF message
-		// with each request. If the callback is set, then any NDEF message set with setNdefPushMessage
-		// is ignored.
-		_adapter.setNdefPushMessageCallback((value != null) ? this : null, TiApplication.getAppCurrentActivity());		
-	}
-	
-	private void setPushCompleteCallback(Object value) {
-		_adapter.setOnNdefPushCompleteCallback((value != null) ? this : null, TiApplication.getAppCurrentActivity());
-	}
-	
-	private void dispatchCallback(String name, KrollDict data) {
-		KrollFunction callback = (KrollFunction)getProperty(name);
-		if (callback != null) {
-			callback.callAsync(getKrollObject(), data);
-		}
-	}
-	
 	private void processIntent(Intent intent) {
 		// Verify that we have an intent AND that the intent has an action
 		if ((intent == null) || (intent.getAction() == null)) {
@@ -176,7 +146,7 @@ public class NfcAdapterProxy extends KrollProxy implements CreateNdefMessageCall
 			if (messages != null) {
 				event.put(NfcConstants.PROPERTY_MESSAGES, messages);
 			} else {
-				Log.i(NfcConstants.LCAT, action + " message parsing return no messages");
+				Log.i(NfcConstants.LCAT, action + " message parsing returned no messages");
 			}
 		} else {
 			Log.i(NfcConstants.LCAT, action + " intent received with no messages");
@@ -192,14 +162,20 @@ public class NfcAdapterProxy extends KrollProxy implements CreateNdefMessageCall
    		dispatchCallback(name, event);	
 	}
 	
-	@Kroll.method
-	public Boolean isEnabled() {
-		return (_adapter != null) ? _adapter.isEnabled() : false;
+	private void dispatchCallback(String name, KrollDict data) {
+		KrollFunction callback = (KrollFunction)getProperty(name);
+		if (callback != null) {
+			callback.callAsync(getKrollObject(), data);
+		}
 	}
 	
+	// ---------------------------------------------------------------------------
+	// Base adapter methods
+	// ---------------------------------------------------------------------------
+	
 	@Kroll.method
-	public Boolean isNdefPushEnabled() {
-		return (_adapter != null) ? _adapter.isNdefPushEnabled() : false;
+	public boolean isEnabled() {
+		return (_adapter != null) ? _adapter.isEnabled() : false;
 	}
 	
 	@Kroll.method
@@ -209,6 +185,153 @@ public class NfcAdapterProxy extends KrollProxy implements CreateNdefMessageCall
 		}
 	}
 
+	// ---------------------------------------------------------------------------
+	// Support for Ndef Push messaging (available in Android API level 14)
+	// ---------------------------------------------------------------------------
+	
+	@Kroll.method
+	public void setNdefPushMessage(NdefMessageProxy message) {
+    	if (Build.VERSION.SDK_INT < 14) {
+    		Log.w(NfcConstants.LCAT, "setNdefPushMessage is not available until API level 14");
+    		return;
+    	}
+
+    	if (message == null) {
+    		_adapter.setNdefPushMessage(null,  TiApplication.getAppCurrentActivity());
+    	} else {
+    		_adapter.setNdefPushMessage(message.getMessage(), TiApplication.getAppCurrentActivity());
+    	}
+	}
+	
+	private void setPushMessageCallback(Object value) {
+    	if (Build.VERSION.SDK_INT < 14) {
+    		Log.w(NfcConstants.LCAT, "setPushMessageCallback is not available until API level 14");
+    		return;
+    	}
+    	
+		// The push message callback allows the application to return a different NDEF message
+		// with each request. If the callback is set, then any NDEF message set with setNdefPushMessage
+		// is ignored.
+		if (value == null) {
+			_adapter.setNdefPushMessageCallback(null, TiApplication.getAppCurrentActivity());
+		} else {    		
+			_adapter.setNdefPushMessageCallback(new CreateNdefMessageCallback() {
+				@Override
+				public NdefMessage createNdefMessage(NfcEvent arg) {
+					// We need to call the registered callback method to get the NdefMessage
+					// to return. If the callback does not return a valid NdefMessage then we
+					// fall back to the default
+					KrollFunction callback = (KrollFunction)getProperty(NfcConstants.PROPERTY_ON_PUSH_MESSAGE);
+					if (callback != null) {
+						HashMap<String, String> event = new HashMap<String, String>();
+						Object result = callback.call(getKrollObject(), event);
+						if (result instanceof NdefMessageProxy) {
+							NdefMessageProxy proxy = (NdefMessageProxy)result;
+							return proxy.getMessage();
+						}
+					}
+					return null;
+				}
+				
+			}, TiApplication.getAppCurrentActivity());
+		}
+	}
+
+	private void setPushCompleteCallback(Object value) {
+    	if (Build.VERSION.SDK_INT < 14) {
+    		Log.w(NfcConstants.LCAT, "setPushCompleteCallback is not available until API level 14");
+    		return;
+    	}
+
+   		if (value == null) {
+			_adapter.setOnNdefPushCompleteCallback(null, TiApplication.getAppCurrentActivity());
+		} else {
+			_adapter.setOnNdefPushCompleteCallback(new OnNdefPushCompleteCallback() {
+				@Override
+				public void onNdefPushComplete(NfcEvent arg) {
+					dispatchCallback(NfcConstants.PROPERTY_ON_PUSH_COMPLETE, null);
+				}
+			}, TiApplication.getAppCurrentActivity());
+		}
+	}
+	
+	// ---------------------------------------------------------------------------
+	// Support for Beam Push APIs (available in Android API level 16)
+	// ---------------------------------------------------------------------------
+	
+	@Kroll.method
+	public void setBeamPushUris(Object args) {
+    	if (Build.VERSION.SDK_INT < 16) {
+    		Log.w(NfcConstants.LCAT, "setBeamPushUris is not available until API level 16");
+    		return;
+    	}
+    	
+    	Uri[] uris = getUriArrayFromArg(args);
+    	_adapter.setBeamPushUris(uris, TiApplication.getAppCurrentActivity());
+	}
+	
+	private void setBeamUrisCallback(Object value) {
+    	if (Build.VERSION.SDK_INT < 16) {
+    		Log.w(NfcConstants.LCAT, "setBeamUrisCallback is not available until API level 16");
+    		return;
+    	}
+    	
+		// The beam uris callback allows the application to return a different set of uris
+		// with each beam request. If the callback is set, then any uris set with setBeamPushUris
+		// is ignored.
+		if (value == null) {
+			_adapter.setBeamPushUrisCallback(null, TiApplication.getAppCurrentActivity());
+		} else {
+	   		_adapter.setBeamPushUrisCallback(new CreateBeamUrisCallback() {
+				@Override
+				public Uri[] createBeamUris(NfcEvent arg) {
+					// We need to call the registered callback method to get the Uris to return. 
+					KrollFunction callback = (KrollFunction)getProperty(NfcConstants.PROPERTY_ON_BEAM_PUSH_URIS);
+					if (callback != null) {
+						HashMap<String, String> event = new HashMap<String, String>();
+						Object result = callback.call(getKrollObject(), event);
+						Uri uris[] = getUriArrayFromArg(result);
+						return uris;
+					}
+					return null;
+				}	   			
+	   		}, TiApplication.getAppCurrentActivity());
+		}
+	}
+	
+	@Kroll.method
+	public boolean isNdefPushEnabled() {
+    	if (Build.VERSION.SDK_INT < 16) {
+    		Log.w(NfcConstants.LCAT, "isNdefPushEnabled is not available until API level 16");
+    		return false;
+    	}
+
+     	return (_adapter != null) ? _adapter.isNdefPushEnabled() : false;
+	}
+	
+	private Uri[] getUriArrayFromArg(Object arg) {
+		ArrayList<Uri> uriList = new ArrayList<Uri>();
+		if ((arg != null) && arg.getClass().isArray()) {
+			Object[] argArray = (Object[])arg;
+			for (Object obj : argArray) {
+				try {
+					if (obj instanceof String) {
+						uriList.add(Uri.parse((String)obj));
+					} else if (obj instanceof TiFileProxy) {
+						uriList.add(Uri.parse(((TiFileProxy)obj).getNativePath()));
+					}
+				} catch (Exception e) {
+					Log.w(NfcConstants.LCAT, "Unable to convert " + obj + " to Uri");
+				}
+			}
+		}
+		return ((uriList.size() > 0) ? uriList.toArray(new Uri[uriList.size()]) : null);
+	}
+
+	// ---------------------------------------------------------------------------
+	// Methods required to run on API thread
+	// ---------------------------------------------------------------------------
+	
 	@Kroll.method
 	public void disableForegroundDispatch() {
 		// This function must be run on the main UI thread
@@ -266,17 +389,7 @@ public class NfcAdapterProxy extends KrollProxy implements CreateNdefMessageCall
 			TiMessenger.sendBlockingMainMessage(getMainHandler().obtainMessage(MSG_ENABLE_FOREGROUND_NDEF_PUSH), message.getMessage());
 		}
 	}
-	
-	@Kroll.method
-	public void setNdefPushMessage(NdefMessageProxy message) {
-    	if (Build.VERSION.SDK_INT < 14) {
-    		Log.w(NfcConstants.LCAT, "setNdefPushMessage is not available until API level 14");
-    		return;
-    	}		
-    	
-    	_adapter.setNdefPushMessage((message != null) ? message.getMessage() : null, TiApplication.getAppCurrentActivity());
-	}
-	
+
 	@Override
 	public boolean handleMessage(Message msg)
 	{

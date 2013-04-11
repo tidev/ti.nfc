@@ -26,6 +26,7 @@ public class NfcConstants {
 	public static final String PROPERTY_ON_NDEF_DISCOVERED = "onNdefDiscovered";
 	public static final String PROPERTY_ON_TAG_DISCOVERED = "onTagDiscovered";
 	public static final String PROPERTY_ON_TECH_DISCOVERED = "onTechDiscovered";
+	public static final String PROPERTY_ON_BEAM_PUSH_URIS = "onBeamPushUris";
 	public static final String PROPERTY_PACKAGE_NAME = "packageName";
 	public static final String PROPERTY_PAYLOAD = "payload";
 	public static final String PROPERTY_RECORDS = "records";
