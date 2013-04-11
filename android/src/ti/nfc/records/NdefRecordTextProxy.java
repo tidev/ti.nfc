@@ -16,12 +16,11 @@ import org.appcelerator.titanium.util.TiConvert;
 
 import ti.nfc.NfcConstants;
 import ti.nfc.NfcModule;
-import ti.nfc.api.NdefRecordApi;
 
 import android.nfc.NdefRecord;
 
 @Kroll.proxy(creatableInModule = NfcModule.class, propertyAccessors = {
-	NfcConstants.PROPERTY_TEXT, 
+	NfcConstants.PROPERTY_TEXT,
 	NfcConstants.PROPERTY_LANGUAGE_CODE,
 	NfcConstants.PROPERTY_ENCODING
 })
@@ -40,7 +39,7 @@ public class NdefRecordTextProxy extends NdefRecordProxy
 		String text = TiConvert.toString(getProperty(NfcConstants.PROPERTY_TEXT));
 		String language = TiConvert.toString(getProperty(NfcConstants.PROPERTY_LANGUAGE_CODE));
 		String encoding = TiConvert.toString(getProperty(NfcConstants.PROPERTY_ENCODING));
-		
+
 		if (language == null) {
 			language = Locale.getDefault().getLanguage();
 		}
@@ -48,7 +47,7 @@ public class NdefRecordTextProxy extends NdefRecordProxy
 			encoding = NfcModule.ENCODING_UTF8;
 		}
 		
-		return NdefRecordApi.getInstance().createText(text, language, encoding); 
+		return NdefRecordApi.createText(text, language, encoding);
 	}
 	
 	public static NdefRecordTextProxy parse(NdefRecord record) {
@@ -78,7 +77,7 @@ public class NdefRecordTextProxy extends NdefRecordProxy
 			proxy.setProperty(NfcConstants.PROPERTY_TEXT, text);
 			proxy.setProperty(NfcConstants.PROPERTY_LANGUAGE_CODE, languageCode);
 			proxy.setProperty(NfcConstants.PROPERTY_ENCODING, textEncoding);
-			
+
 			return proxy;
 		} catch (UnsupportedEncodingException e) {
 			throw new IllegalArgumentException(e);

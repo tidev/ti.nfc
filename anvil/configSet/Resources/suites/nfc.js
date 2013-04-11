@@ -103,13 +103,14 @@ module.exports = new function ()
 
 		// Verify that all of the methods are exposed
 		valueOf(testRun, adapter.isEnabled).shouldBeFunction();
-		valueOf(testRun, adapter.isNdefPushEnabled).shouldBeFunction();
 		valueOf(testRun, adapter.onNewIntent).shouldBeFunction();
 		valueOf(testRun, adapter.disableForegroundDispatch).shouldBeFunction();
 		valueOf(testRun, adapter.disableForegroundNdefPush).shouldBeFunction();
 		valueOf(testRun, adapter.enableForegroundDispatch).shouldBeFunction();
 		valueOf(testRun, adapter.enableForegroundNdefPush).shouldBeFunction();
 		valueOf(testRun, adapter.setNdefPushMessage).shouldBeFunction();
+		valueOf(testRun, adapter.isNdefPushEnabled).shouldBeFunction();
+		valueOf(testRun, adapter.setBeamPushUris).shouldBeFunction();
 
 		finish(testRun);
 	};
@@ -127,6 +128,7 @@ module.exports = new function ()
 		valueOf(testRun, adapter.onNdefDiscovered).shouldBeUndefined();
 		valueOf(testRun, adapter.onTagDiscovered).shouldBeUndefined();
 		valueOf(testRun, adapter.onTechDiscovered).shouldBeUndefined();
+		valueOf(testRun, adapter.onBeamPushUris).shouldBeUndefined();
 
 		// The following calls can only be made on a device. They will
 		// fail on simulator because setting these properties results
@@ -141,12 +143,14 @@ module.exports = new function ()
 			adapter.onNdefDiscovered = dummyFunction;
 			adapter.onTagDiscovered = dummyFunction;
 			adapter.onTechDiscovered = dummyFunction;
+			adapter.onBeamPushUris = dummyFunction;
 
 			valueOf(testRun, adapter.onPushComplete).shouldBe(dummyFunction);
 			valueOf(testRun, adapter.onPushMessage).shouldBe(dummyFunction);
 			valueOf(testRun, adapter.onNdefDiscovered).shouldBe(dummyFunction);
 			valueOf(testRun, adapter.onTagDiscovered).shouldBe(dummyFunction);
 			valueOf(testRun, adapter.onTechDiscovered).shouldBe(dummyFunction);
+			valueOf(testRun, adapter.onBeamPushUris).shouldBe(dummyFunction);
 		}	
 
 		finish(testRun);
