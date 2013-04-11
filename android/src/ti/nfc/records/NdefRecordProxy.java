@@ -27,7 +27,7 @@ public abstract class NdefRecordProxy extends KrollProxy
 	private short _tnf;
 	private String _type;
 	private int _hashCode;
-	
+
 	public NdefRecordProxy() {
 		super();
 	}

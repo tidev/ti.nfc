@@ -33,7 +33,7 @@ public class NdefMessageProxy extends KrollProxy
 			proxies.add(NdefRecordProxy.parse(rec));
 		}
 		proxy.setProperty(NfcConstants.PROPERTY_RECORDS, proxies.toArray(new NdefRecordProxy[proxies.size()]));
-		
+
 		return proxy;
 	}
 	

@@ -19,8 +19,6 @@ import android.nfc.NdefRecord;
 
 import ti.nfc.NfcConstants;
 import ti.nfc.NfcModule;
-import ti.nfc.api.NdefRecordApi;
-import ti.nfc.api.NdefRecordSupport;
 
 @Kroll.proxy(creatableInModule = NfcModule.class, propertyAccessors = {
 	NfcConstants.PROPERTY_URI
@@ -39,7 +37,7 @@ public class NdefRecordUriProxy extends NdefRecordProxy
 	public NdefRecord getRecord() {
 		String uri = TiConvert.toString(getProperty(NfcConstants.PROPERTY_URI));
 		
-		return NdefRecordApi.getInstance().createUri(uri);
+		return NdefRecordApi.createUri(uri);
 	}
 	
 	public static NdefRecordUriProxy parse(NdefRecord record) {

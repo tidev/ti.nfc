@@ -31,6 +31,6 @@
 	<android xmlns:android="http://schemas.android.com/apk/res/android">
 	</android>
     <modules>
-        <module platform="android" version="1.1.0">ti.nfc</module>
+        <module platform="android" version="1.2.0">ti.nfc</module>
     </modules>
 </ti:app>

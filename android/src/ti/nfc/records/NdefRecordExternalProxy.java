@@ -16,7 +16,6 @@ import android.nfc.NdefRecord;
 
 import ti.nfc.NfcConstants;
 import ti.nfc.NfcModule;
-import ti.nfc.api.NdefRecordApi;
 
 @Kroll.proxy(creatableInModule = NfcModule.class, propertyAccessors = {
 	NfcConstants.PROPERTY_DOMAIN, 
@@ -44,7 +43,7 @@ public class NdefRecordExternalProxy extends NdefRecordProxy
 			data = blob.getBytes();
 		}
 		
-		return NdefRecordApi.getInstance().createExternal(domain, type, data);
+		return NdefRecordApi.createExternal(domain, type, data);
 	}
 	
 	public static NdefRecordExternalProxy parse(NdefRecord record) {	

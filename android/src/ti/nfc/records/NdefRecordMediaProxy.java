@@ -16,7 +16,6 @@ import android.nfc.NdefRecord;
 
 import ti.nfc.NfcConstants;
 import ti.nfc.NfcModule;
-import ti.nfc.api.NdefRecordApi;
 
 @Kroll.proxy(creatableInModule = NfcModule.class, propertyAccessors = {
 	NfcConstants.PROPERTY_MIME_TYPE
@@ -45,7 +44,7 @@ public class NdefRecordMediaProxy extends NdefRecordProxy
 			mimeType = blob.getMimeType();
 		}
 		
-		return NdefRecordApi.getInstance().createMime(mimeType, data);
+		return NdefRecordApi.createMime(mimeType, data);
 	}
 	
 	public static NdefRecordMediaProxy parse(NdefRecord record) {

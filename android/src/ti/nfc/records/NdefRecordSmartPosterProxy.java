@@ -20,7 +20,6 @@ import org.appcelerator.titanium.util.TiConvert;
 import ti.nfc.NfcConstants;
 import ti.nfc.NdefMessageProxy;
 import ti.nfc.NfcModule;
-import ti.nfc.api.NdefRecordApi;
 
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
@@ -54,11 +53,11 @@ public class NdefRecordSmartPosterProxy extends NdefRecordProxy
 			String title = TiConvert.toString(getProperty(NfcConstants.PROPERTY_TITLE));
 			String language = Locale.getDefault().getLanguage();
 			String encoding = NfcModule.ENCODING_UTF8;
-			records.add(NdefRecordApi.getInstance().createText(title, language, encoding));
+			records.add(NdefRecordApi.createText(title, language, encoding));
 		} 
 		if (hasProperty(NfcConstants.PROPERTY_URI)) {
 			String uri = TiConvert.toString(getProperty(NfcConstants.PROPERTY_URI));
-			records.add(NdefRecordApi.getInstance().createUri(uri));
+			records.add(NdefRecordApi.createUri(uri));
 		}
 		if (hasProperty(NfcConstants.PROPERTY_ACTION)) {
 			byte action = (byte)TiConvert.toInt(getProperty(NfcConstants.PROPERTY_ACTION));
