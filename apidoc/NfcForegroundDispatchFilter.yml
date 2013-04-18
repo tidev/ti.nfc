@@ -77,6 +77,8 @@ examples:
 
 ---
 name: NfcIntentFilter
+since: "1.0.0"
+platforms: [android]
 summary: Intent filter.
 properties:
   - name: action
