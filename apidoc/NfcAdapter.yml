@@ -279,6 +279,8 @@ examples:
 
 ---
 name: NdefDiscovered
+since: "1.0.0"
+platforms: [android]
 summary: Argument passed to the callback when an NDEF message, tag, or technology is discovered.
 properties:
   - name: action
