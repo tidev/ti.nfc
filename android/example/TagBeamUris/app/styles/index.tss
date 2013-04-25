@@ -17,7 +17,8 @@
 	top: '10dp',
 	left: '10dp',
 	right: '10dp',
-	layout: 'horizontal'
+	layout: 'horizontal',
+	height: Ti.UI.SIZE
 },
 "#typeSpinner": {
 	top: '10dp',
