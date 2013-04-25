@@ -2,7 +2,7 @@
 
 ## Description
 
-This module provides access to Near Field Communication (NFC) functionality, allowing applications to read and write  
+This module provides access to Near Field Communication (NFC) functionality, allowing applications to read and write
 NFC tags. A "tag" may actually be another device that appears as a tag.
 
 ## Getting Started
