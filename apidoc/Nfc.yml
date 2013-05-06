@@ -520,7 +520,7 @@ examples:
   - title: Creating NFC Adapter
     example: |
         This example demonstrates the proper technique for creating an NFC adapter in the current activity. The
-        NFC Adapater should be created after the activity has been opened.
+        NFC Adapter should be created after the activity has been opened.
 
             var nfc = require('ti.nfc');
             var nfcAdapter = null;
