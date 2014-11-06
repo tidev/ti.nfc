@@ -89,7 +89,7 @@ methods:
   - name: setNdefPushMessage
     since: "1.0.0"
     platforms: [android]
-    summary: Set a static <Module.Nfc.NdefMessage> to send using Android Beam.
+    summary: Set a static <Modules.Nfc.NdefMessage> to send using Android Beam.
     description: |
         See also:
         [setNdefPushMessage](http://developer.android.com/reference/android/nfc/NfcAdapter.html#setNdefPushMessage(android.nfc.NdefMessage, android.app.Activity, android.app.Activity...))
