@@ -47,7 +47,7 @@ properties:
     summary: The tag technology that has been discovered.
     description: |
         When a tag is discovered, a <Modules.Nfc.NfcTag> proxy is created and passed as a property to the `onNdefDiscovered`, `onTagDiscovered`, or
-        `onTechDiscovered` callback (see <Modules.Nfc.NfcAdapter.NdefDiscovered>).
+        `onTechDiscovered` callback (see <NdefDiscovered>).
     type: Modules.Nfc.NfcTag
 
 examples:

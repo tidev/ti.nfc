@@ -1,7 +1,7 @@
 ---
 name: Modules.Nfc.NfcTag
 summary: Represents an NFC tag that has been discovered
-desription: |
+description: |
     See also:
     [Tag](http://developer.android.com/reference/android/nfc/Tag.html)
 extends: Titanium.Proxy
