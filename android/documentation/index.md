@@ -7,7 +7,7 @@ NFC tags. A "tag" may actually be another device that appears as a tag.
 
 ## Getting Started
 
-View the [Using Titanium Modules](http://docs.appcelerator.com/titanium/latest/#!/guide/Using_Titanium_Modules) document for instructions on getting started with using this module in your application.
+View the [Using Titanium Modules](http://docs.appcelerator.com/platform/latest/#!/guide/Using_Titanium_Modules) document for instructions on getting started with using this module in your application.
 
 ## Accessing the Module
 
@@ -22,7 +22,7 @@ See the example applications in the `example` folder of the module.
 
 ## Documentation
 
-  * [Nfc Module API Reference Documentation](http://docs.appcelerator.com/titanium/latest/#!/api/Modules.Nfc)
+  * [Nfc Module API Reference Documentation](http://docs.appcelerator.com/platform/latest/#!/api/Modules.Nfc)
   * [Near Field Communication](http://developer.android.com/guide/topics/connectivity/nfc/index.html)
 
 ## Author
