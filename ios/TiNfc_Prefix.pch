@@ -1,0 +1,17 @@
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+    #import <UIKit/UIKit.h>
+#endif
+
+#if (TARGET_OS_SIMULATOR == 0)
+#define IS_DEVICE true
+#else
+#define IS_DEVICE false
+#endif
+
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_11_0
+#define IS_XCODE_9 true
+#else
+#define IS_XCODE_9 false
+#endif
