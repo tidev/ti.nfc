@@ -2,18 +2,27 @@
 name: Modules.Nfc
 summary: Near Field Communication (NFC) module
 description: |
-    This module provides access to Near Field Communication (NFC) functionality, allowing applications to read and write  
-    NFC tags. A "tag" may actually be another device that appears as a tag.
+    This module provides access to Near Field Communication (NFC) functionality, 
+    allowing applications to read and write (Android-only) NFC tags. 
+    A "tag" may actually be another device that appears as a tag.
 
     ### NFC Resources
 
-    -   [Near Field Communication](http://developer.android.com/guide/topics/connectivity/nfc/index.html)
-    -   [android.nfc](http://developer.android.com/reference/android/nfc/package-summary.html)
+    - **Android**
+      - [Near Field Communication](http://developer.android.com/guide/topics/connectivity/nfc/index.html)
+      - [android.nfc](http://developer.android.com/reference/android/nfc/package-summary.html)
+    - **iOS**
+      - [CoreNFC](https://developer.apple.com/documentation/corenfc)
+      - [Introduction to CoreNFC at WWDC17](https://developer.apple.com/videos/play/wwdc2017/718/)
+      - [Native example](https://github.com/hansemannn/iOS11-NFC-Example)
 
     ### Requirements
 
-    -   An NFC capable device is required.
-    -   Android API level 10
+    - **Android**
+      - An NFC capable device
+    - **iOS**
+      - iOS 11 and later
+      - iPhone 7 / iPhone 7 Plus and later
 
     ### Getting Started
 
@@ -24,11 +33,15 @@ description: |
 
     -   Use `require` to access this module from JavaScript:
 
-            var nfc = require("ti.nfc");
+            var nfc = require('ti.nfc');
 
         The `nfc` variable is a reference to the Module object.
+        
+    ### Configure iOS: Capabilities and Provisioning Profiles
+    
+    TBA
 
-    ### Tag Dispatching and Intent Filters
+    ### Configure Android: Tag Dispatching and Intent Filters
 
     -   The Android [tag dispatch system](http://developer.android.com/guide/topics/connectivity/nfc/nfc.html#tag-dispatch)
         is responsible for dispatching NFC messages to the appropriate application. In the
@@ -82,12 +95,12 @@ description: |
             $.index.addEventListener('open', function(e) {
                 nfcAdapter = nfc.createNfcAdapter({
                     onNdefDiscovered: handleDiscovery,
-                    onTagDiscovered: handleDiscovery,
-                    onTechDiscovered: handleDiscovery
+                    onTagDiscovered: handleDiscovery, // Android-only
+                    onTechDiscovered: handleDiscovery // Android-only
                 });
             });
 
-    ### Handling Intents
+    ### Handling Intents (Android)
 
     -   NFC Intents are dispatched to an activity by the Android tag dispatch system. When your activity receives a new intent,
         it must forward the intent to the `onNewIntent` method of the NFC adapter for processing.
@@ -116,16 +129,21 @@ description: |
 
     ### Example applications
 
-    -   Example applications are located in the `example` folder of the module:
+    -   Android example applications are located in the `example/android` folder of the module:
 
         - `TagBeam` demonstrates how to use Android Beam to send messages to another NFC capable device.
         - `TagForeground` demonstrates how to read NFC tags only when the application is in the foreground.
         - `TagViewer` demonstrates how to receive NFC tag intents even when the application is not running.
         - `TagWriter` demonstrates how to write to an NFC tag using the Ndef tag technology data format.
+        
+    -   iOS example applications are located in the `example/ios` folder of the module:
+        
+        - `TagViewer` demonstrates how to receive NFC tags even when the application is running.
 
 extends: Titanium.Module
-since: "1.0.0"
-platforms: [android]
+since: {android: "1.0.0", iphone: "6.2.0", ipad: "6.2.0"}
+osver: {ios: {min: "11.0"}}
+platforms: [android, iphone, ipad]
 excludes:
     methods: [addEventListener, fireEvent, removeEventListener, applyProperties]
     properties: [bubbleParent]
@@ -138,6 +156,7 @@ properties:
     type: String
     permission: read-only
     since: "1.0.0"
+    platforms: [android]
 
   - name: ACTION_TAG_DISCOVERED
     summary: |
@@ -145,6 +164,7 @@ properties:
     type: String
     permission: read-only
     since: "1.0.0"
+    platforms: [android]
 
   - name: ACTION_TECH_DISCOVERED
     summary: |
@@ -152,6 +172,7 @@ properties:
     type: String
     permission: read-only
     since: "1.0.0"
+    platforms: [android]
 
   - name: TNF_ABSOLUTE_URI
     summary: |
@@ -160,6 +181,7 @@ properties:
     type: Number
     permission: read-only
     since: "1.0.0"
+    platforms: [android]
 
   - name: TNF_EMPTY
     summary: |
@@ -168,6 +190,7 @@ properties:
     type: Number
     permission: read-only
     since: "1.0.0"
+    platforms: [android]
 
   - name: TNF_EXTERNAL_TYPE
     summary: |
@@ -176,6 +199,7 @@ properties:
     type: Number
     permission: read-only
     since: "1.0.0"
+    platforms: [android]
 
   - name: TNF_MIME_MEDIA
     summary: |
@@ -184,6 +208,7 @@ properties:
     type: Number
     permission: read-only
     since: "1.0.0"
+    platforms: [android]
 
   - name: TNF_UNCHANGED
     summary: |
@@ -192,6 +217,7 @@ properties:
     type: Number
     permission: read-only
     since: "1.0.0"
+    platforms: [android]
 
   - name: TNF_UNKNOWN
     summary: |
@@ -200,6 +226,7 @@ properties:
     type: Number
     permission: read-only
     since: "1.0.0"
+    platforms: [android]
 
   - name: TNF_WELL_KNOWN
     summary: |
@@ -208,6 +235,7 @@ properties:
     type: Number
     permission: read-only
     since: "1.0.0"     
+    platforms: [android]
 
   - name: RTD_ALTERNATIVE_CARRIER
     summary: |
@@ -216,6 +244,7 @@ properties:
     type: String
     permission: read-only
     since: "1.0.0"     
+    platforms: [android]
 
   - name: RTD_HANDOVER_CARRIER
     summary: |
@@ -224,6 +253,7 @@ properties:
     type: String
     permission: read-only
     since: "1.0.0"     
+    platforms: [android]
 
   - name: RTD_HANDOVER_REQUEST
     summary: |
@@ -232,6 +262,7 @@ properties:
     type: String
     permission: read-only
     since: "1.0.0"  
+    platforms: [android]
 
   - name: RTD_HANDOVER_SELECT
     summary: |
@@ -240,6 +271,7 @@ properties:
     type: String
     permission: read-only
     since: "1.0.0"  
+    platforms: [android]
 
   - name: RTD_SMART_POSTER
     summary: |
@@ -248,6 +280,7 @@ properties:
     type: String
     permission: read-only
     since: "1.0.0"  
+    platforms: [android]
 
   - name: RTD_TEXT
     summary: |
@@ -256,6 +289,7 @@ properties:
     type: String
     permission: read-only
     since: "1.0.0"
+    platforms: [android]
 
   - name: RTD_URI
     summary: |
@@ -264,6 +298,7 @@ properties:
     type: String
     permission: read-only
     since: "1.0.0"  
+    platforms: [android]
 
   - name: TECH_ISODEP
     summary: |
@@ -271,6 +306,7 @@ properties:
     type: Number
     permission: read-only
     since: "1.0.0"  
+    platforms: [android]
 
   - name: TECH_MIFARE_CLASSIC
     summary: |
@@ -278,6 +314,7 @@ properties:
     type: Number
     permission: read-only
     since: "1.0.0"  
+    platforms: [android]
 
   - name: TECH_MIFARE_ULTRALIGHT
     summary: |
@@ -285,6 +322,7 @@ properties:
     type: Number
     permission: read-only
     since: "1.0.0"  
+    platforms: [android]
 
   - name: TECH_NDEF
     summary: |
@@ -292,6 +330,7 @@ properties:
     type: Number
     permission: read-only
     since: "1.0.0"  
+    platforms: [android]
 
   - name: TECH_NDEFFORMATABLE
     summary: |
@@ -299,6 +338,7 @@ properties:
     type: Number
     permission: read-only
     since: "1.0.0"  
+    platforms: [android]
 
   - name: TECH_NFCA
     summary: |
@@ -306,6 +346,7 @@ properties:
     type: Number
     permission: read-only
     since: "1.0.0"  
+    platforms: [android]
 
   - name: TECH_NFCB
     summary: |
@@ -313,6 +354,7 @@ properties:
     type: Number
     permission: read-only
     since: "1.0.0"  
+    platforms: [android]
 
   - name: TECH_NFCF
     summary: |
@@ -320,6 +362,7 @@ properties:
     type: Number
     permission: read-only
     since: "1.0.0"  
+    platforms: [android]
 
   - name: TECH_NFCV
     summary: |
@@ -327,6 +370,7 @@ properties:
     type: Number
     permission: read-only
     since: "1.0.0"  
+    platforms: [android]
 
   - name: ENCODING_UTF8
     summary: |
@@ -335,6 +379,7 @@ properties:
     type: String
     permission: read-only
     since: "1.0.0"         
+    platforms: [android]
 
   - name: ENCODING_UTF16
     summary: |
@@ -343,6 +388,7 @@ properties:
     type: String
     permission: read-only
     since: "1.0.0"  
+    platforms: [android]
 
   - name: RECOMMENDED_ACTION_UNKNOWN
     summary: |
@@ -350,6 +396,7 @@ properties:
     type: Number
     permission: read-only
     since: "1.0.0"  
+    platforms: [android]
 
   - name: RECOMMENDED_ACTION_DO_ACTION
     summary: |
@@ -357,6 +404,7 @@ properties:
     type: Number
     permission: read-only
     since: "1.0.0"  
+    platforms: [android]
 
   - name: RECOMMENDED_ACTION_SAVE_FOR_LATER
     summary: |
@@ -364,6 +412,7 @@ properties:
     type: Number
     permission: read-only
     since: "1.0.0"  
+    platforms: [android]
 
   - name: RECOMMENDED_ACTION_OPEN_FOR_EDITING
     summary: |
@@ -371,6 +420,7 @@ properties:
     type: Number
     permission: read-only
     since: "1.0.0"  
+    platforms: [android]
 
   - name: TAG_TYPE_NFC_FORUM_TYPE_1
     summary: |
@@ -379,6 +429,7 @@ properties:
     type: String
     permission: read-only
     since: "1.1.0"
+    platforms: [android]
 
   - name: TAG_TYPE_NFC_FORUM_TYPE_2
     summary: |
@@ -387,6 +438,7 @@ properties:
     type: String
     permission: read-only
     since: "1.1.0"
+    platforms: [android]
 
   - name: TAG_TYPE_NFC_FORUM_TYPE_3
     summary: |
@@ -395,6 +447,7 @@ properties:
     type: String
     permission: read-only
     since: "1.1.0"
+    platforms: [android]
 
   - name: TAG_TYPE_NFC_FORUM_TYPE_4
     summary: |
@@ -403,6 +456,7 @@ properties:
     type: String
     permission: read-only
     since: "1.1.0"
+    platforms: [android]
 
   - name: TAG_TYPE_MIFARE_CLASSIC
     summary: |
@@ -411,6 +465,7 @@ properties:
     type: String
     permission: read-only
     since: "1.1.0"
+    platforms: [android]
 
   - name: MIFARE_TAG_TYPE_CLASSIC
     summary: |
@@ -419,6 +474,7 @@ properties:
     type: Number
     permission: read-only
     since: "1.1.0"
+    platforms: [android]
 
   - name: MIFARE_TAG_TYPE_PLUS
     summary: |
@@ -427,6 +483,7 @@ properties:
     type: Number
     permission: read-only
     since: "1.1.0"
+    platforms: [android]
 
   - name: MIFARE_TAG_TYPE_PRO
     summary: |
@@ -435,6 +492,7 @@ properties:
     type: Number
     permission: read-only
     since: "1.1.0"
+    platforms: [android]
 
   - name: MIFARE_TAG_TYPE_UNKNOWN
     summary: |
@@ -443,6 +501,7 @@ properties:
     type: Number
     permission: read-only
     since: "1.1.0"
+    platforms: [android]
 
   - name: MIFARE_BLOCK_SIZE
     summary: |
@@ -451,6 +510,7 @@ properties:
     type: Number
     permission: read-only
     since: "1.1.0"
+    platforms: [android]
 
   - name: MIFARE_SIZE_1K
     summary: |
@@ -459,6 +519,7 @@ properties:
     type: Number
     permission: read-only
     since: "1.1.0"
+    platforms: [android]
 
   - name: MIFARE_SIZE_2K
     summary: |
@@ -467,6 +528,7 @@ properties:
     type: Number
     permission: read-only
     since: "1.1.0"
+    platforms: [android]
 
   - name: MIFARE_SIZE_4K
     summary: |
@@ -475,6 +537,7 @@ properties:
     type: Number
     permission: read-only
     since: "1.1.0"
+    platforms: [android]
 
   - name: MIFARE_SIZE_MINI
     summary: |
@@ -483,6 +546,7 @@ properties:
     type: Number
     permission: read-only
     since: "1.1.0"
+    platforms: [android]
 
   - name: MIFARE_ULTRALIGHT_PAGE_SIZE
     summary: |
@@ -491,6 +555,7 @@ properties:
     type: Number
     permission: read-only
     since: "1.1.0"
+    platforms: [android]
 
   - name: MIFARE_ULTRALIGHT_TYPE_ULTRALIGHT
     summary: |
@@ -499,6 +564,7 @@ properties:
     type: Number
     permission: read-only
     since: "1.1.0"
+    platforms: [android]
 
   - name: MIFARE_ULTRALIGHT_TYPE_ULTRALIGHT_C
     summary: |
@@ -507,6 +573,7 @@ properties:
     type: Number
     permission: read-only
     since: "1.1.0"
+    platforms: [android]
 
   - name: MIFARE_ULTRALIGHT_TYPE_UNKNOWN
     summary: |
@@ -515,12 +582,13 @@ properties:
     type: Number
     permission: read-only
     since: "1.1.0"
+    platforms: [android]
 
 examples:
   - title: Creating NFC Adapter
     example: |
-        This example demonstrates the proper technique for creating an NFC adapter in the current activity. The
-        NFC Adapter should be created after the activity has been opened.
+        This example demonstrates the proper technique for creating an NFC adapter. 
+        The NFC Adapter should be created after the window has been opened.
 
             var nfc = require('ti.nfc');
             var nfcAdapter = null;
@@ -531,18 +599,17 @@ examples:
                 // There should only be ONE adapter created per activity.
                 nfcAdapter = nfc.createNfcAdapter({
                     onNdefDiscovered: handleDiscovery,
-                    onTagDiscovered: handleDiscovery,
-                    onTechDiscovered: handleDiscovery
+                    onTagDiscovered: handleDiscovery, // Android-only
+                    onTechDiscovered: handleDiscovery // Android-only
                 });
 
                 // It's possible that the device does not support NFC. Check it here
-                // before we go any further.
-                if (!nfcAdapter.isEnabled()) {
+                // before we go any further. For iOS, right now this is decided 
+                // internally by the system. 
+                if (OS_ANDROID && !nfcAdapter.isEnabled()) {
                     alert('NFC is not enabled on this device');
                     return;
                 }
             });
 
             $.index.open();
-
-

@@ -2,6 +2,8 @@
 name: Modules.Nfc.NdefRecord
 summary: Represents an immutable NDEF record.
 description: |
+
+    **Android**:
     The NDEF record is the base type for more type-specific NDEF records. You will generally
     work with the type-specific NDEF records (e.g. NdefRecordText, NdefRecordUri, etc.) which have
     more applicable properties for each type of record.
@@ -10,12 +12,17 @@ description: |
     <Modules.Nfc.createNdefRecordExternal>, <Modules.Nfc.createNdefRecordMedia>, <Modules.Nfc.createNdefRecordSmartPoster>,
     <Modules.Nfc.createNdefRecordText>, <Modules.Nfc.createNdefRecordUnknown>, or <Modules.Nfc.createNdefRecordUri> method 
     variants to create an NDEF record.
+    
+    **iOS**:
+    The NFC-functionality is available on iOS 11 and later. It currently only allows
+    to read specific NDEF-tags - writing tags is not supported by iOS so far.
 
     See also:
     [NdefRecord](http://developer.android.com/reference/android/nfc/NdefRecord.html)
 extends: Titanium.Proxy
-since: "1.0.0"
-platforms: [android]
+since: {android: "1.0.0", iphone: "6.2.0", ipad: "6.2.0"}
+osver: {ios: {min: "11.0"}}
+platforms: [android, iphone, ipad]
 createable: false
 excludes:
     methods: [addEventListener, fireEvent, removeEventListener, applyProperties]
@@ -28,6 +35,7 @@ methods:
         This is the class name of the NDEF record (e.g. NdefRecordText)
     returns:
         type: String   
+    platforms: [android]
 
   - name: getId
     summary: Returns the variable length ID.
@@ -48,6 +56,7 @@ methods:
     summary: Returns the integer hash code for this object.
     returns:
         type: Number
+    platforms: [android]
 
 properties:
   - name: payload
@@ -57,7 +66,8 @@ properties:
   - name: recordType
     summary: The record type.
     permission: read-only
-    type: String 
+    type: String     
+    platforms: [android]
 
   - name: id
     summary: The variable length ID.
@@ -78,6 +88,7 @@ properties:
     summary: The integer hash code for this object.
     permission: read-only    
     type: Number
+    platforms: [android]
 
 ---
 name: Modules.Nfc.NdefRecordApplication

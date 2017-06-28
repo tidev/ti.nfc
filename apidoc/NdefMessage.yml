@@ -7,8 +7,9 @@ description: |
     See also:
     [NdefMessage](http://developer.android.com/reference/android/nfc/NdefMessage.html)
 extends: Titanium.Proxy
-since: "1.0.0"
-platforms: [android]
+since: {android: "1.0.0", iphone: "6.2.0", ipad: "6.2.0"}
+osver: {ios: {min: "11.0"}}
+platforms: [android, iphone, ipad]
 excludes:
     methods: [addEventListener, fireEvent, removeEventListener, applyProperties]
     properties: [bubbleParent]
@@ -18,6 +19,7 @@ methods:
     summary: Return the NDEF message as raw bytes.
     returns:
         type: Titanium.Blob
+    platforms: [android]
 
 properties:
   - name: records
