@@ -15,6 +15,12 @@
   KrollCallback *_ndefDiscoveredCallback;
 }
 
+#pragma mark Public API's
+
+- (void)begin:(id)unused;
+
+- (void)invalidate:(id)unused;
+
 @end
 
 #endif

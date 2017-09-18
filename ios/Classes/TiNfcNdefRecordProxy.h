@@ -14,7 +14,17 @@
   NFCNDEFPayload *_record;
 }
 
+#pragma mark Public API's
+
 - (id)_initWithPageContext:(id<TiEvaluator>)context andRecord:(NFCNDEFPayload *)record;
+
+- (NSString *)id;
+
+- (TiBlob *)payload;
+
+- (NSString *)type;
+
+- (NSNumber *)tnf;
 
 @end
 

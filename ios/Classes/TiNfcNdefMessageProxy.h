@@ -14,7 +14,11 @@
   NSArray<NFCNDEFPayload *> *_records;
 }
 
+#pragma mark Public API's
+
 - (id)_initWithPageContext:(id<TiEvaluator>)context andRecords:(NSArray<NFCNDEFPayload *> *)records;
+
+- (NSArray<TiNfcNdefRecordProxy *> *)records;
 
 @end
 
