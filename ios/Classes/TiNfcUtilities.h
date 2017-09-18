@@ -1,11 +1,11 @@
-//
-//  TiNfcUtilities.h
-//  ti.nfc
-//
-//  Created by Hans Knöchel on 28.06.17.
-//
+/**
+ * Ti.NFC
+ * Copyright (c) 2009-2017 by Axway Appcelerator. All Rights Reserved.
+ * Licensed under the terms of the Apache Public License
+ * Please see the LICENSE included with this distribution for details.
+ */
 
-#if IS_DEVICE && defined(IS_XCODE_9)
+#if IS_IOS_11
 
 #import <Foundation/Foundation.h>
 #import <CoreNFC/CoreNFC.h>

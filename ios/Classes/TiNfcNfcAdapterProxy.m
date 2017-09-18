@@ -1,11 +1,11 @@
 /**
- * Appcelerator Titanium Mobile
- * Copyright (c) 2009-2017 by Appcelerator, Inc. All Rights Reserved.
+ * Ti.NFC
+ * Copyright (c) 2009-2017 by Axway Appcelerator. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
 
-#if IS_DEVICE && defined(IS_XCODE_9)
+#if IS_IOS_11
 
 #import "TiNfcNfcAdapterProxy.h"
 #import "TiNfcNdefMessageProxy.h"
@@ -59,12 +59,16 @@
                                                                    andRecords:message.records]];
     }
     
-    [_ndefDiscoveredCallback call:@[@{@"messages": [TiNfcUtilities arrayFromNDEFMessages:messages]}] thisObject:self];
+    [_ndefDiscoveredCallback call:@[@{
+        @"messages": [TiNfcUtilities arrayFromNDEFMessages:messages]
+    }] thisObject:self];
 }
 
 - (void)readerSession:(NFCNDEFReaderSession *)session didInvalidateWithError:(NSError *)error
 {
-    [_ndefDiscoveredCallback call:@[@{@"error": [error localizedDescription]}] thisObject:self];
+    [_ndefDiscoveredCallback call:@[@{
+        @"error": [error localizedDescription]
+    }] thisObject:self];
 }
 
 @end

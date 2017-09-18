@@ -1,14 +1,14 @@
 /**
- * ti.nfc
- *
- * Created by Hans Knoechel
- * Copyright (c) 2017 Your Company. All rights reserved.
+ * Ti.NFC
+ * Copyright (c) 2009-2017 by Axway Appcelerator. All Rights Reserved.
+ * Licensed under the terms of the Apache Public License
+ * Please see the LICENSE included with this distribution for details.
  */
 
 #import "TiModule.h"
 
-@interface TiNfcModule : TiModule
-{
+@interface TiNfcModule : TiModule {
+
 }
 
 @end
