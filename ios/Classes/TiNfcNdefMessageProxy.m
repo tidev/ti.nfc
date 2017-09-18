@@ -16,22 +16,22 @@
 
 - (id)_initWithPageContext:(id<TiEvaluator>)context andRecords:(NSArray<NFCNDEFPayload *> *)records
 {
-    if (self = [super _initWithPageContext:context]) {
-        _records = [NSArray arrayWithArray:records];
-    }
+  if (self = [super _initWithPageContext:context]) {
+    _records = [NSArray arrayWithArray:records];
+  }
 }
 
 #pragma mark Public API's
 
 - (NSArray<TiNfcNdefRecordProxy *> *)records
 {
-    NSMutableArray *result = [NSMutableArray arrayWithCapacity:_records.count];
-    
-    for (NFCNDEFPayload *record in _records) {
-        [result addObject:[[TiNfcNdefRecordProxy alloc] _initWithPageContext:[self pageContext] andRecord:record]];
-    }
-    
-    return result;
+  NSMutableArray *result = [NSMutableArray arrayWithCapacity:_records.count];
+
+  for (NFCNDEFPayload *record in _records) {
+    [result addObject:[[TiNfcNdefRecordProxy alloc] _initWithPageContext:[self pageContext] andRecord:record]];
+  }
+
+  return result;
 }
 
 @end

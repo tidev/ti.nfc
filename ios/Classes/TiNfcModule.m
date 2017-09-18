@@ -16,23 +16,23 @@
 
 - (id)moduleGUID
 {
-	return @"e6caa17f-c084-402c-be84-8df242d94eba";
+  return @"e6caa17f-c084-402c-be84-8df242d94eba";
 }
 
 - (NSString *)moduleId
 {
-	return @"ti.nfc";
+  return @"ti.nfc";
 }
 
 #pragma mark Lifecycle
 
 - (void)startup
 {
-	[super startup];
+  [super startup];
 
-	NSLog(@"[DEBUG] %@ loaded",self);
+  NSLog(@"[DEBUG] %@ loaded", self);
 }
-    
+
 #pragma Public APIs
 
 @end

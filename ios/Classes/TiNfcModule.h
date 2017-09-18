@@ -8,7 +8,6 @@
 #import "TiModule.h"
 
 @interface TiNfcModule : TiModule {
-
 }
 
 @end

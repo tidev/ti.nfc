@@ -11,7 +11,7 @@
 #import <CoreNFC/CoreNFC.h>
 
 @interface TiNfcNdefRecordProxy : TiProxy {
-    NFCNDEFPayload *_record;
+  NFCNDEFPayload *_record;
 }
 
 - (id)_initWithPageContext:(id<TiEvaluator>)context andRecord:(NFCNDEFPayload *)record;

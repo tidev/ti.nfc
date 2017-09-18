@@ -18,57 +18,59 @@
 
 - (id)_initWithPageContext:(id<TiEvaluator>)context
 {
-    if (self = [super _initWithPageContext:context]) {
-        _ndefDiscoveredCallback = [self valueForKey:@"onNdefDiscovered"];
-    }
-    
-    return self;
+  if (self = [super _initWithPageContext:context]) {
+    _ndefDiscoveredCallback = [self valueForKey:@"onNdefDiscovered"];
+  }
+
+  return self;
 }
 
 - (NFCNDEFReaderSession *)nfcSession
 {
-    if (_nfcSession == nil) {
-        _nfcSession = [[NFCNDEFReaderSession alloc] initWithDelegate:self
-                                                               queue:nil
-                                            invalidateAfterFirstRead:[TiUtils boolValue:[self valueForKey:@"invalidateAfterFirstRead"] def:NO]];
-    }
-    
-    return _nfcSession;
+  if (_nfcSession == nil) {
+    _nfcSession = [[NFCNDEFReaderSession alloc] initWithDelegate:self
+                                                           queue:nil
+                                        invalidateAfterFirstRead:[TiUtils boolValue:[self valueForKey:@"invalidateAfterFirstRead"] def:NO]];
+  }
+
+  return _nfcSession;
 }
 
 #pragma mark Public API's
 
 - (void)begin:(id)unused
 {
-    [[self nfcSession] beginSession];
+  [[self nfcSession] beginSession];
 }
 
 - (void)invalidate:(id)unused
 {
-    [[self nfcSession] invalidateSession];
+  [[self nfcSession] invalidateSession];
 }
 
 #pragma mark NFCNDEFReaderSessionDelegate
 
 - (void)readerSession:(NFCNDEFReaderSession *)session didDetectNDEFs:(NSArray<NFCNDEFMessage *> *)messages
 {
-    NSMutableArray *result = [NSMutableArray arrayWithCapacity:[messages count]];
-    
-    for (NFCNDEFMessage *message in messages) {
-        [result addObject:[[TiNfcNdefMessageProxy alloc] _initWithPageContext:[self pageContext]
-                                                                   andRecords:message.records]];
-    }
-    
-    [_ndefDiscoveredCallback call:@[@{
-        @"messages": [TiNfcUtilities arrayFromNDEFMessages:messages]
-    }] thisObject:self];
+  NSMutableArray *result = [NSMutableArray arrayWithCapacity:[messages count]];
+
+  for (NFCNDEFMessage *message in messages) {
+    [result addObject:[[TiNfcNdefMessageProxy alloc] _initWithPageContext:[self pageContext]
+                                                               andRecords:message.records]];
+  }
+
+  [_ndefDiscoveredCallback call:@[ @{
+    @"messages" : [TiNfcUtilities arrayFromNDEFMessages:messages]
+  } ]
+                     thisObject:self];
 }
 
 - (void)readerSession:(NFCNDEFReaderSession *)session didInvalidateWithError:(NSError *)error
 {
-    [_ndefDiscoveredCallback call:@[@{
-        @"error": [error localizedDescription]
-    }] thisObject:self];
+  [_ndefDiscoveredCallback call:@[ @{
+    @"error" : [error localizedDescription]
+  } ]
+                     thisObject:self];
 }
 
 @end

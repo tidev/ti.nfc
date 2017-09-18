@@ -11,8 +11,8 @@
 #import <CoreNFC/CoreNFC.h>
 
 @interface TiNfcNfcAdapterProxy : TiProxy <NFCNDEFReaderSessionDelegate> {
-    NFCNDEFReaderSession *_nfcSession;
-    KrollCallback *_ndefDiscoveredCallback;
+  NFCNDEFReaderSession *_nfcSession;
+  KrollCallback *_ndefDiscoveredCallback;
 }
 
 @end

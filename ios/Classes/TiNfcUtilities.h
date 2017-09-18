@@ -7,8 +7,8 @@
 
 #if IS_IOS_11
 
-#import <Foundation/Foundation.h>
 #import <CoreNFC/CoreNFC.h>
+#import <Foundation/Foundation.h>
 
 @interface TiNfcUtilities : NSObject
 
