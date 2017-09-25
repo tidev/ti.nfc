@@ -9,6 +9,7 @@
 
 #import "TiProxy.h"
 #import <CoreNFC/CoreNFC.h>
+#import "TiBlob.h"
 
 @interface TiNfcNdefRecordProxy : TiProxy {
   NFCNDEFPayload *_record;

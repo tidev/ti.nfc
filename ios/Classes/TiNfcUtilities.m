@@ -31,10 +31,10 @@
 
   for (NFCNDEFPayload *payload in payloads) {
     [result addObject:@{
-      @"payload" : [[TiBlob alloc] initWithData:payload.payload mimetype:@"text/plain"],
-      @"type" : [[NSString alloc] initWithData:payload.type encoding:NSUTF8StringEncoding],
+      @"payload" : NULL_IF_NIL([[TiBlob alloc] initWithData:payload.payload mimetype:@"text/plain"]),
+      @"type" : NULL_IF_NIL([[NSString alloc] initWithData:payload.type encoding:NSUTF8StringEncoding]),
       @"tnf" : @(payload.typeNameFormat),
-      @"id" : [[NSString alloc] initWithData:payload.identifier encoding:NSUTF8StringEncoding]
+      @"id" : NULL_IF_NIL([[NSString alloc] initWithData:payload.identifier encoding:NSUTF8StringEncoding])
     }];
   }
 

@@ -19,6 +19,8 @@
   if (self = [super _initWithPageContext:context]) {
     _records = [NSArray arrayWithArray:records];
   }
+  
+  return self;
 }
 
 #pragma mark Public API's

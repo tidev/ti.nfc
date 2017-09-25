@@ -16,15 +16,6 @@
 
 #pragma mark Internal
 
-- (id)_initWithPageContext:(id<TiEvaluator>)context
-{
-  if (self = [super _initWithPageContext:context]) {
-    _ndefDiscoveredCallback = [self valueForKey:@"onNdefDiscovered"];
-  }
-
-  return self;
-}
-
 - (NFCNDEFReaderSession *)nfcSession
 {
   if (_nfcSession == nil) {
@@ -46,6 +37,13 @@
 - (void)invalidate:(id)unused
 {
   [[self nfcSession] invalidateSession];
+  _nfcSession = nil;
+}
+
+- (void)setOnNdefDiscovered:(KrollCallback *)callback
+{
+  [self replaceValue:callback forKey:@"onNdefDiscovered" notification:NO];
+  _ndefDiscoveredCallback = callback;
 }
 
 #pragma mark NFCNDEFReaderSessionDelegate
@@ -68,7 +66,8 @@
 - (void)readerSession:(NFCNDEFReaderSession *)session didInvalidateWithError:(NSError *)error
 {
   [_ndefDiscoveredCallback call:@[ @{
-    @"error" : [error localizedDescription]
+    @"error" : [error localizedDescription],
+    @"code": NUMINTEGER([error code])
   } ]
                      thisObject:self];
 }

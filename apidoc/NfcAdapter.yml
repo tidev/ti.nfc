@@ -13,7 +13,7 @@ description: |
     [NfcAdapter](http://developer.android.com/reference/android/nfc/NfcAdapter.html)
 extends: Titanium.Proxy
 since: "1.0.0"
-platforms: [android]
+platforms: [android, iphone]
 
 methods:
   - name: isEnabled
@@ -22,6 +22,7 @@ methods:
     summary: Return true if this NFC Adapter has any features enabled.
     returns:
         type: Boolean
+    platforms: [android]
 
   - name: isNdefPushEnabled
     since: "1.0.0"
@@ -29,6 +30,7 @@ methods:
     summary: Return true if the NDEF Push (Android Beam) feature is enabled.
     returns:
         type: Boolean
+    platforms: [android]
 
   - name: onNewIntent
     since: "1.0.0"  
@@ -46,11 +48,13 @@ methods:
       - name: intent
         summary: The Android intent received by your application
         type: Titanium.Android.Intent
+    platforms: [android]
 
   - name: disableForegroundDispatch
     since: "1.0.0"
     platforms: [android]    
     summary: Disable foreground dispatch to the current activity.
+    platforms: [android]
 
   - name: disableForegroundNdefPush
     since: "1.0.0"
@@ -58,6 +62,7 @@ methods:
     summary: Disable NDEF message push over P2P.
     description: |
         This method was deprecated in API level 14. Use `setNdefPushMessage` instead.
+    platforms: [android]
 
   - name: enableForegroundDispatch
     since: "1.0.0"
@@ -74,6 +79,7 @@ methods:
       - name: dispatchFilter
         summary: A filter specifying intent, intent filters and technology lists used to match dispatch intents.
         type: Modules.Nfc.NfcForegroundDispatchFilter
+    platforms: [android]
 
   - name: enableForegroundNdefPush
     since: "1.0.0"
@@ -85,6 +91,7 @@ methods:
       - name: message
         summary: An NDEF message to push over NFC.
         type: Modules.Nfc.NdefMessage
+    platforms: [android]
 
   - name: setNdefPushMessage
     since: "1.0.0"
@@ -97,6 +104,7 @@ methods:
       - name: message
         summary: An NDEF message to push over NFC, or null to disable.
         type: Modules.Nfc.NdefMessage
+    platforms: [android]
 
   - name: setBeamPushUris
     since: "1.2.0"
@@ -109,8 +117,18 @@ methods:
       - name: Uris
         summary: An array of Uri(s) to push over Android Beam.
         type: Array<String>
+    platforms: [android]
 
 properties:
+  - name: invalidateAfterFirstRead
+    summary: |
+        Session will automatically invalidate after the first NDEF tag is read 
+        successfully when this is set to `true`, and the `error` callback will
+        return <Modules.Nfc.INVALIDATION_ERROR_FIRST_NDEF_TAG_READ> in this case.
+    platforms: [iphone]
+    since: "2.0.0"
+    type: Boolean
+
   - name: onPushComplete
     summary: Callback function to execute on successful Android Beam operation.
     description: |
@@ -121,6 +139,7 @@ properties:
         in the Android Developer Reference.
     type: Callback
     since: "1.0.0"
+    platforms: [android]
 
   - name: onPushMessage
     summary: Callback function used to dynamically generated NDEF messsages to send using Android Beam.
@@ -133,6 +152,7 @@ properties:
         in the Android Developer Reference.
     type: Callback
     since: "1.0.0"
+    platforms: [android]
 
   - name: onBeamPushUris
     summary: Callback function used to dynamically generate one or more Uris to send using Android Beam.
@@ -144,6 +164,7 @@ properties:
         [setBeamPushUrisCallback](http://developer.android.com/reference/android/nfc/NfcAdapter.html#setBeamPushUrisCallback(android.nfc.NfcAdapter.CreateBeamUrisCallback, android.app.Activity))
     type: Callback
     since: "1.2.0"
+    platforms: [android]
 
   - name: onNdefDiscovered
     summary: Callback function to execute when a tag with NDEF payload is discovered.
@@ -160,6 +181,7 @@ properties:
         [ACTION_TAG_DISCOVERED](http://developer.android.com/reference/android/nfc/NfcAdapter.html#ACTION_TAG_DISCOVERED)
     type: Callback<NdefDiscovered>
     since: "1.0.0"
+    platforms: [android]
 
   - name: onTechDiscovered
     summary: Callback function to execute when a tag is discovered and activities are registered for the specific technologies on the tag.
@@ -168,9 +190,10 @@ properties:
         [ACTION_TECH_DISCOVERED](http://developer.android.com/reference/android/nfc/NfcAdapter.html#ACTION_TECH_DISCOVERED)
     type: Callback<NdefDiscovered>
     since: "1.0.0"
+    platforms: [android]
 
 examples:
-  - title: Foreground Dispatch
+  - title: Foreground Dispatch (Android)
     example: |
         This example uses foreground dispatch to receive NDEF messages only when the application is in the foreground.
 
@@ -221,7 +244,7 @@ examples:
                 ]
             });
 
-  - title: Push Message
+  - title: Push Message (Android)
     example: |
         This example sets a default push message to send using Android Beam.
 
@@ -245,7 +268,7 @@ examples:
             });
             nfcAdapter.setNdefPushMessage(msg);
 
-  - title: Push Message Callback
+  - title: Push Message Callback (Android)
     example: |
         This example uses the push message callback to dynamically create the NDEF message as needed.
 
@@ -280,7 +303,7 @@ examples:
 ---
 name: NdefDiscovered
 since: "1.0.0"
-platforms: [android]
+platforms: [android, iphone]
 summary: Argument passed to the callback when an NDEF message, tag, or technology is discovered.
 properties:
   - name: action
@@ -289,12 +312,23 @@ properties:
         This value will be one of the constants defined on the <Modules.Nfc> module object (ACTION_NDEF_DISCOVERED, ACTION_TAG_DISCOVERED, or
         ACTION_TECH_DISCOVERED).
     type: String
+    platforms: [android]
 
   - name: tag
     summary: NFC tag proxy identifying the tag was was discovered.
     type: Modules.Nfc.NfcTag
+    platforms: [android]
 
   - name: messsages
     summary: Array of NDEF messages parsed from the tag.
     type: Array<Modules.Nfc.NdefMessage>
 
+  - name: error
+    summary: The error message returned if an error occurred while reading the tag.
+    type: String
+    platforms: [iphone]
+
+  - name: error
+    summary: The error code returned if an error occurred while reading the tag.
+    type: Number
+    platforms: [iphone]

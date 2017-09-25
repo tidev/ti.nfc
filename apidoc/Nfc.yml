@@ -20,6 +20,7 @@ description: |
 
     - **Android**
       - An NFC capable device
+    
     - **iOS**
       - iOS 11 and later
       - iPhone 7 / iPhone 7 Plus and later
@@ -39,7 +40,15 @@ description: |
         
     ### Configure iOS: Capabilities and Provisioning Profiles
     
-    TBA
+    -   Required capabilities:
+      
+            <key>com.apple.developer.nfc.readersession.formats</key>
+            <array>
+                <string>NDEF</string>
+            </array>
+
+    -   Provisioning Profile entitled with the NFC Tag Reading capability
+    
 
     ### Configure Android: Tag Dispatching and Intent Filters
 
@@ -141,9 +150,9 @@ description: |
         - `TagViewer` demonstrates how to receive NFC tags even when the application is running.
 
 extends: Titanium.Module
-since: {android: "1.0.0", iphone: "6.3.0", ipad: "6.3.0"}
+since: {android: "1.0.0", iphone: "2.0.0"}
 osver: {ios: {min: "11.0"}}
-platforms: [android, iphone, ipad]
+platforms: [android, iphone]
 excludes:
     methods: [addEventListener, fireEvent, removeEventListener, applyProperties]
     properties: [bubbleParent]
@@ -180,8 +189,8 @@ properties:
         Indicates the type field contains an absolute-URI BNF construct defined by RFC 3986.
     type: Number
     permission: read-only
-    since: "1.0.0"
-    platforms: [android]
+    since: {android: "1.0.0", iphone: "2.0.0"}
+    platforms: [android, iphone]
 
   - name: TNF_EMPTY
     summary: |
@@ -189,8 +198,8 @@ properties:
         Indicates the record is empty.
     type: Number
     permission: read-only
-    since: "1.0.0"
-    platforms: [android]
+    since: {android: "1.0.0", iphone: "2.0.0"}
+    platforms: [android, iphone]
 
   - name: TNF_EXTERNAL_TYPE
     summary: |
@@ -198,8 +207,8 @@ properties:
         Indicates the type field contains an external type name.
     type: Number
     permission: read-only
-    since: "1.0.0"
-    platforms: [android]
+    since: {android: "1.0.0", iphone: "2.0.0"}
+    platforms: [android, iphone]
 
   - name: TNF_MIME_MEDIA
     summary: |
@@ -207,8 +216,8 @@ properties:
         Indicates the type field contains a media-type BNF construct, defined by RFC 2046.
     type: Number
     permission: read-only
-    since: "1.0.0"
-    platforms: [android]
+    since: {android: "1.0.0", iphone: "2.0.0"}
+    platforms: [android, iphone]
 
   - name: TNF_UNCHANGED
     summary: |
@@ -216,8 +225,8 @@ properties:
         Indicates the payload is an intermediate or final chunk of a chunked NDEF Record.
     type: Number
     permission: read-only
-    since: "1.0.0"
-    platforms: [android]
+    since: {android: "1.0.0", iphone: "2.0.0"}
+    platforms: [android, iphone]
 
   - name: TNF_UNKNOWN
     summary: |
@@ -225,8 +234,8 @@ properties:
         Indicates the payload type is unknown.
     type: Number
     permission: read-only
-    since: "1.0.0"
-    platforms: [android]
+    since: {android: "1.0.0", iphone: "2.0.0"}
+    platforms: [android, iphone]
 
   - name: TNF_WELL_KNOWN
     summary: |
@@ -234,8 +243,8 @@ properties:
         Indicates the type field contains a well-known RTD type name.
     type: Number
     permission: read-only
-    since: "1.0.0"     
-    platforms: [android]
+    since: {android: "1.0.0", iphone: "2.0.0"}
+    platforms: [android, iphone]
 
   - name: RTD_ALTERNATIVE_CARRIER
     summary: |
@@ -583,9 +592,86 @@ properties:
     permission: read-only
     since: "1.1.0"
     platforms: [android]
+    
+  - name: INVALIDATION_ERROR_USER_CANCELED
+    summary: The user canceled the reader session.
+    type: Number
+    permission: read-only
+    since: "2.0.0"
+    platforms: [iphone]
+    
+  - name: INVALIDATION_ERROR_SESSION_TIMEOUT
+    summary: The reader session timed out.
+    type: Number
+    permission: read-only
+    since: "2.0.0"
+    platforms: [iphone]
+    
+  - name: INVALIDATION_ERROR_SESSION_TERMINATED_UNEXPECTEDLY
+    summary: The reader session terminated unexpectedly.
+    type: Number
+    permission: read-only
+    since: "2.0.0"
+    platforms: [iphone]
+    
+  - name: INVALIDATION_ERROR_SYSTEM_IS_BUSY
+    summary: The reader session failed because the system is busy.
+    type: Number
+    permission: read-only
+    since: "2.0.0"
+    platforms: [iphone]
+    
+  - name: INVALIDATION_ERROR_FIRST_NDEF_TAG_READ
+    summary: The first NDEF tag read by this session is invalid.
+    type: Number
+    permission: read-only
+    since: "2.0.0"
+    platforms: [iphone]
+    
+  - name: ERROR_UNSUPPORTED_FEATURE
+    summary: The reader session does not support this feature.
+    type: Number
+    permission: read-only
+    since: "2.0.0"
+    platforms: [iphone]
+    
+  - name: ERROR_SECURITY_VIOLATION
+    summary: A security violation associated with the reader session has occurred.    
+    type: Number
+    permission: read-only
+    since: "2.0.0"
+    platforms: [iphone]
+    
+  - name: TRANSCEIVE_ERROR_TAG_CONNECTION_LOST
+    summary: Connection to the tag has been lost.      
+    type: Number
+    permission: read-only
+    since: "2.0.0"
+    platforms: [iphone]
+    
+  - name: TRANSCEIVE_ERROR_RETRY_EXCEEDED
+    summary: Too many retries have occurred.
+    type: Number
+    permission: read-only
+    since: "2.0.0"
+    platforms: [iphone]
+    
+  - name: TRANSCEIVE_ERROR_TAG_RESPONSE_ERROR
+    summary: The tag has responded with an error.
+    type: Number
+    permission: read-only
+    since: "2.0.0"
+    platforms: [iphone]
+    
+  - name: COMMAND_CONFIGURATION_ERROR_INVALID_PARAMETERS
+    summary: The tag has been configured with invalid parameters.        
+    type: Number
+    permission: read-only
+    since: "2.0.0"
+    platforms: [iphone]
 
 examples:
-  - title: Creating NFC Adapter
+  - title: Creating NFC Adapter (iOS & Android)
     example: |
         This example demonstrates the proper technique for creating an NFC adapter. 
         The NFC Adapter should be created after the window has been opened.
@@ -611,5 +697,16 @@ examples:
                     return;
                 }
             });
+            
+            function handleDiscovery(e) {
+                // Handle NFC discovery
+            }
+            
+            function beginScanning() {
+                // Android starts automatically
+                if (OS_IOS) {
+                    nfcAdapter.begin();
+                }
+            }
 
             $.index.open();

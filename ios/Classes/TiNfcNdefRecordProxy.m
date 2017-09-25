@@ -19,6 +19,8 @@
   if (self = [super _initWithPageContext:context]) {
     _record = record;
   }
+  
+  return self;
 }
 
 #pragma mark Public API's

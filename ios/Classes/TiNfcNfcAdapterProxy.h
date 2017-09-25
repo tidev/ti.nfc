@@ -21,6 +21,8 @@
 
 - (void)invalidate:(id)unused;
 
+- (void)setOnNdefDiscovered:(KrollCallback *)callback;
+
 @end
 
 #endif
