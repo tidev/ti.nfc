@@ -1,5 +1,7 @@
 # Change Log
 <pre>
+v2.0.0  Recompile with 6.0.0.GA
+
 v1.2.1  Fixed row display issue in example applications for Titanium SDK [MOD-1362]
 
 v1.2.0  Added support for Beam Push Uris [MOD-1346]

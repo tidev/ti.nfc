@@ -8,8 +8,8 @@
 #if IS_IOS_11
 
 #import "TiProxy.h"
-#import <CoreNFC/CoreNFC.h>
 #import "TiBlob.h"
+#import <CoreNFC/CoreNFC.h>
 
 @interface TiNfcNdefRecordProxy : TiProxy {
   NFCNDEFPayload *_record;
