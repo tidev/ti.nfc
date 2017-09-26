@@ -20,9 +20,9 @@ description: |
     See also:
     [NdefRecord](http://developer.android.com/reference/android/nfc/NdefRecord.html)
 extends: Titanium.Proxy
-since: {android: "1.0.0", iphone: "6.3.0", ipad: "6.3.0"}
+since: {android: "1.0.0", iphone: "6.3.0"}
 osver: {ios: {min: "11.0"}}
-platforms: [android, iphone, ipad]
+platforms: [android, iphone]
 createable: false
 excludes:
     methods: [addEventListener, fireEvent, removeEventListener, applyProperties]
