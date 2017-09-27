@@ -50,13 +50,6 @@
 
 - (void)readerSession:(NFCNDEFReaderSession *)session didDetectNDEFs:(NSArray<NFCNDEFMessage *> *)messages
 {
-  NSMutableArray *result = [NSMutableArray arrayWithCapacity:[messages count]];
-
-  for (NFCNDEFMessage *message in messages) {
-    [result addObject:[[TiNfcNdefMessageProxy alloc] _initWithPageContext:[self pageContext]
-                                                               andRecords:message.records]];
-  }
-
   [_ndefDiscoveredCallback call:@[ @{
     @"messages" : [TiNfcUtilities arrayFromNDEFMessages:messages]
   } ]
