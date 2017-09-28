@@ -9,7 +9,6 @@
 
 #import "TiNfcNfcAdapterProxy.h"
 #import "TiNfcNdefMessageProxy.h"
-#import "TiNfcUtilities.h"
 #import "TiUtils.h"
 
 @implementation TiNfcNfcAdapterProxy
@@ -50,10 +49,16 @@
 
 - (void)readerSession:(NFCNDEFReaderSession *)session didDetectNDEFs:(NSArray<NFCNDEFMessage *> *)messages
 {
+  NSMutableArray *result = [NSMutableArray arrayWithCapacity:messages.count];
+  
+  for (NFCNDEFMessage *message in messages) {
+    [result addObject:[[TiNfcNdefMessageProxy alloc] _initWithPageContext:[self pageContext] andRecords:message.records]];
+  }
+  
   [_ndefDiscoveredCallback call:@[ @{
-    @"messages" : [TiNfcUtilities arrayFromNDEFMessages:messages]
+    @"messages" : result
   } ]
-                     thisObject:self];
+    thisObject:self];
 }
 
 - (void)readerSession:(NFCNDEFReaderSession *)session didInvalidateWithError:(NSError *)error
