@@ -50,22 +50,22 @@
 - (void)readerSession:(NFCNDEFReaderSession *)session didDetectNDEFs:(NSArray<NFCNDEFMessage *> *)messages
 {
   NSMutableArray *result = [NSMutableArray arrayWithCapacity:messages.count];
-  
+
   for (NFCNDEFMessage *message in messages) {
     [result addObject:[[TiNfcNdefMessageProxy alloc] _initWithPageContext:[self pageContext] andRecords:message.records]];
   }
-  
+
   [_ndefDiscoveredCallback call:@[ @{
     @"messages" : result
   } ]
-    thisObject:self];
+                     thisObject:self];
 }
 
 - (void)readerSession:(NFCNDEFReaderSession *)session didInvalidateWithError:(NSError *)error
 {
   [_ndefDiscoveredCallback call:@[ @{
     @"error" : [error localizedDescription],
-    @"code": NUMINTEGER([error code])
+    @"code" : NUMINTEGER([error code])
   } ]
                      thisObject:self];
 }

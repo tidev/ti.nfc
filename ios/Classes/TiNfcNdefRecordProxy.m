@@ -9,6 +9,7 @@
 
 #import "TiNfcNdefRecordProxy.h"
 #import "TiBlob.h"
+#import "TiNfcUtilities.h"
 
 @implementation TiNfcNdefRecordProxy
 
@@ -19,7 +20,7 @@
   if (self = [super _initWithPageContext:context]) {
     _record = record;
   }
-  
+
   return self;
 }
 
@@ -32,12 +33,14 @@
 
 - (TiBlob *)payload
 {
-  return [[TiBlob alloc] initWithData:[_record payload] mimetype:@"text/plain"];
+  return [[TiBlob alloc] _initWithPageContext:[self pageContext]
+                                      andData:[[TiNfcUtilities typeFromNDEFData:[_record payload]] dataUsingEncoding:NSUTF8StringEncoding]
+                                     mimetype:@"text/plain"];
 }
 
 - (NSString *)type
 {
-  return [[NSString alloc] initWithData:[_record type] encoding:NSUTF8StringEncoding];
+  return [TiNfcUtilities typeFromNDEFData:[_record type]];
 }
 
 - (NSNumber *)tnf
