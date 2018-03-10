@@ -1,6 +1,6 @@
-# Titanium NFC Module [![Build Status](https://travis-ci.org/appcelerator-modules/ti.nfc.svg)](https://travis-ci.org/appcelerator-modules/ti.nfc)
+# Titanium NFC Module
 
-This is the NFC Module for Titanium.
+This is the cross-platform NFC Module for Titanium.
 
 ## Contributors
 
@@ -12,5 +12,5 @@ Interested in contributing? Read the [contributors/committer's](https://wiki.app
 
 ## Legal
 
-This module is Copyright (c) 2010-2017 by Appcelerator, Inc. All Rights Reserved. Usage of this module is subject to 
+This module is Copyright (c) 2010-present by Appcelerator, Inc. All Rights Reserved. Usage of this module is subject to 
 the Terms of Service agreement with Appcelerator, Inc.  
