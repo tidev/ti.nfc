@@ -1,6 +1,6 @@
 ---
 name: Modules.Nfc
-summary: Near Field Communication (NFC) module
+summary: Cross platform Near-Field-Communication (NFC) module
 description: |
     This module provides access to Near Field Communication (NFC) functionality, 
     allowing applications to read and write (Android-only) NFC tags. 
@@ -61,30 +61,36 @@ description: |
   
         Add code similar to the following to your tiapp.xml file:
 
-        - Replace occurrences of the activity name with your activity name.
-        - `android:launchMode="singleTask"` is needed so that new intents that result from NFC message dispatching do not start a new activity in your application.
+        - Replace occurrences of the activity name (`Tagviewer`) with your activity name.
+        - Add the NFC permissions to your Android configuration
         - Replace the NFC specific intent filters with filters appropriate for your application.
   
                 <android xmlns:android="http://schemas.android.com/apk/res/android">
                     <manifest>
+                        <!-- Required NFC permissions -->
+                        <uses-permission android:name="android.permission.NFC" />
+                        <uses-feature android:name="android.hardware.nfc" android:required="true" /> 
+                        
+                        <!-- NFC Intent filters -->
                         <application>
                             <activity android:name=".TagviewerActivity"
                              android:label="TagViewer" android:theme="@style/Theme.Titanium"
                              android:configChanges="keyboardHidden|orientation"
                              android:launchMode="singleTask">
                                 <intent-filter>
-                                    <action android:name="android.intent.action.MAIN" />
-                                    <category android:name="android.intent.category.LAUNCHER" />
+                                    <action android:name="android.nfc.action.TECH_DISCOVERED"/>
+                                    <category android:name="android.intent.category.DEFAULT"/>
                                 </intent-filter>
+
                                 <intent-filter>
                                     <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
                                     <category android:name="android.intent.category.DEFAULT"/>
-                                    <data android:mimeType="text/plain"/>
+                                    <data android:mimeType="text/plain" />
                                 </intent-filter>
+
                                 <intent-filter>
-                                    <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+                                    <action android:name="android.nfc.action.TAG_DISCOVERED"/>
                                     <category android:name="android.intent.category.DEFAULT"/>
-                                    <data android:scheme="http"/>
                                 </intent-filter>
                             </activity>
                         </application>
@@ -101,6 +107,11 @@ description: |
         Adapter should be created after the activity has been opened. You can use the window `open` event to know
         when the activity has been opened. 
 
+            if (!nfcAdapter.isEnabled()) {
+                Ti.API.error('NFC is not enabled on this device!');
+                return;
+            }
+
             $.index.addEventListener('open', function(e) {
                 nfcAdapter = nfc.createNfcAdapter({
                     onNdefDiscovered: handleDiscovery,
@@ -114,8 +125,8 @@ description: |
     -   NFC Intents are dispatched to an activity by the Android tag dispatch system. When your activity receives a new intent,
         it must forward the intent to the `onNewIntent` method of the NFC adapter for processing.
 
-            var act = Ti.Android.currentActivity;
-            act.addEventListener('newintent', function(e) {
+            
+            Ti.Android.currentActivity.addEventListener('newintent', function (e) {
                 nfcAdapter.onNewIntent(e.intent);
             });
 
@@ -128,11 +139,12 @@ description: |
         When using foreground dispatching, you must process the `pause` and `resume` events on the activity and enable or disable
         foreground dispatching.
 
-            var act = Ti.Android.currentActivity;
-            act.addEventListener('resume', function(e) {
+            var currentActivity = Ti.Android.currentActivity;
+
+            currentActivity.addEventListener('resume', function(e) {
                 nfcAdapter.enableForegroundDispatch(dispatchFilter);
             });
-            act.addEventListener('pause', function(e) {
+            currentActivity.addEventListener('pause', function(e) {
                 nfcAdapter.disableForegroundDispatch();
             });
 
