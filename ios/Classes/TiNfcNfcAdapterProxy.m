@@ -1,6 +1,6 @@
 /**
  * Ti.NFC
- * Copyright (c) 2009-2017 by Axway Appcelerator. All Rights Reserved.
+ * Copyright (c) 2009-2018 by Axway Appcelerator. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
@@ -45,29 +45,50 @@
   _ndefDiscoveredCallback = callback;
 }
 
+- (void)setOnNdefInvalidated:(KrollCallback *)callback
+{
+  [self replaceValue:callback forKey:@"onNdefInvalidated" notification:NO];
+  _nNdefInvalidated = callback;
+}
+
 #pragma mark NFCNDEFReaderSessionDelegate
 
 - (void)readerSession:(NFCNDEFReaderSession *)session didDetectNDEFs:(NSArray<NFCNDEFMessage *> *)messages
 {
-  NSMutableArray *result = [NSMutableArray arrayWithCapacity:messages.count];
-
-  for (NFCNDEFMessage *message in messages) {
-    [result addObject:[[TiNfcNdefMessageProxy alloc] _initWithPageContext:[self pageContext] andRecords:message.records]];
+  if (!_ndefDiscoveredCallback) {
+    DebugLog(@"[ERROR] Detected NDEF-tags but no \"onNdefDiscovered\" callback specified!");
+    return;
   }
 
-  [_ndefDiscoveredCallback call:@[ @{
-    @"messages" : result
-  } ]
-                     thisObject:self];
+  NSMutableSet<TiNfcNdefMessageProxy *> *result = [NSMutableSet setWithCapacity:messages.count];
+
+  TiThreadPerformOnMainThread(^{
+    for (NFCNDEFMessage *message in messages) {
+      [result addObject:[[TiNfcNdefMessageProxy alloc] _initWithPageContext:[self pageContext] andRecords:message.records]];
+    }
+
+    [_ndefDiscoveredCallback call:@[@{
+      @"messages" : result.allObjects
+    }] thisObject:self];
+  }, NO);
 }
 
 - (void)readerSession:(NFCNDEFReaderSession *)session didInvalidateWithError:(NSError *)error
 {
-  [_ndefDiscoveredCallback call:@[ @{
-    @"error" : [error localizedDescription],
-    @"code" : NUMINTEGER([error code])
-  } ]
-                     thisObject:self];
+  // Make sure to clear the session so it can be recreated on the next attempt
+  _nfcSession = nil;
+
+  if (!_nNdefInvalidated) {
+    return;
+  }
+
+  TiThreadPerformOnMainThread(^{
+    [_nNdefInvalidated call:@[@{
+      @"cancelled": @(error.code == 200),
+      @"message" : [error localizedDescription],
+      @"code" : NUMINTEGER([error code])
+    }] thisObject:self];
+  }, NO);
 }
 
 @end

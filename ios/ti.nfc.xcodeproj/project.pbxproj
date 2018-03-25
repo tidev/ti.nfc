@@ -28,6 +28,7 @@
 		24DE9E1211C5FE74003F90F6 /* TiNfcModuleAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = 24DE9E1011C5FE74003F90F6 /* TiNfcModuleAssets.m */; };
 		AA747D9F0F9514B9006C5449 /* TiNfc_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* TiNfc_Prefix.pch */; };
 		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
+		DB2394562067C0680092DF6D /* CoreNFC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB856C3F1EE98B1700DE4334 /* CoreNFC.framework */; };
 		DB4613971F8CEF2A003956CF /* TiNfcUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = DB4613951F8CEF2A003956CF /* TiNfcUtilities.h */; };
 		DB4613981F8CEF2A003956CF /* TiNfcUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4613961F8CEF2A003956CF /* TiNfcUtilities.m */; };
 		DB856C461EE98C3B00DE4334 /* TiNfcNfcAdapterProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = DB856C441EE98C3B00DE4334 /* TiNfcNfcAdapterProxy.h */; };
@@ -73,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB2394562067C0680092DF6D /* CoreNFC.framework in Frameworks */,
 				AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -277,6 +279,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DSTROOT = /tmp/TiNfc.dst;
+				ENABLE_BITCODE = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -321,6 +324,7 @@
 				CLANG_WARN_STRICT_PROTOTYPES = NO;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = NO;
 				DSTROOT = /tmp/TiNfc.dst;
+				ENABLE_BITCODE = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
