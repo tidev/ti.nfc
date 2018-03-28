@@ -18,6 +18,8 @@
 
 #pragma mark Public API's
 
+- (NSNumber *)isEnabled:(id)unused;
+
 - (void)begin:(id)unused;
 
 - (void)invalidate:(id)unused;

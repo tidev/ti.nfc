@@ -61,6 +61,11 @@ var btn = Ti.UI.createButton({
 });
 
 btn.addEventListener('click', function() {
+  if (!nfcAdapter.isEnabled()) {
+    Ti.API.error('This device does not support NFC capabilities!');
+    return;
+  }
+
   nfcAdapter.begin(); // This is required for iOS only. Use "invalidate()" to invalidate a session.
 });
 

@@ -17,6 +17,12 @@
 
 - (NFCNDEFReaderSession *)nfcSession
 {
+  // Guard older iOS versions already. The developer will use "isEnabled" later to actually guard the functionality
+  // e.g. an iPad running iOS 11, but without NFC capabilities
+  if (![TiUtils isIOS11OrGreater]) {
+    return nil;
+  }
+
   if (_nfcSession == nil) {
     _nfcSession = [[NFCNDEFReaderSession alloc] initWithDelegate:self
                                                            queue:nil
@@ -27,6 +33,15 @@
 }
 
 #pragma mark Public API's
+
+- (NSNumber *)isEnabled:(id)unused
+{
+  if (![TiUtils isIOS11OrGreater]) {
+    return @(NO);
+  }
+
+  return @([NFCNDEFReaderSession readingAvailable]);
+}
 
 - (void)begin:(id)unused
 {
