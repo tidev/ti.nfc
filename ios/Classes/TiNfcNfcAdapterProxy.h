@@ -1,6 +1,6 @@
 /**
  * Ti.NFC
- * Copyright (c) 2009-2017 by Axway Appcelerator. All Rights Reserved.
+ * Copyright (c) 2009-2018 by Axway Appcelerator. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
@@ -13,6 +13,7 @@
 @interface TiNfcNfcAdapterProxy : TiProxy <NFCNDEFReaderSessionDelegate> {
   NFCNDEFReaderSession *_nfcSession;
   KrollCallback *_ndefDiscoveredCallback;
+  KrollCallback *_nNdefInvalidated;
 }
 
 #pragma mark Public API's
@@ -22,6 +23,8 @@
 - (void)invalidate:(id)unused;
 
 - (void)setOnNdefDiscovered:(KrollCallback *)callback;
+
+- (void)setOnNdefInvalidated:(KrollCallback *)callback;
 
 @end
 

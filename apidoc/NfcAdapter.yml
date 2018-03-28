@@ -172,7 +172,13 @@ properties:
         See also:
         [ACTION_NDEF_DISCOVERED](http://developer.android.com/reference/android/nfc/NfcAdapter.html#ACTION_NDEF_DISCOVERED)
     type: Callback<NdefDiscovered>
-    since: "1.0.0"
+    since: { android: "1.0.0", iphone: "2.0.0"}
+
+  - name: onNdefInvalidated
+    summary: Callback function to execute when a session was invalidated (either errored by the system or cancelled by the user).
+    type: Callback<NdefInvalidated>
+    since: "2.0.1"
+    platforms: [iphone]
 
   - name: onTagDiscovered
     summary: Callback function to execute when a tag is discovered.
@@ -299,6 +305,22 @@ examples:
                 alert('NFC is not enabled on this device');
                 return;
             }
+
+---
+name: NdefInvalidated
+since: "2.0.1"
+platforms: [iphone]
+summary: Argument passed to the callback when an NDEF session is invalidated.
+properties:
+  - name: cancelled
+    summary: Boolean value indicating whether or not the session was cancelled or not.
+    type: Boolean
+  - name: message
+    summary: Message describing the invalidation.
+    type: String
+  - name: code
+    summary: Code indicating the exact invalidation case.
+    type: Number
 
 ---
 name: NdefDiscovered
