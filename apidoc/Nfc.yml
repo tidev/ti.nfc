@@ -1,6 +1,8 @@
 ---
 name: Modules.Nfc
-summary: Cross platform Near-Field-Communication (NFC) module
+summary: |
+    A cross-platform Near-Field-Communication (NFC) module for iOS and Android. 
+    Download the latest release via [Github](https://github.com/appcelerator-modules/ti.nfc/releases).
 description: |
     This module provides access to Near Field Communication (NFC) functionality, 
     allowing applications to read and write (Android-only) NFC tags. 
@@ -19,6 +21,7 @@ description: |
     ### Requirements
 
     - **Android**
+      - Android 4.0 (API 14) and later
       - An NFC capable device
     
     - **iOS**
@@ -29,14 +32,6 @@ description: |
 
     -   View the [Using Titanium Modules](http://docs.appcelerator.com/titanium/latest/#!/guide/Using_Titanium_Modules) 
         document for instructions on getting started with using this module in your application.
-
-    ### Accessing the Module
-
-    -   Use `require` to access this module from JavaScript:
-
-            var nfc = require('ti.nfc');
-
-        The `nfc` variable is a reference to the Module object.
         
     ### Configure iOS: Capabilities and Provisioning Profiles
     
@@ -48,7 +43,6 @@ description: |
             </array>
 
     -   Provisioning Profile entitled with the NFC Tag Reading capability
-    
 
     ### Configure Android: Tag Dispatching and Intent Filters
 
@@ -100,6 +94,14 @@ description: |
         Note that if you are using [foreground dispatching](http://developer.android.com/guide/topics/connectivity/nfc/advanced-nfc.html#foreground-dispatch)
         you do not need to define intent filters in the application's tiapp.xml file.
 
+    ### Accessing the Module
+
+    -   Use `require` to access this module from JavaScript:
+
+            var nfc = require('ti.nfc');
+
+        The `nfc` variable is a reference to the Module object.
+
     ### Creating an Adapter
 
     -   The NFC adapter gives you access to the features of the NFC device. The NFC adapter proxy is always
@@ -107,17 +109,17 @@ description: |
         Adapter should be created after the activity has been opened. You can use the window `open` event to know
         when the activity has been opened. 
 
-            if (!nfcAdapter.isEnabled()) {
-                Ti.API.error('NFC is not enabled on this device!');
-                return;
-            }
-
             $.index.addEventListener('open', function(e) {
                 nfcAdapter = nfc.createNfcAdapter({
                     onNdefDiscovered: handleDiscovery,
                     onTagDiscovered: handleDiscovery, // Android-only
                     onTechDiscovered: handleDiscovery // Android-only
                 });
+
+                if (!nfcAdapter.isEnabled()) {
+                    Ti.API.error('NFC is not enabled on this device!');
+                    return;
+                }
             });
 
     ### Handling Intents (Android)
@@ -163,7 +165,7 @@ description: |
 
 extends: Titanium.Module
 since: {android: "1.0.0", iphone: "2.0.0"}
-osver: {ios: {min: "11.0"}}
+osver: {ios: {min: "11.0"}, android: {min: "4.0"}}
 platforms: [android, iphone]
 excludes:
     methods: [addEventListener, fireEvent, removeEventListener, applyProperties]
