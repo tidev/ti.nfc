@@ -21,7 +21,7 @@ description: |
     ### Requirements
 
     - **Android**
-      - Android 4.0 (API 14) and later
+      - Android 4.1 (API 16) and later
       - An NFC capable device
     
     - **iOS**
@@ -69,8 +69,7 @@ description: |
                         <application>
                             <activity android:name=".TagviewerActivity"
                              android:label="TagViewer" android:theme="@style/Theme.Titanium"
-                             android:configChanges="keyboardHidden|orientation"
-                             android:launchMode="singleTask">
+                             android:configChanges="keyboardHidden|orientation">
                                 <intent-filter>
                                     <action android:name="android.nfc.action.TECH_DISCOVERED"/>
                                     <category android:name="android.intent.category.DEFAULT"/>
@@ -706,21 +705,23 @@ examples:
                 // It's possible that the device does not support NFC. Check it here
                 // before we go any further. For iOS, right now this is decided 
                 // internally by the system. 
-                if (OS_ANDROID && !nfcAdapter.isEnabled()) {
-                    alert('NFC is not enabled on this device');
-                    return;
+                if (OS_ANDROID) {
+                    if (!nfcAdapter.isEnabled()) {
+                        alert('NFC is not enabled on this device');
+                        return;
+                    }
+                    Ti.Android.currentActivity.addEventListener('newintent', function (e) {
+                        nfcAdapter.onNewIntent(e.intent);
+                    });
+                    
+                // iOS needs to be told to scan
+                } else if (OS_IOS) {
+                    nfcAdapter.begin();
                 }
             });
             
             function handleDiscovery(e) {
-                // Handle NFC discovery
-            }
-            
-            function beginScanning() {
-                // Android starts automatically
-                if (OS_IOS) {
-                    nfcAdapter.begin();
-                }
+                alert(JSON.stringify(e, null, 2));
             }
 
             $.index.open();
