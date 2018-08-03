@@ -35,7 +35,7 @@ properties:
 
   - name: techLists
     summary: The tech lists used to perform matching for dispatching the ACTION_TECH_DISCOVERED intent.
-    type: Array<Array<String>>
+    type: Array<String>
     optional: true
 
 examples:
