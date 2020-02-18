@@ -7,3 +7,4 @@ ios/ti.nfc-iphone-*.zip
 /android/java-sources.txt
 ios/ti.nfc.xcodeproj/project.xcworkspace/xcshareddata
 .DS_Store
+/ios/dist
