@@ -124,7 +124,7 @@ name: Modules.Nfc.NdefRecordExternal
 summary: Represents an immutable NDEF record containing external (application-specific) data.
 description: |
     See also:
-    [createExternal](http://developer.android.com/reference/android/nfc/NdefRecord.html#createExternal(java.lang.String, java.lang.String, byte[]))
+    [createExternal](http://developer.android.com/reference/android/nfc/NdefRecord.html#createExternal(java.lang.String,%20java.lang.String,%20byte[]))
 extends: Modules.Nfc.NdefRecord
 since: "1.0.0"
 platforms: [android]
@@ -146,7 +146,7 @@ name: Modules.Nfc.NdefRecordMedia
 summary: Represents an immutable NDEF record containing MIME data.
 description: |
     See also:
-    [createMime](http://developer.android.com/reference/android/nfc/NdefRecord.html#createMime(java.lang.String, byte[]))
+    [createMime](http://developer.android.com/reference/android/nfc/NdefRecord.html#createMime(java.lang.String,%20byte[]))
 extends: Modules.Nfc.NdefRecord
 since: "1.0.0"
 platforms: [android]

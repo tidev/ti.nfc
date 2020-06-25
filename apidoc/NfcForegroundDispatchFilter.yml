@@ -10,7 +10,7 @@ description: |
     Use the <Modules.Nfc.createNfcForegroundDispatchFilter> method to create a foreground dispatch filter.
 
     See also:
-    [enableForegroundDispatch](http://developer.android.com/reference/android/nfc/NfcAdapter.html#enableForegroundDispatch(android.app.Activity, android.app.PendingIntent, android.content.IntentFilter[], java.lang.String[][]))
+    [enableForegroundDispatch](http://developer.android.com/reference/android/nfc/NfcAdapter.html#enableForegroundDispatch(android.app.Activity,%20android.app.PendingIntent,%20android.content.IntentFilter[],%20java.lang.String[][]))
 extends: Titanium.Proxy
 since: "1.0.0"
 platforms: [android]
