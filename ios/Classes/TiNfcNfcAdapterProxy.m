@@ -77,15 +77,18 @@
 
   NSMutableSet<TiNfcNdefMessageProxy *> *result = [NSMutableSet setWithCapacity:messages.count];
 
-  TiThreadPerformOnMainThread(^{
-    for (NFCNDEFMessage *message in messages) {
-      [result addObject:[[TiNfcNdefMessageProxy alloc] _initWithPageContext:[self pageContext] andRecords:message.records]];
-    }
+  TiThreadPerformOnMainThread(
+      ^{
+        for (NFCNDEFMessage *message in messages) {
+          [result addObject:[[TiNfcNdefMessageProxy alloc] _initWithPageContext:[self pageContext] andRecords:message.records]];
+        }
 
-    [_ndefDiscoveredCallback call:@[@{
-      @"messages" : result.allObjects
-    }] thisObject:self];
-  }, NO);
+        [_ndefDiscoveredCallback call:@[ @{
+          @"messages" : result.allObjects
+        } ]
+                           thisObject:self];
+      },
+      NO);
 }
 
 - (void)readerSession:(NFCNDEFReaderSession *)session didInvalidateWithError:(NSError *)error
@@ -97,13 +100,16 @@
     return;
   }
 
-  TiThreadPerformOnMainThread(^{
-    [_nNdefInvalidated call:@[@{
-      @"cancelled": @(error.code == 200),
-      @"message" : [error localizedDescription],
-      @"code" : NUMINTEGER([error code])
-    }] thisObject:self];
-  }, NO);
+  TiThreadPerformOnMainThread(
+      ^{
+        [_nNdefInvalidated call:@[ @{
+          @"cancelled" : @(error.code == 200),
+          @"message" : [error localizedDescription],
+          @"code" : NUMINTEGER([error code])
+        } ]
+                     thisObject:self];
+      },
+      NO);
 }
 
 @end
