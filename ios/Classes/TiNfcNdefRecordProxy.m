@@ -8,9 +8,9 @@
 #if IS_IOS_11
 
 #import "TiNfcNdefRecordProxy.h"
+#import "TiBase.h"
 #import "TiBlob.h"
 #import "TiNfcUtilities.h"
-#import "TiBase.h"
 
 @implementation TiNfcNdefRecordProxy
 
