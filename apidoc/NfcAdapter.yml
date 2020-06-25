@@ -21,7 +21,6 @@ methods:
     summary: Return true if this NFC Adapter has any features enabled.
     returns:
         type: Boolean
-    platforms: [android]
 
   - name: isNdefPushEnabled
     since: "1.0.0"
@@ -29,7 +28,6 @@ methods:
     summary: Return true if the NDEF Push (Android Beam) feature is enabled.
     returns:
         type: Boolean
-    platforms: [android]
 
   - name: onNewIntent
     since: "1.0.0"  
@@ -47,13 +45,10 @@ methods:
       - name: intent
         summary: The Android intent received by your application
         type: Titanium.Android.Intent
-    platforms: [android]
-
   - name: disableForegroundDispatch
     since: "1.0.0"
     platforms: [android]    
     summary: Disable foreground dispatch to the current activity.
-    platforms: [android]
 
   - name: disableForegroundNdefPush
     since: "1.0.0"
@@ -61,7 +56,6 @@ methods:
     summary: Disable NDEF message push over P2P.
     description: |
         This method was deprecated in API level 14. Use `setNdefPushMessage` instead.
-    platforms: [android]
 
   - name: enableForegroundDispatch
     since: "1.0.0"
@@ -78,7 +72,6 @@ methods:
       - name: dispatchFilter
         summary: A filter specifying intent, intent filters and technology lists used to match dispatch intents.
         type: Modules.Nfc.NfcForegroundDispatchFilter
-    platforms: [android]
 
   - name: enableForegroundNdefPush
     since: "1.0.0"
@@ -90,7 +83,6 @@ methods:
       - name: message
         summary: An NDEF message to push over NFC.
         type: Modules.Nfc.NdefMessage
-    platforms: [android]
 
   - name: setNdefPushMessage
     since: "1.0.0"
@@ -103,7 +95,6 @@ methods:
       - name: message
         summary: An NDEF message to push over NFC, or null to disable.
         type: Modules.Nfc.NdefMessage
-    platforms: [android]
 
   - name: setBeamPushUris
     since: "1.2.0"
@@ -116,7 +107,6 @@ methods:
       - name: Uris
         summary: An array of Uri(s) to push over Android Beam.
         type: Array<String>
-    platforms: [android]
 
 properties:
   - name: invalidateAfterFirstRead
