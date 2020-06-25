@@ -139,4 +139,10 @@ public class NfcModule extends KrollModule
 		super();
 		Log.d(NfcConstants.LCAT, "NfcModule Loaded");
 	}
+
+	@Override
+	public String getApiName()
+	{
+		return "Ti.NFC";
+	}
 }
