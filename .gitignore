@@ -1,8 +1,14 @@
 ios/ti.nfc.xcodeproj/xcuserdata/*
 ios/ti.nfc.xcodeproj/project.xcworkspace/xcuserdata/*
+ios/ti.nfc.xcodeproj/project.xcworkspace/xcshareddata
 /ios/metadata.json
 /ios/build
-ios/ti.nfc-iphone-*.zip
+/ios/dist
+/ios/ti.nfc-iphone-*.zip
+
 /android/build
+/android/dist
 /android/java-sources.txt
-ios/ti.nfc.xcodeproj/project.xcworkspace/xcshareddata
+
+node_modules/
+TESTS-*.xml
