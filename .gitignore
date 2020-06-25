@@ -9,6 +9,9 @@ ios/ti.nfc.xcodeproj/project.xcworkspace/xcshareddata
 /android/build
 /android/dist
 /android/java-sources.txt
+android/.gradle/
+android/.project
+android/.settings/
 
 node_modules/
 TESTS-*.xml
