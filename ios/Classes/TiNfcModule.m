@@ -27,6 +27,11 @@
   return @"ti.nfc";
 }
 
+- (NSString *)apiName
+{
+  return @"Ti.NFC";
+}
+
 #pragma mark Lifecycle
 
 - (void)startup
