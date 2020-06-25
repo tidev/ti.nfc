@@ -2,7 +2,6 @@
 name: Modules.Nfc.NdefRecord
 summary: Represents an immutable NDEF record.
 description: |
-
     **Android**:
     The NDEF record is the base type for more type-specific NDEF records. You will generally
     work with the type-specific NDEF records (e.g. NdefRecordText, NdefRecordUri, etc.) which have
@@ -98,7 +97,6 @@ description: |
 
     See also:
     [createApplicationRecord](http://developer.android.com/reference/android/nfc/NdefRecord.html#createApplicationRecord(java.lang.String))
-
 extends: Modules.Nfc.NdefRecord
 since: "1.0.0"
 platforms: [android]
