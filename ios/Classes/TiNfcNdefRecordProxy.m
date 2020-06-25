@@ -10,6 +10,7 @@
 #import "TiNfcNdefRecordProxy.h"
 #import "TiBlob.h"
 #import "TiNfcUtilities.h"
+#import "TiBase.h"
 
 @implementation TiNfcNdefRecordProxy
 
