@@ -8,40 +8,37 @@
 
 package ti.nfc.tech;
 
+import android.nfc.Tag;
+import android.nfc.tech.TagTechnology;
 import java.io.IOException;
-
 import org.appcelerator.kroll.KrollDict;
 import org.appcelerator.kroll.KrollProxy;
 import org.appcelerator.kroll.annotations.Kroll;
-
 import ti.nfc.NfcConstants;
 import ti.nfc.NfcTagProxy;
 
-import android.nfc.Tag;
-import android.nfc.tech.TagTechnology;
-
-@Kroll.proxy(propertyAccessors = {
-	NfcConstants.PROPERTY_TAG
-})
-public abstract class TagTechnologyProxy extends KrollProxy 
+@Kroll.proxy(propertyAccessors = { NfcConstants.PROPERTY_TAG })
+public abstract class TagTechnologyProxy extends KrollProxy
 {
-	public TagTechnologyProxy() {
+	public TagTechnologyProxy()
+	{
 		super();
 	}
-	
+
 	protected abstract void setTag(Tag tag);
 	protected abstract TagTechnology getTag();
-	
+
 	@Override
-	public void handleCreationDict(KrollDict kd) {
+	public void handleCreationDict(KrollDict kd)
+	{
 		if (kd.containsKey(NfcConstants.PROPERTY_TAG)) {
 			Object tag = kd.get(NfcConstants.PROPERTY_TAG);
 			if (tag instanceof NfcTagProxy) {
-				NfcTagProxy nfcTag = (NfcTagProxy)tag;
+				NfcTagProxy nfcTag = (NfcTagProxy) tag;
 				setTag(nfcTag.getTag());
 			}
 		}
-		
+
 		super.handleCreationDict(kd);
 	}
 
@@ -50,41 +47,46 @@ public abstract class TagTechnologyProxy extends KrollProxy
 	{
 		if (name.equals(NfcConstants.PROPERTY_TAG)) {
 			if (value instanceof NfcTagProxy) {
-				NfcTagProxy nfcTag = (NfcTagProxy)value;
+				NfcTagProxy nfcTag = (NfcTagProxy) value;
 				setTag(nfcTag.getTag());
 			}
-		} 
-		
+		}
+
 		super.onPropertyChanged(name, value);
 	}
-	
-	private TagTechnology getTagInstance() throws IllegalStateException {
+
+	private TagTechnology getTagInstance() throws IllegalStateException
+	{
 		TagTechnology tag = getTag();
 		if (tag == null) {
 			throw new IllegalStateException("No tag created for specified technology.");
 		}
 		return tag;
 	}
-	
+
 	@Kroll.method
-	public boolean isValid() {
+	public boolean isValid()
+	{
 		return (getTag() != null);
 	}
-	
+
 	@Kroll.method
-	public void close() throws IOException {
+	public void close() throws IOException
+	{
 		TagTechnology tag = getTagInstance();
 		tag.close();
 	}
-	
+
 	@Kroll.method
-	public void connect() throws IOException {
+	public void connect() throws IOException
+	{
 		TagTechnology tag = getTagInstance();
 		tag.connect();
 	}
-	
+
 	@Kroll.method
-	public boolean isConnected() {
+	public boolean isConnected()
+	{
 		TagTechnology tag = getTagInstance();
 		return tag.isConnected();
 	}

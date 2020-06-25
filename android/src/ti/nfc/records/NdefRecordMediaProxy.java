@@ -8,31 +8,30 @@
 
 package ti.nfc.records;
 
+import android.nfc.NdefRecord;
 import org.appcelerator.kroll.annotations.Kroll;
 import org.appcelerator.titanium.TiBlob;
 import org.appcelerator.titanium.util.TiConvert;
-
-import android.nfc.NdefRecord;
-
 import ti.nfc.NfcConstants;
 import ti.nfc.NfcModule;
 
-@Kroll.proxy(creatableInModule = NfcModule.class, propertyAccessors = {
-	NfcConstants.PROPERTY_MIME_TYPE
-})
-public class NdefRecordMediaProxy extends NdefRecordProxy 
+@Kroll.proxy(creatableInModule = NfcModule.class, propertyAccessors = { NfcConstants.PROPERTY_MIME_TYPE })
+public class NdefRecordMediaProxy extends NdefRecordProxy
 {
-	public NdefRecordMediaProxy() {
+	public NdefRecordMediaProxy()
+	{
 		super();
 	}
 
-	private NdefRecordMediaProxy(NdefRecord record) {
+	private NdefRecordMediaProxy(NdefRecord record)
+	{
 		super(record);
 	}
-	
+
 	@Override
-	public NdefRecord getRecord() {
-		TiBlob blob = (TiBlob)getProperty(NfcConstants.PROPERTY_PAYLOAD);
+	public NdefRecord getRecord()
+	{
+		TiBlob blob = (TiBlob) getProperty(NfcConstants.PROPERTY_PAYLOAD);
 		byte[] data;
 		if ((blob == null) || !(blob instanceof TiBlob)) {
 			data = new byte[0];
@@ -43,20 +42,22 @@ public class NdefRecordMediaProxy extends NdefRecordProxy
 		if (mimeType == null) {
 			mimeType = blob.getMimeType();
 		}
-		
+
 		return NdefRecordApi.createMime(mimeType, data);
 	}
-	
-	public static NdefRecordMediaProxy parse(NdefRecord record) {
+
+	public static NdefRecordMediaProxy parse(NdefRecord record)
+	{
 		NdefRecordMediaProxy proxy = new NdefRecordMediaProxy(record);
-		
+
 		proxy.setProperty(NfcConstants.PROPERTY_MIME_TYPE, proxy.getType());
 		proxy.setProperty(NfcConstants.PROPERTY_PAYLOAD, TiBlob.blobFromData(record.getPayload(), proxy.getType()));
-		
+
 		return proxy;
 	}
-	
-	public static boolean isValid(NdefRecord record) {
+
+	public static boolean isValid(NdefRecord record)
+	{
 		short tnf = record.getTnf();
 		return (tnf == NdefRecord.TNF_MIME_MEDIA);
 	}

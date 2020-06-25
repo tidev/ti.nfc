@@ -8,9 +8,10 @@
 
 package ti.nfc;
 
-public class NfcConstants {
+public class NfcConstants
+{
 	public static final String LCAT = "Nfc Module";
-	
+
 	public static final String PROPERTY_ACTION = "action";
 	public static final String PROPERTY_DOMAIN = "domain";
 	public static final String PROPERTY_DOMAIN_TYPE = "domainType";

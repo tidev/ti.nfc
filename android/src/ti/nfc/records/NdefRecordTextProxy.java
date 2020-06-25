@@ -7,35 +7,33 @@
  */
 
 package ti.nfc.records;
+import android.nfc.NdefRecord;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.Locale;
-
 import org.appcelerator.kroll.annotations.Kroll;
 import org.appcelerator.titanium.util.TiConvert;
-
 import ti.nfc.NfcConstants;
 import ti.nfc.NfcModule;
 
-import android.nfc.NdefRecord;
-
-@Kroll.proxy(creatableInModule = NfcModule.class, propertyAccessors = {
-	NfcConstants.PROPERTY_TEXT,
-	NfcConstants.PROPERTY_LANGUAGE_CODE,
-	NfcConstants.PROPERTY_ENCODING
-})
-public class NdefRecordTextProxy extends NdefRecordProxy 
+@Kroll.proxy(creatableInModule = NfcModule.class,
+			 propertyAccessors = { NfcConstants.PROPERTY_TEXT, NfcConstants.PROPERTY_LANGUAGE_CODE,
+								   NfcConstants.PROPERTY_ENCODING })
+public class NdefRecordTextProxy extends NdefRecordProxy
 {
-	public NdefRecordTextProxy() {
+	public NdefRecordTextProxy()
+	{
 		super();
 	}
-	
-	private NdefRecordTextProxy(NdefRecord record) {
+
+	private NdefRecordTextProxy(NdefRecord record)
+	{
 		super(record);
 	}
 
 	@Override
-	public NdefRecord getRecord() {
+	public NdefRecord getRecord()
+	{
 		String text = TiConvert.toString(getProperty(NfcConstants.PROPERTY_TEXT));
 		String language = TiConvert.toString(getProperty(NfcConstants.PROPERTY_LANGUAGE_CODE));
 		String encoding = TiConvert.toString(getProperty(NfcConstants.PROPERTY_ENCODING));
@@ -46,16 +44,17 @@ public class NdefRecordTextProxy extends NdefRecordProxy
 		if (encoding == null) {
 			encoding = NfcModule.ENCODING_UTF8;
 		}
-		
+
 		return NdefRecordApi.createText(text, language, encoding);
 	}
-	
-	public static NdefRecordTextProxy parse(NdefRecord record) {
+
+	public static NdefRecordTextProxy parse(NdefRecord record)
+	{
 		try {
 			NdefRecordTextProxy proxy = new NdefRecordTextProxy(record);
 
 			byte[] payload = record.getPayload();
-            /*
+			/*
              * payload[0] contains the "Status Byte Encodings" field, per the
              * NFC Forum "Text Record Type Definition" section 3.2.1.
              *
@@ -71,9 +70,9 @@ public class NdefRecordTextProxy extends NdefRecordProxy
 			String textEncoding = ((payload[0] & 0200) == 0) ? "UTF-8" : "UTF-16";
 			int languageCodeLength = payload[0] & 0077;
 			String languageCode = new String(payload, 1, languageCodeLength, "US-ASCII");
-			String text = new String(payload, languageCodeLength + 1,
-					payload.length - languageCodeLength - 1, textEncoding);
-			
+			String text =
+				new String(payload, languageCodeLength + 1, payload.length - languageCodeLength - 1, textEncoding);
+
 			proxy.setProperty(NfcConstants.PROPERTY_TEXT, text);
 			proxy.setProperty(NfcConstants.PROPERTY_LANGUAGE_CODE, languageCode);
 			proxy.setProperty(NfcConstants.PROPERTY_ENCODING, textEncoding);
@@ -83,10 +82,10 @@ public class NdefRecordTextProxy extends NdefRecordProxy
 			throw new IllegalArgumentException(e);
 		}
 	}
-	
-	public static boolean isValid(NdefRecord record) {
+
+	public static boolean isValid(NdefRecord record)
+	{
 		short tnf = record.getTnf();
-		return ((tnf == NdefRecord.TNF_WELL_KNOWN) &&
-				(Arrays.equals(record.getType(), NdefRecord.RTD_TEXT)));
+		return ((tnf == NdefRecord.TNF_WELL_KNOWN) && (Arrays.equals(record.getType(), NdefRecord.RTD_TEXT)));
 	}
 }
