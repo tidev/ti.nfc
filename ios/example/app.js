@@ -1,6 +1,6 @@
-/* 
+/*
  * NFC Tag Viewer Example Application
- * 
+ *
  * This application demonstrates how to use the iOS 11+ NFC module.
  *
  * Ensure to include the required entitlements to the <ios> section of your tiapp.xml:
@@ -26,7 +26,7 @@
  *    </plist>
  *
  * Finally, ensure to enable the "NFC Tag Reading" capability in your provisioning profile
- * by checking it in the Apple Developer Center (https://developer.apple.com). 
+ * by checking it in the Apple Developer Center (https://developer.apple.com).
  */
 
 var nfc = require('ti.nfc');
@@ -57,7 +57,13 @@ var win = Ti.UI.createWindow({
 });
 
 var btn = Ti.UI.createButton({
-  title: 'Start Search'
+  title: 'Start Search',
+    top: 200
+});
+
+var btnTagReader = Ti.UI.createButton({
+  title: 'Start detecting different tags',
+    bottom: 100
 });
 
 btn.addEventListener('click', function() {
@@ -65,9 +71,14 @@ btn.addEventListener('click', function() {
     Ti.API.error('This device does not support NFC capabilities!');
     return;
   }
-
   nfcAdapter.begin(); // This is required for iOS only. Use "invalidate()" to invalidate a session.
 });
 
-win.add(btn);
+btnTagReader.addEventListener('click', function() {
+    var devices = require('NFCTagReaderSession.js');
+    var devicePage = new devices.deviceWin();
+        devicePage.open();
+});
+
+win.add(btn,btnTagReader);
 win.open();

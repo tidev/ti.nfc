@@ -19,7 +19,7 @@
 {
   // Guard older iOS versions already. The developer will use "isEnabled" later to actually guard the functionality
   // e.g. an iPad running iOS 11, but without NFC capabilities
-  if (![TiUtils isIOS11OrGreater]) {
+  if (![TiUtils isIOSVersionOrGreater:@"11.0"]) {
     return nil;
   }
 
@@ -36,7 +36,7 @@
 
 - (NSNumber *)isEnabled:(id)unused
 {
-  if (![TiUtils isIOS11OrGreater]) {
+  if (![TiUtils isIOSVersionOrGreater:@"11.0"]) {
     return @(NO);
   }
 
