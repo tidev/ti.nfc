@@ -16,6 +16,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSNumber *)isConnected:(id)args;
 
+- (void)close:(id)unused;
+
+- (void)restartPolling:(id)unused;
+
+- (NSNumber *)isEnabled:(id)unused;
+
+
 @end
 
 NS_ASSUME_NONNULL_END
