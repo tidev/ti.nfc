@@ -9,6 +9,7 @@
 #import "TiBase.h"
 #import "TiHost.h"
 #import "TiUtils.h"
+#import "ti_nfc-Swift.h"
 #if IS_IOS_11
 #import <CoreNFC/CoreNFC.h>
 #endif
@@ -37,7 +38,7 @@
 - (void)startup
 {
   [super startup];
-
+    NSLog(@"[DEBUG] moduleGUID->%@", [[[TiBLEUtils alloc] init] simpleTest]);
   NSLog(@"[DEBUG] %@ loaded", self);
 }
 
