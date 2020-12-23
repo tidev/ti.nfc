@@ -39,6 +39,8 @@
 		DBF688381EEB4CB300009357 /* TiNfcNdefRecordProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = DBF688361EEB4CB300009357 /* TiNfcNdefRecordProxy.m */; };
 		E22E2A2725808C33004C52F1 /* TagTechnologyProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = E22E2A2525808C33004C52F1 /* TagTechnologyProxy.h */; };
 		E22E2A2825808C33004C52F1 /* TagTechnologyProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = E22E2A2625808C33004C52F1 /* TagTechnologyProxy.m */; };
+		E22E2A372580B206004C52F1 /* NativeTagTechnologyProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = E22E2A352580B206004C52F1 /* NativeTagTechnologyProxy.h */; };
+		E22E2A382580B206004C52F1 /* NativeTagTechnologyProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = E22E2A362580B206004C52F1 /* NativeTagTechnologyProxy.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +73,8 @@
 		DBF688361EEB4CB300009357 /* TiNfcNdefRecordProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TiNfcNdefRecordProxy.m; path = Classes/TiNfcNdefRecordProxy.m; sourceTree = "<group>"; };
 		E22E2A2525808C33004C52F1 /* TagTechnologyProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TagTechnologyProxy.h; path = Classes/TagTechnologyProxy.h; sourceTree = "<group>"; };
 		E22E2A2625808C33004C52F1 /* TagTechnologyProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TagTechnologyProxy.m; path = Classes/TagTechnologyProxy.m; sourceTree = "<group>"; };
+		E22E2A352580B206004C52F1 /* NativeTagTechnologyProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NativeTagTechnologyProxy.h; path = Classes/NativeTagTechnologyProxy.h; sourceTree = "<group>"; };
+		E22E2A362580B206004C52F1 /* NativeTagTechnologyProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = NativeTagTechnologyProxy.m; path = Classes/NativeTagTechnologyProxy.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +176,8 @@
 			children = (
 				E22E2A2525808C33004C52F1 /* TagTechnologyProxy.h */,
 				E22E2A2625808C33004C52F1 /* TagTechnologyProxy.m */,
+				E22E2A352580B206004C52F1 /* NativeTagTechnologyProxy.h */,
+				E22E2A362580B206004C52F1 /* NativeTagTechnologyProxy.m */,
 			);
 			name = "NFC Proxy class";
 			sourceTree = "<group>";
@@ -186,6 +192,7 @@
 				AA747D9F0F9514B9006C5449 /* TiNfc_Prefix.pch in Headers */,
 				DB4613971F8CEF2A003956CF /* TiNfcUtilities.h in Headers */,
 				DBF688331EEB4B3500009357 /* TiNfcNdefMessageProxy.h in Headers */,
+				E22E2A372580B206004C52F1 /* NativeTagTechnologyProxy.h in Headers */,
 				24DD6CF91134B3F500162E58 /* TiNfcModule.h in Headers */,
 				E22E2A2725808C33004C52F1 /* TagTechnologyProxy.h in Headers */,
 				DB856C461EE98C3B00DE4334 /* TiNfcNfcAdapterProxy.h in Headers */,
@@ -264,6 +271,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E22E2A382580B206004C52F1 /* NativeTagTechnologyProxy.m in Sources */,
 				24DD6CFA1134B3F500162E58 /* TiNfcModule.m in Sources */,
 				DBF688381EEB4CB300009357 /* TiNfcNdefRecordProxy.m in Sources */,
 				DB856C471EE98C3B00DE4334 /* TiNfcNfcAdapterProxy.m in Sources */,
