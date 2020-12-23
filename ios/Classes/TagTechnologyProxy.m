@@ -14,24 +14,11 @@
 
 #pragma mark Public API's
 
-- (void)connect:(id)unused
+- (void)connect:(id)args
 {
 }
 
-- (void)close:(id)unused
-{
-}
-
-- (void)restartPolling:(id)unused
-{
-}
-
-- (NSNumber *)isConnected:(id)unused
-{
-  return [NSNumber numberWithBool:NO];
-}
-
-- (NSNumber *)isEnabled:(id)unused
+- (NSNumber *)isConnected:(id)args
 {
   return [NSNumber numberWithBool:NO];
 }

@@ -12,15 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TagTechnology : TiProxy
 
-- (void)connect:(id)unused;
+- (void)connect:(id)args;
 
-- (void)close:(id)unused;
-
-- (void)restartPolling:(id)unused;
-
-- (NSNumber *)isEnabled:(id)unused;
-
-- (NSNumber *)isConnected:(id)unused;
+- (NSNumber *)isConnected:(id)args;
 
 @end
 
