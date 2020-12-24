@@ -23,18 +23,4 @@
   return [NSNumber numberWithBool:NO];
 }
 
-- (void)close:(id)unused
-{
-}
-
-- (void)restartPolling:(id)unused
-{
-}
-
-
-- (NSNumber *)isEnabled:(id)unused
-{
-  return;
-}
-
 @end

@@ -7,6 +7,7 @@
 
 #import "NativeTagTechnologyProxy.h"
 #import "TiBlob.h"
+#import "TiNFCTagProxy.h"
 #import "TiNfcUtilities.h"
 #import "TiUtils.h"
 
@@ -27,9 +28,7 @@
         } else {
           [self fireEvent:@"didDetectTags"
                withObject:@{
-                 @"tag" : tag,
-                 @"errorCode" : NUMINTEGER([error code]),
-                 @"errorDescription" : [error localizedDescription],
+                 @"tag" : [[TiNFCTagProxy alloc] _initWithPageContext:[self pageContext] andTag:tag]
                }];
         }
       }];
@@ -37,11 +36,10 @@
 
 - (NSNumber *)isConnected:(id)unused
 {
-  if (session.connectedTag != nil) {
+  if (session.connectedTag == tag) {
     return [NSNumber numberWithBool:YES];
   } else {
     return [NSNumber numberWithBool:NO];
-    ;
   }
 }
 @end

@@ -41,6 +41,8 @@
 		E22E2A2825808C33004C52F1 /* TagTechnologyProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = E22E2A2625808C33004C52F1 /* TagTechnologyProxy.m */; };
 		E22E2A372580B206004C52F1 /* NativeTagTechnologyProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = E22E2A352580B206004C52F1 /* NativeTagTechnologyProxy.h */; };
 		E22E2A382580B206004C52F1 /* NativeTagTechnologyProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = E22E2A362580B206004C52F1 /* NativeTagTechnologyProxy.m */; };
+		E22F911A25934BFC0001ADBC /* TiNFCTagProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = E22F911825934BFC0001ADBC /* TiNFCTagProxy.h */; };
+		E22F911B25934BFC0001ADBC /* TiNFCTagProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = E22F911925934BFC0001ADBC /* TiNFCTagProxy.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +77,8 @@
 		E22E2A2625808C33004C52F1 /* TagTechnologyProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TagTechnologyProxy.m; path = Classes/TagTechnologyProxy.m; sourceTree = "<group>"; };
 		E22E2A352580B206004C52F1 /* NativeTagTechnologyProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NativeTagTechnologyProxy.h; path = Classes/NativeTagTechnologyProxy.h; sourceTree = "<group>"; };
 		E22E2A362580B206004C52F1 /* NativeTagTechnologyProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = NativeTagTechnologyProxy.m; path = Classes/NativeTagTechnologyProxy.m; sourceTree = "<group>"; };
+		E22F911825934BFC0001ADBC /* TiNFCTagProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TiNFCTagProxy.h; path = Classes/TiNFCTagProxy.h; sourceTree = "<group>"; };
+		E22F911925934BFC0001ADBC /* TiNFCTagProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TiNFCTagProxy.m; path = Classes/TiNFCTagProxy.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,6 +182,8 @@
 				E22E2A2625808C33004C52F1 /* TagTechnologyProxy.m */,
 				E22E2A352580B206004C52F1 /* NativeTagTechnologyProxy.h */,
 				E22E2A362580B206004C52F1 /* NativeTagTechnologyProxy.m */,
+				E22F911825934BFC0001ADBC /* TiNFCTagProxy.h */,
+				E22F911925934BFC0001ADBC /* TiNFCTagProxy.m */,
 			);
 			name = "NFC Proxy class";
 			sourceTree = "<group>";
@@ -196,6 +202,7 @@
 				24DD6CF91134B3F500162E58 /* TiNfcModule.h in Headers */,
 				E22E2A2725808C33004C52F1 /* TagTechnologyProxy.h in Headers */,
 				DB856C461EE98C3B00DE4334 /* TiNfcNfcAdapterProxy.h in Headers */,
+				E22F911A25934BFC0001ADBC /* TiNFCTagProxy.h in Headers */,
 				DBF688371EEB4CB300009357 /* TiNfcNdefRecordProxy.h in Headers */,
 				24DE9E1111C5FE74003F90F6 /* TiNfcModuleAssets.h in Headers */,
 			);
@@ -279,6 +286,7 @@
 				E22E2A2825808C33004C52F1 /* TagTechnologyProxy.m in Sources */,
 				24DE9E1211C5FE74003F90F6 /* TiNfcModuleAssets.m in Sources */,
 				DB4613981F8CEF2A003956CF /* TiNfcUtilities.m in Sources */,
+				E22F911B25934BFC0001ADBC /* TiNFCTagProxy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

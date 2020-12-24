@@ -6,7 +6,7 @@ description: |
     [Tag](http://developer.android.com/reference/android/nfc/Tag.html)
 extends: Titanium.Proxy
 since: "1.0.0"
-platforms: [android]
+platforms: [android, iphone]
 createable: false
 
 methods:
