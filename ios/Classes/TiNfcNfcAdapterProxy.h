@@ -7,13 +7,16 @@
 
 #if IS_IOS_11
 
+#import "NativeTagTechnologyProxy.h"
 #import "TiProxy.h"
 #import <CoreNFC/CoreNFC.h>
 
-@interface TiNfcNfcAdapterProxy : TiProxy <NFCNDEFReaderSessionDelegate> {
+@interface TiNfcNfcAdapterProxy : TiProxy <NFCNDEFReaderSessionDelegate, NFCTagReaderSessionDelegate> {
   NFCNDEFReaderSession *_nfcSession;
+  NFCTagReaderSession *_nfcTagReadersession;
   KrollCallback *_ndefDiscoveredCallback;
   KrollCallback *_nNdefInvalidated;
+  NativeTagTechnology *tagTech;
 }
 
 #pragma mark Public API's

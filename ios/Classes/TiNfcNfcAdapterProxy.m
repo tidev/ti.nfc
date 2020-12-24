@@ -19,7 +19,7 @@
 {
   // Guard older iOS versions already. The developer will use "isEnabled" later to actually guard the functionality
   // e.g. an iPad running iOS 11, but without NFC capabilities
-  if (![TiUtils isIOS11OrGreater]) {
+  if (![TiUtils isIOSVersionOrGreater:@"13.0"]) {
     return nil;
   }
 
@@ -32,26 +32,84 @@
   return _nfcSession;
 }
 
+- (NFCTagReaderSession *)nfcTagReadersession
+{
+  tagTech = [[NativeTagTechnology alloc] init];
+  if (_nfcTagReadersession == nil) {
+    _nfcTagReadersession = [[NFCTagReaderSession alloc] initWithPollingOption:NFCPollingISO14443 delegate:self queue:nil];
+  }
+
+  return _nfcTagReadersession;
+}
+
 #pragma mark Public API's
 
 - (NSNumber *)isEnabled:(id)unused
 {
-  if (![TiUtils isIOS11OrGreater]) {
+  if (![TiUtils isIOSVersionOrGreater:@"13.0"]) {
     return @(NO);
   }
-
-  return @([NFCNDEFReaderSession readingAvailable]);
+  ENSURE_SINGLE_ARG(unused, NSArray);
+  NSString *sessionType = [unused objectAtIndex:0];
+  if ([sessionType isEqualToString:@"NFCNDEFReaderSession"]) {
+    return @([NFCNDEFReaderSession readingAvailable]);
+  } else if ([sessionType isEqualToString:@"NFCTagReaderSession"]) {
+    return @([NFCTagReaderSession readingAvailable]);
+  }
 }
 
 - (void)begin:(id)unused
 {
-  [[self nfcSession] beginSession];
+  ENSURE_SINGLE_ARG(unused, NSArray);
+  NSString *sessionType = [unused objectAtIndex:0];
+  if ([sessionType isEqualToString:@"NFCNDEFReaderSession"]) {
+    [[self nfcSession] beginSession];
+  } else if ([sessionType isEqualToString:@"NFCTagReaderSession"]) {
+    [[self nfcTagReadersession] beginSession];
+  }
 }
 
 - (void)invalidate:(id)unused
 {
-  [[self nfcSession] invalidateSession];
-  _nfcSession = nil;
+  ENSURE_SINGLE_ARG(unused, NSArray);
+  NSString *sessionType = [unused objectAtIndex:0];
+  if ([sessionType isEqualToString:@"NFCNDEFReaderSession"]) {
+    [[self nfcSession] invalidateSession];
+    _nfcSession = nil;
+  } else if ([sessionType isEqualToString:@"NFCTagReaderSession"]) {
+    [[self nfcTagReadersession] invalidateSession];
+    _nfcTagReadersession = nil;
+  }
+}
+
+- (void)createTagTechMifareUltralight:(id<NFCMiFareTag>)tag
+{
+  [[self nfcTagReadersession] beginSession];
+  [tagTech connect:(tag)];
+}
+
+- (void)createTagTechNdef:(id<NFCNDEFTag>)tag
+{
+  [[self nfcTagReadersession] beginSession];
+  [tagTech connect:(tag)];
+}
+
+- (void)createTagTechNfcV:(id<NFCISO15693Tag>)tag
+{
+  [[self nfcTagReadersession] beginSession];
+  [tagTech connect:(tag)];
+}
+
+- (void)createTagTechISODep:(id<NFCISO7816Tag>)tag
+{
+  [[self nfcTagReadersession] beginSession];
+  [tagTech connect:(tag)];
+}
+
+- (void)createTagTechNfcF:(id<NFCFeliCaTag>)tag
+{
+  [[self nfcTagReadersession] beginSession];
+  [tagTech connect:(tag)];
 }
 
 - (void)setOnNdefDiscovered:(KrollCallback *)callback
@@ -110,6 +168,28 @@
                      thisObject:self];
       },
       NO);
+}
+
+#pragma mark NFCReaderSessionDelegate
+
+- (void)tagReaderSession:(NFCTagReaderSession *)session didInvalidateWithError:(NSError *)error
+{
+  [self fireEvent:@"didInvalidateWithError" withObject:@{ @"error" : error.localizedDescription, @"cancelled" : @(error.code == 200) }];
+}
+
+- (void)tagReaderSessionDidBecomeActive:(NFCTagReaderSession *)session
+{
+  [self fireEvent:@"tagReaderSessionDidBecomeActive"];
+}
+
+- (void)tagReaderSession:(NFCTagReaderSession *)session didDetectTags:(NSArray<__kindof id<NFCTag>> *)tags
+{
+
+  id<NFCMiFareTag> tag = tags[0].asNFCMiFareTag;
+  [self fireEvent:@"didDetectTags"
+       withObject:@{
+         @"tag" : tag,
+       }];
 }
 
 @end
