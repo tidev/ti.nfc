@@ -5,10 +5,10 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#import "TiNFCTagProxy.h"
+#import "TiNfcTagProxy.h"
 #import "TiProxy.h"
 
-@implementation TiNFCTagProxy
+@implementation TiNfcTagProxy
 
 #pragma mark Internal
 

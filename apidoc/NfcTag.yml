@@ -20,6 +20,14 @@ methods:
     returns:
         type: Array<String>
 
+  - name: available
+    summary: Returns if the tag is available in current session
+    platforms: [iphone]
+    returns:
+        type: Number 
+
+
+
 properties:
   - name: id
     summary: Tag identifier (if it has one)

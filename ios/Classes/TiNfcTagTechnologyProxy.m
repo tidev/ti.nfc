@@ -5,15 +5,19 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#import "TagTechnologyProxy.h"
+#import "TiNfcTagTechnologyProxy.h"
 
-NS_ASSUME_NONNULL_BEGIN
+@implementation TiNfcTagTechnologyProxy
 
-@interface NativeTagTechnology : TagTechnology {
-  NFCTagReaderSession *session;
-  id<NFCTag> tag;
+#pragma mark Public API's
+
+- (void)connect:(id)args
+{
+}
+
+- (NSNumber *)isConnected:(id)args
+{
+  return [NSNumber numberWithBool:NO];
 }
 
 @end
-
-NS_ASSUME_NONNULL_END

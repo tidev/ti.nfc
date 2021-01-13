@@ -1,4 +1,3 @@
-
 /**
  * Axway Titanium
  * Copyright (c) 2009-present by Axway Appcelerator. All Rights Reserved.
@@ -6,20 +5,15 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#import <CoreNFC/CoreNFC.h>
-#import <TitaniumKit/TitaniumKit.h>
+#import "TiNfcTagProxy.h"
+#import "TiNfcTagTechnologyProxy.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface TiNfcTagProxy : TiProxy {
-  id<NFCTag> _tag;
+@interface TiNfcNativeTagTechnologyProxy : TiNfcTagTechnologyProxy {
+  NFCTagReaderSession *session;
+  id<NFCTag> tag;
 }
-
-- (id)_initWithPageContext:(id<TiEvaluator>)context andTag:(id<NFCTag>)tag;
-
-#pragma mark Public API's
-
-- (NSNumber *)available;
 
 @end
 
