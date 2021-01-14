@@ -10,11 +10,11 @@
 #import "TiNfcNfcAdapterProxy.h"
 #import "TiMiFareUltralightTagTechnology.h"
 #import "TiNDEFTagTechnology.h"
-#import "TiNfcTagProxy.h"
 #import "TiNfcFTagTechnology.h"
 #import "TiNfcISODepTagTechnology.h"
 #import "TiNfcModule.h"
 #import "TiNfcNdefMessageProxy.h"
+#import "TiNfcTagProxy.h"
 #import "TiNfcVTagTechnology.h"
 #import "TiUtils.h"
 
@@ -92,8 +92,7 @@
 {
   ENSURE_SINGLE_ARG(args, NSArray);
   TiNfcTagProxy *tag = [args objectAtIndex:0];
-  TiMiFareUltralightTagTechnology *mifareTag = [[TiMiFareUltralightTagTechnology alloc] init];
-    //mifareTag.session
+  TiMiFareUltralightTagTechnology *mifareTag = [[TiMiFareUltralightTagTechnology alloc] _initWithPageContext:[self pageContext] andTag:tag.tag];
   return mifareTag;
 }
 
@@ -101,7 +100,7 @@
 {
   ENSURE_SINGLE_ARG(args, NSArray);
   TiNfcTagProxy *tag = [args objectAtIndex:0];
-  TiNDEFTagTechnology *ndefTag = [[TiNDEFTagTechnology alloc] init];
+  TiNDEFTagTechnology *ndefTag = [[TiNDEFTagTechnology alloc] _initWithPageContext:[self pageContext] andTag:tag.tag];
   return ndefTag;
 }
 
@@ -109,7 +108,7 @@
 {
   ENSURE_SINGLE_ARG(args, NSArray);
   TiNfcTagProxy *tag = [args objectAtIndex:0];
-  TiNfcVTagTechnology *nfcvTag = [[TiNfcVTagTechnology alloc] init];
+  TiNfcVTagTechnology *nfcvTag = [[TiNfcVTagTechnology alloc] _initWithPageContext:[self pageContext] andTag:tag.tag];
   return nfcvTag;
 }
 
@@ -117,7 +116,7 @@
 {
   ENSURE_SINGLE_ARG(args, NSArray);
   TiNfcTagProxy *tag = [args objectAtIndex:0];
-  TiNfcISODepTagTechnology *isodepTag = [[TiNfcISODepTagTechnology alloc] init];
+  TiNfcISODepTagTechnology *isodepTag = [[TiNfcISODepTagTechnology alloc] _initWithPageContext:[self pageContext] andTag:tag.tag];
   return isodepTag;
 }
 
@@ -125,7 +124,7 @@
 {
   ENSURE_SINGLE_ARG(args, NSArray);
   TiNfcTagProxy *tag = [args objectAtIndex:0];
-  TiNfcFTagTechnology *nfcfTag = [[TiNfcFTagTechnology alloc] init];
+  TiNfcFTagTechnology *nfcfTag = [[TiNfcFTagTechnology alloc] _initWithPageContext:[self pageContext] andTag:tag.tag];
   return nfcfTag;
 }
 

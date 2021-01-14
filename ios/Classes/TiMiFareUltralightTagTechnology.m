@@ -9,17 +9,4 @@
 
 @implementation TiMiFareUltralightTagTechnology
 
-- (id)_initWithPageContext:(id<TiEvaluator>)context andMiFareTag:(id<NFCMiFareTag>)mifareTag
-{
-  if (self = [super _initWithPageContext:context]) {
-    _mifareTag = mifareTag;
-  }
-  return self;
-}
-
-- (id<NFCMiFareTag>)mifareTag;
-{
-  return _mifareTag;
-}
-
 @end

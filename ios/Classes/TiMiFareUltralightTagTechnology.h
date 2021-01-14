@@ -5,18 +5,13 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
+#import "TiNfcTagProxy.h"
 #import <CoreNFC/CoreNFC.h>
 #import <TitaniumKit/TitaniumKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface TiMiFareUltralightTagTechnology : TiProxy {
-  id<NFCMiFareTag> _mifareTag;
-}
-
-- (id)_initWithPageContext:(id<TiEvaluator>)context andMiFareTag:(id<NFCMiFareTag>)mifareTag;
-
-- (id<NFCMiFareTag>)mifareTag;
+@interface TiMiFareUltralightTagTechnology : TiNfcTagProxy
 
 @end
 

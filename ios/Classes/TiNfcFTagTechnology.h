@@ -5,18 +5,13 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
+#import "TiNfcTagProxy.h"
 #import <CoreNFC/CoreNFC.h>
 #import <TitaniumKit/TitaniumKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface TiNfcFTagTechnology : TiProxy {
-  id<NFCFeliCaTag> _felicaTag;
-}
-
-- (id)_initWithPageContext:(id<TiEvaluator>)context andNFCFeliCaTag:(id<NFCFeliCaTag>)felicaTag;
-
-- (id<NFCFeliCaTag>)felicaTag;
+@interface TiNfcFTagTechnology : TiNfcTagProxy
 
 @end
 

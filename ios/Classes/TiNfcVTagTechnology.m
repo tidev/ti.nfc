@@ -9,17 +9,4 @@
 
 @implementation TiNfcVTagTechnology
 
-- (id)_initWithPageContext:(id<TiEvaluator>)context andNFCISO15693Tag:(id<NFCISO15693Tag>)iso15693Tag
-{
-  if (self = [super _initWithPageContext:context]) {
-    _iso15693Tag = iso15693Tag;
-  }
-  return self;
-}
-
-- (id<NFCISO15693Tag>)iso15693Tag
-{
-  return _iso15693Tag;
-}
-
 @end

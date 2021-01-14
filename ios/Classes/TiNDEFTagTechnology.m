@@ -9,17 +9,4 @@
 
 @implementation TiNDEFTagTechnology
 
-- (id)_initWithPageContext:(id<TiEvaluator>)context andNDEFTag:(id<NFCNDEFTag>)ndefTag
-{
-  if (self = [super _initWithPageContext:context]) {
-    _ndefTag = ndefTag;
-  }
-  return self;
-}
-
-- (id<NFCNDEFTag>)ndefTag
-{
-  return _ndefTag;
-}
-
 @end
