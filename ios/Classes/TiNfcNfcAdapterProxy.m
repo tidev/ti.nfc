@@ -10,7 +10,7 @@
 #import "TiNfcNfcAdapterProxy.h"
 #import "TiMiFareUltralightTagTechnology.h"
 #import "TiNDEFTagTechnology.h"
-#import "TiNFCTagProxy.h"
+#import "TiNfcTagProxy.h"
 #import "TiNfcFTagTechnology.h"
 #import "TiNfcISODepTagTechnology.h"
 #import "TiNfcModule.h"
@@ -91,16 +91,16 @@
 - (TiMiFareUltralightTagTechnology *)createTagTechMifareUltralight:(id)args
 {
   ENSURE_SINGLE_ARG(args, NSArray);
-  TiNFCTagProxy *tag = [args objectAtIndex:0];
+  TiNfcTagProxy *tag = [args objectAtIndex:0];
   TiMiFareUltralightTagTechnology *mifareTag = [[TiMiFareUltralightTagTechnology alloc] init];
-    mifareTag.session
+    //mifareTag.session
   return mifareTag;
 }
 
 - (TiNDEFTagTechnology *)createTagTechNdef:(id)args
 {
   ENSURE_SINGLE_ARG(args, NSArray);
-  TiNFCTagProxy *tag = [args objectAtIndex:0];
+  TiNfcTagProxy *tag = [args objectAtIndex:0];
   TiNDEFTagTechnology *ndefTag = [[TiNDEFTagTechnology alloc] init];
   return ndefTag;
 }
@@ -108,7 +108,7 @@
 - (TiNfcVTagTechnology *)createTagTechNfcV:(id)args
 {
   ENSURE_SINGLE_ARG(args, NSArray);
-  TiNFCTagProxy *tag = [args objectAtIndex:0];
+  TiNfcTagProxy *tag = [args objectAtIndex:0];
   TiNfcVTagTechnology *nfcvTag = [[TiNfcVTagTechnology alloc] init];
   return nfcvTag;
 }
@@ -116,7 +116,7 @@
 - (TiNfcISODepTagTechnology *)createTagTechISODep:(id)args
 {
   ENSURE_SINGLE_ARG(args, NSArray);
-  TiNFCTagProxy *tag = [args objectAtIndex:0];
+  TiNfcTagProxy *tag = [args objectAtIndex:0];
   TiNfcISODepTagTechnology *isodepTag = [[TiNfcISODepTagTechnology alloc] init];
   return isodepTag;
 }
@@ -124,7 +124,7 @@
 - (TiNfcFTagTechnology *)createTagTechNfcF:(id)args
 {
   ENSURE_SINGLE_ARG(args, NSArray);
-  TiNFCTagProxy *tag = [args objectAtIndex:0];
+  TiNfcTagProxy *tag = [args objectAtIndex:0];
   TiNfcFTagTechnology *nfcfTag = [[TiNfcFTagTechnology alloc] init];
   return nfcfTag;
 }
@@ -231,7 +231,7 @@
   id<NFCMiFareTag> tag = tags[0].asNFCMiFareTag;
   [self fireEvent:@"didDetectTags"
        withObject:@{
-         @"tag" : [[TiNFCTagProxy alloc] _initWithPageContext:[self pageContext] andTag:tag],
+         @"tag" : [[TiNfcTagProxy alloc] _initWithPageContext:[self pageContext] andTag:tag],
          @"type" : NFC_TAG_READER_SESSION
        }];
 }

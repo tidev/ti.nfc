@@ -7,7 +7,6 @@
 
 #if IS_IOS_11
 
-#import "NativeTagTechnologyProxy.h"
 #import "TiProxy.h"
 #import <CoreNFC/CoreNFC.h>
 
@@ -17,8 +16,6 @@
   KrollCallback *_ndefDiscoveredCallback;
   KrollCallback *_nNdefInvalidated;
 }
-
-@property (nonatomic, strong) TagTechnology *tagTech;
 
 #pragma mark Public API's
 
