@@ -8,7 +8,14 @@
 #if IS_IOS_11
 
 #import "TiNfcNfcAdapterProxy.h"
+#import "TiMiFareUltralightTagTechnology.h"
+#import "TiNDEFTagTechnology.h"
+#import "TiNFCTagProxy.h"
+#import "TiNfcFTagTechnology.h"
+#import "TiNfcISODepTagTechnology.h"
+#import "TiNfcModule.h"
 #import "TiNfcNdefMessageProxy.h"
+#import "TiNfcVTagTechnology.h"
 #import "TiUtils.h"
 
 @implementation TiNfcNfcAdapterProxy
@@ -34,7 +41,6 @@
 
 - (NFCTagReaderSession *)nfcTagReadersession
 {
-  tagTech = [[NativeTagTechnology alloc] init];
   if (_nfcTagReadersession == nil) {
     _nfcTagReadersession = [[NFCTagReaderSession alloc] initWithPollingOption:NFCPollingISO14443 delegate:self queue:nil];
   }
@@ -82,34 +88,45 @@
   }
 }
 
-- (void)createTagTechMifareUltralight:(id<NFCMiFareTag>)tag
+- (TiMiFareUltralightTagTechnology *)createTagTechMifareUltralight:(id)args
 {
-  [[self nfcTagReadersession] beginSession];
-  [tagTech connect:(tag)];
+  ENSURE_SINGLE_ARG(args, NSArray);
+  TiNFCTagProxy *tag = [args objectAtIndex:0];
+  TiMiFareUltralightTagTechnology *mifareTag = [[TiMiFareUltralightTagTechnology alloc] init];
+    mifareTag.session
+  return mifareTag;
 }
 
-- (void)createTagTechNdef:(id<NFCNDEFTag>)tag
+- (TiNDEFTagTechnology *)createTagTechNdef:(id)args
 {
-  [[self nfcTagReadersession] beginSession];
-  [tagTech connect:(tag)];
+  ENSURE_SINGLE_ARG(args, NSArray);
+  TiNFCTagProxy *tag = [args objectAtIndex:0];
+  TiNDEFTagTechnology *ndefTag = [[TiNDEFTagTechnology alloc] init];
+  return ndefTag;
 }
 
-- (void)createTagTechNfcV:(id<NFCISO15693Tag>)tag
+- (TiNfcVTagTechnology *)createTagTechNfcV:(id)args
 {
-  [[self nfcTagReadersession] beginSession];
-  [tagTech connect:(tag)];
+  ENSURE_SINGLE_ARG(args, NSArray);
+  TiNFCTagProxy *tag = [args objectAtIndex:0];
+  TiNfcVTagTechnology *nfcvTag = [[TiNfcVTagTechnology alloc] init];
+  return nfcvTag;
 }
 
-- (void)createTagTechISODep:(id<NFCISO7816Tag>)tag
+- (TiNfcISODepTagTechnology *)createTagTechISODep:(id)args
 {
-  [[self nfcTagReadersession] beginSession];
-  [tagTech connect:(tag)];
+  ENSURE_SINGLE_ARG(args, NSArray);
+  TiNFCTagProxy *tag = [args objectAtIndex:0];
+  TiNfcISODepTagTechnology *isodepTag = [[TiNfcISODepTagTechnology alloc] init];
+  return isodepTag;
 }
 
-- (void)createTagTechNfcF:(id<NFCFeliCaTag>)tag
+- (TiNfcFTagTechnology *)createTagTechNfcF:(id)args
 {
-  [[self nfcTagReadersession] beginSession];
-  [tagTech connect:(tag)];
+  ENSURE_SINGLE_ARG(args, NSArray);
+  TiNFCTagProxy *tag = [args objectAtIndex:0];
+  TiNfcFTagTechnology *nfcfTag = [[TiNfcFTagTechnology alloc] init];
+  return nfcfTag;
 }
 
 - (void)setOnNdefDiscovered:(KrollCallback *)callback
@@ -163,7 +180,8 @@
         [_nNdefInvalidated call:@[ @{
           @"cancelled" : @(error.code == 200),
           @"message" : [error localizedDescription],
-          @"code" : NUMINTEGER([error code])
+          @"code" : NUMINTEGER([error code]),
+          @"type" : NDEF_READER_SESSION
         } ]
                      thisObject:self];
       },
@@ -174,21 +192,47 @@
 
 - (void)tagReaderSession:(NFCTagReaderSession *)session didInvalidateWithError:(NSError *)error
 {
-  [self fireEvent:@"didInvalidateWithError" withObject:@{ @"error" : error.localizedDescription, @"cancelled" : @(error.code == 200) }];
+  _nfcTagReadersession = nil;
+
+  if (!_nNdefInvalidated) {
+    return;
+  }
+  TiThreadPerformOnMainThread(
+      ^{
+        [_nNdefInvalidated call:@[ @{
+          @"cancelled" : @(error.code == 200),
+          @"message" : [error localizedDescription],
+          @"code" : NUMINTEGER([error code]),
+          @"type" : NFC_TAG_READER_SESSION
+        } ]
+                     thisObject:self];
+      },
+      NO);
 }
 
 - (void)tagReaderSessionDidBecomeActive:(NFCTagReaderSession *)session
 {
+
+  if (![self _hasListeners:@"tagReaderSessionDidBecomeActive"]) {
+    return;
+  }
+  [self fireEvent:@"tagReaderSessionDidBecomeActive"
+       withObject:@{
+         @"type" : NFC_TAG_READER_SESSION
+       }];
   [self fireEvent:@"tagReaderSessionDidBecomeActive"];
 }
 
 - (void)tagReaderSession:(NFCTagReaderSession *)session didDetectTags:(NSArray<__kindof id<NFCTag>> *)tags
 {
-
+  if (![self _hasListeners:@"didDetectTags"]) {
+    return;
+  }
   id<NFCMiFareTag> tag = tags[0].asNFCMiFareTag;
   [self fireEvent:@"didDetectTags"
        withObject:@{
-         @"tag" : tag,
+         @"tag" : [[TiNFCTagProxy alloc] _initWithPageContext:[self pageContext] andTag:tag],
+         @"type" : NFC_TAG_READER_SESSION
        }];
 }
 

@@ -7,6 +7,9 @@
 
 #import "TiModule.h"
 
+#define NDEF_READER_SESSION @"NFCNDEFReaderSession"
+#define NFC_TAG_READER_SESSION @"NFCTagReaderSession"
+
 @interface TiNfcModule : TiModule {
 }
 

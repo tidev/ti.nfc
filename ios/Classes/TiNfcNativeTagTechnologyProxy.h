@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TiNfcNativeTagTechnologyProxy : TiNfcTagTechnologyProxy {
   NFCTagReaderSession *session;
-  id<NFCTag> tag;
+  TiNFCTagProxy *tag;
 }
 
 @end

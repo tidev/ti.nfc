@@ -5,31 +5,21 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#import "TiNfcTagProxy.h"
-#import "TiProxy.h"
+#import "TiNfcISODepTagTechnology.h"
 
-@implementation TiNfcTagProxy
+@implementation TiNfcISODepTagTechnology
 
-#pragma mark Internal
-
-- (id)_initWithPageContext:(id<TiEvaluator>)context andTag:(id<NFCTag>)tag
+- (id)_initWithPageContext:(id<TiEvaluator>)context andNFCISO7816Tag:(id<NFCISO7816Tag>)iso7816Tag
 {
   if (self = [super _initWithPageContext:context]) {
-    _tag = tag;
+    _iso7816Tag = iso7816Tag;
   }
   return self;
 }
 
-#pragma mark Public API's
-
-- (NSNumber *)available
+- (id<NFCISO7816Tag>)iso7816Tag;
 {
-  return NUMINT([_tag isAvailable]);
-}
-
-- (id<NFCTag>)tag
-{
-  return _tag;
+  return _iso7816Tag;
 }
 
 @end

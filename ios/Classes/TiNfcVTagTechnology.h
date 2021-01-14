@@ -1,4 +1,3 @@
-
 /**
  * Axway Titanium
  * Copyright (c) 2009-present by Axway Appcelerator. All Rights Reserved.
@@ -11,17 +10,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface TiNfcTagProxy : TiProxy {
-  id<NFCTag> _tag;
+@interface TiNfcVTagTechnology : TiProxy {
+  id<NFCISO15693Tag> _iso15693Tag;
 }
 
-- (id)_initWithPageContext:(id<TiEvaluator>)context andTag:(id<NFCTag>)tag;
+- (id)_initWithPageContext:(id<TiEvaluator>)context andNFCISO15693Tag:(id<NFCISO15693Tag>)iso15693Tag;
 
-#pragma mark Public API's
-
-- (id<NFCTag>)tag;
-
-- (NSNumber *)available;
+- (id<NFCISO15693Tag>)iso15693Tag;
 
 @end
 

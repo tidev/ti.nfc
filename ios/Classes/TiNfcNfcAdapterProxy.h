@@ -16,8 +16,9 @@
   NFCTagReaderSession *_nfcTagReadersession;
   KrollCallback *_ndefDiscoveredCallback;
   KrollCallback *_nNdefInvalidated;
-  NativeTagTechnology *tagTech;
 }
+
+@property (nonatomic, strong) TagTechnology *tagTech;
 
 #pragma mark Public API's
 

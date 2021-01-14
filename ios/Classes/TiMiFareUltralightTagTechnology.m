@@ -5,31 +5,21 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#import "TiNfcTagProxy.h"
-#import "TiProxy.h"
+#import "TiMiFareUltralightTagTechnology.h"
 
-@implementation TiNfcTagProxy
+@implementation TiMiFareUltralightTagTechnology
 
-#pragma mark Internal
-
-- (id)_initWithPageContext:(id<TiEvaluator>)context andTag:(id<NFCTag>)tag
+- (id)_initWithPageContext:(id<TiEvaluator>)context andMiFareTag:(id<NFCMiFareTag>)mifareTag
 {
   if (self = [super _initWithPageContext:context]) {
-    _tag = tag;
+    _mifareTag = mifareTag;
   }
   return self;
 }
 
-#pragma mark Public API's
-
-- (NSNumber *)available
+- (id<NFCMiFareTag>)mifareTag;
 {
-  return NUMINT([_tag isAvailable]);
-}
-
-- (id<NFCTag>)tag
-{
-  return _tag;
+  return _mifareTag;
 }
 
 @end
