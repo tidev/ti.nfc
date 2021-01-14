@@ -5,12 +5,9 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#import "TagTechnologyProxy.h"
-#import "TiBlob.h"
-#import "TiNfcUtilities.h"
-#import "TiUtils.h"
+#import "TiNfcTagTechnologyProxy.h"
 
-@implementation TagTechnology
+@implementation TiNfcTagTechnologyProxy
 
 #pragma mark Public API's
 
