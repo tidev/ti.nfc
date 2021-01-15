@@ -90,36 +90,51 @@
 
 - (TiMiFareUltralightTagTechnology *)createTagTechMifareUltralight:(id)args
 {
+  if ([args objectForKey:@"tag"] == nil) {
+    return;
+  }
   TiNfcTagProxy *tag = [args objectForKey:@"tag"];
-  TiMiFareUltralightTagTechnology *mifareTag = [[TiMiFareUltralightTagTechnology alloc] _initWithPageContext:[self pageContext] andTag:tag];
+  TiMiFareUltralightTagTechnology *mifareTag = [[TiMiFareUltralightTagTechnology alloc] _initWithPageContext:[self pageContext] andSession:_nfcTagReadersession andTag:tag];
   return mifareTag;
 }
 
 - (TiNDEFTagTechnology *)createTagTechNdef:(id)args
 {
+  if ([args objectForKey:@"tag"] == nil) {
+    return;
+  }
   TiNfcTagProxy *tag = [args objectForKey:@"tag"];
-  TiNDEFTagTechnology *ndefTag = [[TiNDEFTagTechnology alloc] _initWithPageContext:[self pageContext] andTag:tag.tag];
+  TiNDEFTagTechnology *ndefTag = [[TiNDEFTagTechnology alloc] _initWithPageContext:[self pageContext] andSession:_nfcSession andTag:tag.tag];
   return ndefTag;
 }
 
 - (TiNfcVTagTechnology *)createTagTechNfcV:(id)args
 {
+  if ([args objectForKey:@"tag"] == nil) {
+    return;
+  }
   TiNfcTagProxy *tag = [args objectForKey:@"tag"];
-  TiNfcVTagTechnology *nfcvTag = [[TiNfcVTagTechnology alloc] _initWithPageContext:[self pageContext] andTag:tag];
+  TiNfcVTagTechnology *nfcvTag = [[TiNfcVTagTechnology alloc] _initWithPageContext:[self pageContext] andSession:_nfcTagReadersession andTag:tag];
   return nfcvTag;
 }
 
 - (TiNfcISODepTagTechnology *)createTagTechISODep:(id)args
 {
+  if ([args objectForKey:@"tag"] == nil) {
+    return;
+  }
   TiNfcTagProxy *tag = [args objectForKey:@"tag"];
-  TiNfcISODepTagTechnology *isodepTag = [[TiNfcISODepTagTechnology alloc] _initWithPageContext:[self pageContext] andTag:tag];
+  TiNfcISODepTagTechnology *isodepTag = [[TiNfcISODepTagTechnology alloc] _initWithPageContext:[self pageContext] andSession:_nfcTagReadersession andTag:tag];
   return isodepTag;
 }
 
 - (TiNfcFTagTechnology *)createTagTechNfcF:(id)args
 {
+  if ([args objectForKey:@"tag"] == nil) {
+    return;
+  }
   TiNfcTagProxy *tag = [args objectForKey:@"tag"];
-  TiNfcFTagTechnology *nfcfTag = [[TiNfcFTagTechnology alloc] _initWithPageContext:[self pageContext] andTag:tag];
+  TiNfcFTagTechnology *nfcfTag = [[TiNfcFTagTechnology alloc] _initWithPageContext:[self pageContext] andSession:_nfcTagReadersession andTag:tag];
   return nfcfTag;
 }
 
@@ -222,10 +237,9 @@
   if (![self _hasListeners:@"didDetectTags"]) {
     return;
   }
-  id<NFCMiFareTag> tag = tags[0].asNFCMiFareTag;
   [self fireEvent:@"didDetectTags"
        withObject:@{
-         @"tag" : [[TiNfcTagProxy alloc] _initWithPageContext:[self pageContext] andTag:tag],
+         @"tag" : [[TiNfcNativeTagTechnologyProxy alloc] _initWithPageContext:[self pageContext] andSession:_nfcTagReadersession andTag:tags[0]],
          @"type" : NFC_TAG_READER_SESSION
        }];
 }

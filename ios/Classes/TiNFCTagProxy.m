@@ -12,10 +12,11 @@
 
 #pragma mark Internal
 
-- (id)_initWithPageContext:(id<TiEvaluator>)context andTag:(id<NFCTag>)tag
+- (id)_initWithPageContext:(id<TiEvaluator>)context andSession:(NFCNDEFReaderSession *)session andTag:(id<NFCTag>)tag
 {
   if (self = [super _initWithPageContext:context]) {
     _tag = tag;
+    session = session;
   }
   return self;
 }
