@@ -90,41 +90,36 @@
 
 - (TiMiFareUltralightTagTechnology *)createTagTechMifareUltralight:(id)args
 {
-  ENSURE_SINGLE_ARG(args, NSArray);
-  TiNfcTagProxy *tag = [args objectAtIndex:0];
-  TiMiFareUltralightTagTechnology *mifareTag = [[TiMiFareUltralightTagTechnology alloc] _initWithPageContext:[self pageContext] andTag:tag.tag];
+  TiNfcTagProxy *tag = [args objectForKey:@"tag"];
+  TiMiFareUltralightTagTechnology *mifareTag = [[TiMiFareUltralightTagTechnology alloc] _initWithPageContext:[self pageContext] andTag:tag];
   return mifareTag;
 }
 
 - (TiNDEFTagTechnology *)createTagTechNdef:(id)args
 {
-  ENSURE_SINGLE_ARG(args, NSArray);
-  TiNfcTagProxy *tag = [args objectAtIndex:0];
+  TiNfcTagProxy *tag = [args objectForKey:@"tag"];
   TiNDEFTagTechnology *ndefTag = [[TiNDEFTagTechnology alloc] _initWithPageContext:[self pageContext] andTag:tag.tag];
   return ndefTag;
 }
 
 - (TiNfcVTagTechnology *)createTagTechNfcV:(id)args
 {
-  ENSURE_SINGLE_ARG(args, NSArray);
-  TiNfcTagProxy *tag = [args objectAtIndex:0];
-  TiNfcVTagTechnology *nfcvTag = [[TiNfcVTagTechnology alloc] _initWithPageContext:[self pageContext] andTag:tag.tag];
+  TiNfcTagProxy *tag = [args objectForKey:@"tag"];
+  TiNfcVTagTechnology *nfcvTag = [[TiNfcVTagTechnology alloc] _initWithPageContext:[self pageContext] andTag:tag];
   return nfcvTag;
 }
 
 - (TiNfcISODepTagTechnology *)createTagTechISODep:(id)args
 {
-  ENSURE_SINGLE_ARG(args, NSArray);
-  TiNfcTagProxy *tag = [args objectAtIndex:0];
-  TiNfcISODepTagTechnology *isodepTag = [[TiNfcISODepTagTechnology alloc] _initWithPageContext:[self pageContext] andTag:tag.tag];
+  TiNfcTagProxy *tag = [args objectForKey:@"tag"];
+  TiNfcISODepTagTechnology *isodepTag = [[TiNfcISODepTagTechnology alloc] _initWithPageContext:[self pageContext] andTag:tag];
   return isodepTag;
 }
 
 - (TiNfcFTagTechnology *)createTagTechNfcF:(id)args
 {
-  ENSURE_SINGLE_ARG(args, NSArray);
-  TiNfcTagProxy *tag = [args objectAtIndex:0];
-  TiNfcFTagTechnology *nfcfTag = [[TiNfcFTagTechnology alloc] _initWithPageContext:[self pageContext] andTag:tag.tag];
+  TiNfcTagProxy *tag = [args objectForKey:@"tag"];
+  TiNfcFTagTechnology *nfcfTag = [[TiNfcFTagTechnology alloc] _initWithPageContext:[self pageContext] andTag:tag];
   return nfcfTag;
 }
 

@@ -13,11 +13,19 @@
 
 @implementation TiNfcNativeTagTechnologyProxy
 
+- (id)_initWithPageContext:(id<TiEvaluator>)context andTag:(TiNfcTagProxy *)tag
+{
+  if (self = [super _initWithPageContext:context]) {
+    tag = tag;
+  }
+  return self;
+}
+
 #pragma mark Public API's
 
 - (void)connect:(id)unused
 {
-  [session connectToTag:tag
+  [session connectToTag:tag.tag
       completionHandler:^(NSError *_Nullable error) {
         if (![self _hasListeners:@"didConnectTag"]) {
           return;
@@ -27,14 +35,14 @@
                @"errorCode" : NUMINTEGER([error code]),
                @"errorDescription" : [error localizedDescription],
                @"errorDomain" : [error domain],
-               @"tag" : [[TiNfcTagProxy alloc] _initWithPageContext:[self pageContext] andTag:tag]
+               @"tag" : [[TiNfcTagProxy alloc] _initWithPageContext:[self pageContext] andTag:tag.tag]
              }];
       }];
 }
 
 - (NSNumber *)isConnected:(id)unused
 {
-  return [NSNumber numberWithBool:session.connectedTag == tag ? YES : NO];
+  return [NSNumber numberWithBool:session.connectedTag == tag.tag ? YES : NO];
 }
 
 @end
