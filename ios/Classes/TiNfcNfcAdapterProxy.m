@@ -8,11 +8,11 @@
 #if IS_IOS_11
 
 #import "TiNfcNfcAdapterProxy.h"
-#import "TiMiFareUltralightTagTechnology.h"
-#import "TiNDEFTagTechnology.h"
 #import "TiNfcFTagTechnology.h"
 #import "TiNfcISODepTagTechnology.h"
+#import "TiNfcMiFareUltralightTagTechnology.h"
 #import "TiNfcModule.h"
+#import "TiNfcNDEFTagTechnology.h"
 #import "TiNfcNdefMessageProxy.h"
 #import "TiNfcTagProxy.h"
 #import "TiNfcVTagTechnology.h"
@@ -88,23 +88,23 @@
   }
 }
 
-- (TiMiFareUltralightTagTechnology *)createTagTechMifareUltralight:(id)args
+- (TiNfcMiFareUltralightTagTechnology *)createTagTechMifareUltralight:(id)args
 {
   if ([args objectForKey:@"tag"] == nil) {
     return;
   }
   TiNfcTagProxy *tag = [args objectForKey:@"tag"];
-  TiMiFareUltralightTagTechnology *mifareTag = [[TiMiFareUltralightTagTechnology alloc] _initWithPageContext:[self pageContext] andSession:_nfcTagReadersession andTag:tag];
+  TiNfcMiFareUltralightTagTechnology *mifareTag = [[TiNfcMiFareUltralightTagTechnology alloc] _initWithPageContext:[self pageContext] andSession:_nfcTagReadersession andTag:tag];
   return mifareTag;
 }
 
-- (TiNDEFTagTechnology *)createTagTechNdef:(id)args
+- (TiNfcNDEFTagTechnology *)createTagTechNdef:(id)args
 {
   if ([args objectForKey:@"tag"] == nil) {
     return;
   }
   TiNfcTagProxy *tag = [args objectForKey:@"tag"];
-  TiNDEFTagTechnology *ndefTag = [[TiNDEFTagTechnology alloc] _initWithPageContext:[self pageContext] andSession:_nfcSession andTag:tag.tag];
+  TiNfcNDEFTagTechnology *ndefTag = [[TiNfcNDEFTagTechnology alloc] _initWithPageContext:[self pageContext] andSession:_nfcSession andTag:tag.tag];
   return ndefTag;
 }
 

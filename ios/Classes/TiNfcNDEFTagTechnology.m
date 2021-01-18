@@ -5,8 +5,8 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#import "TiNDEFTagTechnology.h"
+#import "TiNfcNDEFTagTechnology.h"
 
-@implementation TiNDEFTagTechnology
+@implementation TiNfcNDEFTagTechnology
 
 @end

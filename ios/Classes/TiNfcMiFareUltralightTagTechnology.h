@@ -5,8 +5,14 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#import "TiMiFareUltralightTagTechnology.h"
+#import "TiNfcNativeTagTechnologyProxy.h"
+#import <CoreNFC/CoreNFC.h>
+#import <TitaniumKit/TitaniumKit.h>
 
-@implementation TiMiFareUltralightTagTechnology
+NS_ASSUME_NONNULL_BEGIN
+
+@interface TiNfcMiFareUltralightTagTechnology : TiNfcNativeTagTechnologyProxy
 
 @end
+
+NS_ASSUME_NONNULL_END
