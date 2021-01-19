@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
   NFCTagReaderSession *session;
   TiNfcTagProxy *tag;
 }
-- (id)_initWithPageContext:(id<TiEvaluator>)context andSession:(NFCTagReaderSession *)session andTag:(TiNfcTagProxy *)tag;
+- (id)_initWithPageContext:(id<TiEvaluator>)context andSession:(NFCTagReaderSession *)session andTag:(NSArray<__kindof id<NFCTag>> *)tag;
 
 @end
 

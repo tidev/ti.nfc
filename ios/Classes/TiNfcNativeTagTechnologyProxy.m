@@ -13,10 +13,10 @@
 
 @implementation TiNfcNativeTagTechnologyProxy
 
-- (id)_initWithPageContext:(id<TiEvaluator>)context andSession:(NFCTagReaderSession *)session andTag:(TiNfcTagProxy *)tag
+- (id)_initWithPageContext:(id<TiEvaluator>)context andSession:(NFCTagReaderSession *)session andTag:(NSArray<__kindof id<NFCTag>> *)tags
 {
   if (self = [super _initWithPageContext:context]) {
-    tag = tag;
+    tags = tags;
     session = session;
   }
   return self;
@@ -36,7 +36,7 @@
                @"errorCode" : NUMINTEGER([error code]),
                @"errorDescription" : [error localizedDescription],
                @"errorDomain" : [error domain],
-               @"tag" : [self _initWithPageContext:[self pageContext] andSession:session andTag:tag]
+               @"tag" : [self _initWithPageContext:[self pageContext] andSession:session andTag:tag.tag]
              }];
       }];
 }

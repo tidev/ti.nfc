@@ -50,13 +50,12 @@
 
 #pragma mark Public API's
 
-- (NSNumber *)isEnabled:(id)unused
+- (NSNumber *)isEnabled:(id)type
 {
   if (![TiUtils isIOSVersionOrGreater:@"13.0"]) {
     return @(NO);
   }
-  ENSURE_SINGLE_ARG(unused, NSArray);
-  NSString *sessionType = [unused objectAtIndex:0];
+  NSString *sessionType = [[type valueForKey:@"type"] objectAtIndex:0];
   if ([sessionType isEqualToString:@"NFCNDEFReaderSession"]) {
     return @([NFCNDEFReaderSession readingAvailable]);
   } else if ([sessionType isEqualToString:@"NFCTagReaderSession"]) {
@@ -64,10 +63,9 @@
   }
 }
 
-- (void)begin:(id)unused
+- (void)begin:(id)type
 {
-  ENSURE_SINGLE_ARG(unused, NSArray);
-  NSString *sessionType = [unused objectAtIndex:0];
+  NSString *sessionType = [[type valueForKey:@"type"] objectAtIndex:0];
   if ([sessionType isEqualToString:@"NFCNDEFReaderSession"]) {
     [[self nfcSession] beginSession];
   } else if ([sessionType isEqualToString:@"NFCTagReaderSession"]) {
@@ -75,10 +73,9 @@
   }
 }
 
-- (void)invalidate:(id)unused
+- (void)invalidate:(id)type
 {
-  ENSURE_SINGLE_ARG(unused, NSArray);
-  NSString *sessionType = [unused objectAtIndex:0];
+  NSString *sessionType = [[type valueForKey:@"type"] objectAtIndex:0];
   if ([sessionType isEqualToString:@"NFCNDEFReaderSession"]) {
     [[self nfcSession] invalidateSession];
     _nfcSession = nil;
@@ -239,7 +236,7 @@
   }
   [self fireEvent:@"didDetectTags"
        withObject:@{
-         @"tag" : [[TiNfcNativeTagTechnologyProxy alloc] _initWithPageContext:[self pageContext] andSession:_nfcTagReadersession andTag:tags[0]],
+         @"tag" : [[TiNfcNativeTagTechnologyProxy alloc] _initWithPageContext:[self pageContext] andSession:_nfcTagReadersession andTag:tags],
          @"type" : NFC_TAG_READER_SESSION
        }];
 }
