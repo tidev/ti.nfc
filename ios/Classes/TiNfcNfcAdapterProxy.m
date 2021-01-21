@@ -39,10 +39,18 @@
   return _nfcSession;
 }
 
-- (NFCTagReaderSession *)nfcTagReadersession
+- (NFCTagReaderSession *)nfcTagReadersession:(NSString *)pollingOption
 {
   if (_nfcTagReadersession == nil) {
-    _nfcTagReadersession = [[NFCTagReaderSession alloc] initWithPollingOption:NFCPollingISO14443 delegate:self queue:nil];
+    if ([pollingOption isEqualToString:@"NFCPollingISO14443"]) {
+      _nfcTagReadersession = [[NFCTagReaderSession alloc] initWithPollingOption:NFCPollingISO14443 delegate:self queue:nil];
+    } else if ([pollingOption isEqualToString:@"NFCPollingISO15693"]) {
+      _nfcTagReadersession = [[NFCTagReaderSession alloc] initWithPollingOption:NFCPollingISO15693 delegate:self queue:nil];
+    } else if ([pollingOption isEqualToString:@"NFCPollingISO18092"]) {
+      _nfcTagReadersession = [[NFCTagReaderSession alloc] initWithPollingOption:NFCPollingISO18092 delegate:self queue:nil];
+    } else {
+      _nfcTagReadersession = [[NFCTagReaderSession alloc] initWithPollingOption:(NFCPollingISO14443 | NFCPollingISO15693 | NFCPollingISO15693) delegate:self queue:nil];
+    }
   }
 
   return _nfcTagReadersession;
@@ -55,7 +63,7 @@
   if (![TiUtils isIOSVersionOrGreater:@"13.0"]) {
     return @(NO);
   }
-  NSString *sessionType = [[type valueForKey:@"type"] objectAtIndex:0];
+  NSString *sessionType = [[type objectAtIndex:0] valueForKey:@"type"];
   if ([sessionType isEqualToString:@"NFCNDEFReaderSession"]) {
     return @([NFCNDEFReaderSession readingAvailable]);
   } else if ([sessionType isEqualToString:@"NFCTagReaderSession"]) {
@@ -65,72 +73,74 @@
 
 - (void)begin:(id)type
 {
-  NSString *sessionType = [[type valueForKey:@"type"] objectAtIndex:0];
+  NSString *sessionType = [[type objectAtIndex:0] valueForKey:@"type"];
+  NSString *pollingOption = [[type objectAtIndex:1] valueForKey:@"pollingOption"];
   if ([sessionType isEqualToString:@"NFCNDEFReaderSession"]) {
     [[self nfcSession] beginSession];
   } else if ([sessionType isEqualToString:@"NFCTagReaderSession"]) {
-    [[self nfcTagReadersession] beginSession];
+    [[self nfcTagReadersession:pollingOption] beginSession];
   }
 }
 
 - (void)invalidate:(id)type
 {
-  NSString *sessionType = [[type valueForKey:@"type"] objectAtIndex:0];
+  NSString *sessionType = [[type objectAtIndex:0] valueForKey:@"type"];
+  NSString *pollingOption = [[type objectAtIndex:1] valueForKey:@"pollingOption"];
   if ([sessionType isEqualToString:@"NFCNDEFReaderSession"]) {
     [[self nfcSession] invalidateSession];
     _nfcSession = nil;
   } else if ([sessionType isEqualToString:@"NFCTagReaderSession"]) {
-    [[self nfcTagReadersession] invalidateSession];
+    [[self nfcTagReadersession:pollingOption] invalidateSession];
     _nfcTagReadersession = nil;
   }
 }
 
 - (TiNfcMiFareUltralightTagTechnology *)createTagTechMifareUltralight:(id)args
 {
-  if ([args objectForKey:@"tag"] == nil) {
+  if ([args valueForKey:@"tag"] == nil) {
     return;
   }
-  TiNfcTagProxy *tag = [args objectForKey:@"tag"];
+  TiNfcTagProxy *tag = [[args objectAtIndex:0] valueForKey:@"tag"];
   TiNfcMiFareUltralightTagTechnology *mifareTag = [[TiNfcMiFareUltralightTagTechnology alloc] _initWithPageContext:[self pageContext] andSession:_nfcTagReadersession andTag:tag];
   return mifareTag;
 }
 
 - (TiNfcNDEFTagTechnology *)createTagTechNdef:(id)args
 {
-  if ([args objectForKey:@"tag"] == nil) {
+  if ([args valueForKey:@"tag"] == nil) {
     return;
   }
-  TiNfcTagProxy *tag = [args objectForKey:@"tag"];
+  TiNfcTagProxy *tag = [[args objectAtIndex:0] valueForKey:@"tag"];
   TiNfcNDEFTagTechnology *ndefTag = [[TiNfcNDEFTagTechnology alloc] _initWithPageContext:[self pageContext] andSession:_nfcSession andTag:tag.tag];
   return ndefTag;
 }
 
 - (TiNfcVTagTechnology *)createTagTechNfcV:(id)args
 {
-  if ([args objectForKey:@"tag"] == nil) {
+  if ([args valueForKey:@"tag"] == nil) {
     return;
   }
-  TiNfcTagProxy *tag = [args objectForKey:@"tag"];
+  TiNfcTagProxy *tag = [[args objectAtIndex:0] valueForKey:@"tag"];
   TiNfcVTagTechnology *nfcvTag = [[TiNfcVTagTechnology alloc] _initWithPageContext:[self pageContext] andSession:_nfcTagReadersession andTag:tag];
   return nfcvTag;
 }
 
 - (TiNfcISODepTagTechnology *)createTagTechISODep:(id)args
 {
-  if ([args objectForKey:@"tag"] == nil) {
+  if ([args valueForKey:@"tag"] == nil) {
     return;
   }
-  TiNfcTagProxy *tag = [args objectForKey:@"tag"];
+  TiNfcTagProxy *tag = [[args objectAtIndex:0] valueForKey:@"tag"];
   TiNfcISODepTagTechnology *isodepTag = [[TiNfcISODepTagTechnology alloc] _initWithPageContext:[self pageContext] andSession:_nfcTagReadersession andTag:tag];
   return isodepTag;
 }
 
 - (TiNfcFTagTechnology *)createTagTechNfcF:(id)args
 {
-  if ([args objectForKey:@"tag"] == nil) {
+  if ([args valueForKey:@"tag"] == nil) {
     return;
   }
-  TiNfcTagProxy *tag = [args objectForKey:@"tag"];
+  TiNfcTagProxy *tag = [[args objectAtIndex:0] valueForKey:@"tag"];
   TiNfcFTagTechnology *nfcfTag = [[TiNfcFTagTechnology alloc] _initWithPageContext:[self pageContext] andSession:_nfcTagReadersession andTag:tag];
   return nfcfTag;
 }
@@ -187,7 +197,7 @@
           @"cancelled" : @(error.code == 200),
           @"message" : [error localizedDescription],
           @"code" : NUMINTEGER([error code]),
-          @"type" : NDEF_READER_SESSION
+          @"type" : @"NFCNDEFReaderSession"
         } ]
                      thisObject:self];
       },
@@ -209,7 +219,7 @@
           @"cancelled" : @(error.code == 200),
           @"message" : [error localizedDescription],
           @"code" : NUMINTEGER([error code]),
-          @"type" : NFC_TAG_READER_SESSION
+          @"type" : @"NFCTagReaderSession"
         } ]
                      thisObject:self];
       },
@@ -224,9 +234,8 @@
   }
   [self fireEvent:@"tagReaderSessionDidBecomeActive"
        withObject:@{
-         @"type" : NFC_TAG_READER_SESSION
+         @"type" : @"NFCTagReaderSession"
        }];
-  [self fireEvent:@"tagReaderSessionDidBecomeActive"];
 }
 
 - (void)tagReaderSession:(NFCTagReaderSession *)session didDetectTags:(NSArray<__kindof id<NFCTag>> *)tags
@@ -234,10 +243,12 @@
   if (![self _hasListeners:@"didDetectTags"]) {
     return;
   }
+  TiNfcNativeTagTechnologyProxy *tagData = [[TiNfcNativeTagTechnologyProxy alloc] _initWithPageContext:[self pageContext] andSession:_nfcTagReadersession andTag:tags];
   [self fireEvent:@"didDetectTags"
        withObject:@{
-         @"tag" : [[TiNfcNativeTagTechnologyProxy alloc] _initWithPageContext:[self pageContext] andSession:_nfcTagReadersession andTag:tags],
-         @"type" : NFC_TAG_READER_SESSION
+         @"tags" : [NSArray arrayWithObject:tagData],
+         @"session" : _nfcTagReadersession,
+         @"type" : @"NFCTagReaderSession"
        }];
 }
 

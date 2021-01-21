@@ -16,7 +16,7 @@
 {
   if (self = [super _initWithPageContext:context]) {
     _tag = tag;
-    session = session;
+    self.session = session;
   }
   return self;
 }

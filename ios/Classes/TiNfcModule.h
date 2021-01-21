@@ -7,10 +7,12 @@
 
 #import "TiModule.h"
 
-#define NDEF_READER_SESSION @"NFCNDEFReaderSession"
-#define NFC_TAG_READER_SESSION @"NFCTagReaderSession"
-
 @interface TiNfcModule : TiModule {
 }
+@property (nonatomic, readonly) NSNumber *NDEF_READER_SESSION;
+@property (nonatomic, readonly) NSNumber *NFC_TAG_READER_SESSION;
+@property (nonatomic, readonly) NSNumber *NFC_TAG_ISO14443;
+@property (nonatomic, readonly) NSNumber *NFC_TAG_ISO15693;
+@property (nonatomic, readonly) NSNumber *NFC_TAG_ISO18092;
 
 @end
