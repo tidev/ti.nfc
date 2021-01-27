@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak) NFCNDEFReaderSession *session;
 
-- (id)_initWithPageContext:(id<TiEvaluator>)context andSession:(NFCNDEFReaderSession *)session andTag:(id<NFCTag>)tag;
+- (id)_initWithPageContext:(id<TiEvaluator>)context andTag:(id<NFCTag>)tag;
 
 #pragma mark Public API's
 

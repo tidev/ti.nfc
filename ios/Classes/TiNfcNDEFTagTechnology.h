@@ -5,13 +5,13 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#import "TiNfcTagProxy.h"
+#import "TiNfcNativeTagTechnologyProxy.h"
 #import <CoreNFC/CoreNFC.h>
 #import <TitaniumKit/TitaniumKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface TiNfcNDEFTagTechnology : TiNfcTagProxy
+@interface TiNfcNDEFTagTechnology : TiNfcNativeTagTechnologyProxy
 
 @end
 

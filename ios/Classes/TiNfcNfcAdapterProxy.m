@@ -25,7 +25,7 @@
 - (NFCNDEFReaderSession *)nfcSession
 {
   // Guard older iOS versions already. The developer will use "isEnabled" later to actually guard the functionality
-  // e.g. an iPad running iOS 11, but without NFC capabilities
+  // e.g. an iPad running iOS 13, but without NFC capabilities
   if (![TiUtils isIOSVersionOrGreater:@"13.0"]) {
     return nil;
   }
@@ -39,20 +39,16 @@
   return _nfcSession;
 }
 
-- (NFCTagReaderSession *)nfcTagReadersession:(NSString *)pollingOption
+- (NFCTagReaderSession *)nfcTagReadersession:(id)pollingOption
 {
-  if (_nfcTagReadersession == nil) {
-    if ([pollingOption isEqualToString:@"NFCPollingISO14443"]) {
-      _nfcTagReadersession = [[NFCTagReaderSession alloc] initWithPollingOption:NFCPollingISO14443 delegate:self queue:nil];
-    } else if ([pollingOption isEqualToString:@"NFCPollingISO15693"]) {
-      _nfcTagReadersession = [[NFCTagReaderSession alloc] initWithPollingOption:NFCPollingISO15693 delegate:self queue:nil];
-    } else if ([pollingOption isEqualToString:@"NFCPollingISO18092"]) {
-      _nfcTagReadersession = [[NFCTagReaderSession alloc] initWithPollingOption:NFCPollingISO18092 delegate:self queue:nil];
-    } else {
-      _nfcTagReadersession = [[NFCTagReaderSession alloc] initWithPollingOption:(NFCPollingISO14443 | NFCPollingISO15693 | NFCPollingISO15693) delegate:self queue:nil];
-    }
+  NSInteger pollingValue = 0;
+  for (int count = 0; count < [pollingOption count]; count++) {
+    NSInteger value = [[pollingOption objectAtIndex:count] intValue];
+    pollingValue = pollingValue | value;
   }
-
+  if (_nfcTagReadersession == nil) {
+    _nfcTagReadersession = [[NFCTagReaderSession alloc] initWithPollingOption:pollingValue delegate:self queue:nil];
+  }
   return _nfcTagReadersession;
 }
 
@@ -74,7 +70,7 @@
 - (void)begin:(id)type
 {
   NSString *sessionType = [[type objectAtIndex:0] valueForKey:@"type"];
-  NSString *pollingOption = [[type objectAtIndex:1] valueForKey:@"pollingOption"];
+  NSArray *pollingOption = [type valueForKey:@"pollingOption"];
   if ([sessionType isEqualToString:@"NFCNDEFReaderSession"]) {
     [[self nfcSession] beginSession];
   } else if ([sessionType isEqualToString:@"NFCTagReaderSession"]) {
@@ -85,7 +81,7 @@
 - (void)invalidate:(id)type
 {
   NSString *sessionType = [[type objectAtIndex:0] valueForKey:@"type"];
-  NSString *pollingOption = [[type objectAtIndex:1] valueForKey:@"pollingOption"];
+  NSArray *pollingOption = [type valueForKey:@"pollingOption"];
   if ([sessionType isEqualToString:@"NFCNDEFReaderSession"]) {
     [[self nfcSession] invalidateSession];
     _nfcSession = nil;
@@ -111,7 +107,7 @@
     return;
   }
   TiNfcTagProxy *tag = [[args objectAtIndex:0] valueForKey:@"tag"];
-  TiNfcNDEFTagTechnology *ndefTag = [[TiNfcNDEFTagTechnology alloc] _initWithPageContext:[self pageContext] andSession:_nfcSession andTag:tag.tag];
+  TiNfcNDEFTagTechnology *ndefTag = [[TiNfcNDEFTagTechnology alloc] _initWithPageContext:[self pageContext] andSession:_nfcSession andTag:tag];
   return ndefTag;
 }
 
@@ -209,21 +205,16 @@
 - (void)tagReaderSession:(NFCTagReaderSession *)session didInvalidateWithError:(NSError *)error
 {
   _nfcTagReadersession = nil;
-
-  if (!_nNdefInvalidated) {
+  if (![self _hasListeners:@"didInvalidateWithError"]) {
     return;
   }
-  TiThreadPerformOnMainThread(
-      ^{
-        [_nNdefInvalidated call:@[ @{
-          @"cancelled" : @(error.code == 200),
-          @"message" : [error localizedDescription],
-          @"code" : NUMINTEGER([error code]),
-          @"type" : @"NFCTagReaderSession"
-        } ]
-                     thisObject:self];
-      },
-      NO);
+  [self fireEvent:@"didInvalidateWithError"
+       withObject:@{
+         @"cancelled" : @(error.code == 200),
+         @"message" : [error localizedDescription],
+         @"code" : NUMINTEGER([error code]),
+         @"type" : @"NFCTagReaderSession"
+       }];
 }
 
 - (void)tagReaderSessionDidBecomeActive:(NFCTagReaderSession *)session
@@ -243,10 +234,13 @@
   if (![self _hasListeners:@"didDetectTags"]) {
     return;
   }
-  TiNfcNativeTagTechnologyProxy *tagData = [[TiNfcNativeTagTechnologyProxy alloc] _initWithPageContext:[self pageContext] andSession:_nfcTagReadersession andTag:tags];
+  NSMutableArray *tagData = [[NSMutableArray alloc] init];
+  for (id<NFCTag> tag in tags) {
+    [tagData addObject:tag];
+  }
   [self fireEvent:@"didDetectTags"
        withObject:@{
-         @"tags" : [NSArray arrayWithObject:tagData],
+         @"tags" : tagData,
          @"session" : _nfcTagReadersession,
          @"type" : @"NFCTagReaderSession"
        }];
