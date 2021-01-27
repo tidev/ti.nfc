@@ -25,8 +25,8 @@
 - (NFCNDEFReaderSession *)nfcSession
 {
   // Guard older iOS versions already. The developer will use "isEnabled" later to actually guard the functionality
-  // e.g. an iPad running iOS 13, but without NFC capabilities
-  if (![TiUtils isIOSVersionOrGreater:@"13.0"]) {
+  // e.g. an iPad running iOS 11, but without NFC capabilities
+  if (![TiUtils isIOSVersionOrGreater:@"11.0"]) {
     return nil;
   }
 
@@ -41,6 +41,10 @@
 
 - (NFCTagReaderSession *)nfcTagReadersession:(id)pollingOption
 {
+  // As NFC Tag reader session is only available after iOS 13
+  if (![TiUtils isIOSVersionOrGreater:@"13.0"]) {
+    return nil;
+  }
   NSInteger pollingValue = 0;
   for (int count = 0; count < [pollingOption count]; count++) {
     NSInteger value = [[pollingOption objectAtIndex:count] intValue];
@@ -236,7 +240,7 @@
   }
   NSMutableArray *tagData = [[NSMutableArray alloc] init];
   for (id<NFCTag> tag in tags) {
-    [tagData addObject:tag];
+    [tagData addObject:[[TiNfcTagProxy alloc] _initWithPageContext:[self pageContext] andTag:tag]];
   }
   [self fireEvent:@"didDetectTags"
        withObject:@{
