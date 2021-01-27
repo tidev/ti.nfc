@@ -14,8 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
   id<NFCTag> _tag;
 }
 
-@property (nonatomic, weak) NFCNDEFReaderSession *session;
-
 - (id)_initWithPageContext:(id<TiEvaluator>)context andTag:(id<NFCTag>)tag;
 
 #pragma mark Public API's
