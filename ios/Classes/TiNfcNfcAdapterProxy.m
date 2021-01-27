@@ -108,7 +108,7 @@
 - (TiNfcNDEFTagTechnology *)createTagTechNdef:(id)args
 {
   if ([args valueForKey:@"tag"] == nil) {
-    return;
+    return nil;
   }
   TiNfcTagProxy *tag = [[args objectAtIndex:0] valueForKey:@"tag"];
   TiNfcNDEFTagTechnology *ndefTag = [[TiNfcNDEFTagTechnology alloc] _initWithPageContext:[self pageContext] andSession:_nfcSession andTag:tag];
