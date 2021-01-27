@@ -1,4 +1,3 @@
-
 /**
  * Axway Titanium
  * Copyright (c) 2009-present by Axway Appcelerator. All Rights Reserved.
