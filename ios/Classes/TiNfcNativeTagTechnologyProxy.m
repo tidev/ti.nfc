@@ -26,7 +26,7 @@
 
 - (void)connect:(id)unused
 {
-  [self.session connectToTag:self.tag.tag
+  [self.session connectToTag:self.tag
            completionHandler:^(NSError *_Nullable error) {
              if (![self _hasListeners:@"didConnectTag"]) {
                return;
@@ -43,7 +43,7 @@
 
 - (NSNumber *)isConnected:(id)unused
 {
-  return [NSNumber numberWithBool:self.session.connectedTag == self.tag.tag ? YES : NO];
+  return [NSNumber numberWithBool:self.session.connectedTag == self.tag ? YES : NO];
 }
 
 @end
