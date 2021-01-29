@@ -30,6 +30,7 @@
  */
 
 var nfc = require('ti.nfc');
+var sessionType = ({type:nfc.READER_SESSION_NFC_TAG, pollingOptions: [nfc.NFC_TAG_ISO14443]}    )
 var nfcAdapter = nfc.createNfcAdapter({
   onNdefDiscovered: handleDiscovery
 });
@@ -61,12 +62,24 @@ var btn = Ti.UI.createButton({
 });
 
 btn.addEventListener('click', function() {
-  if (!nfcAdapter.isEnabled()) {
+    if (!nfcAdapter.isEnabled(sessionType)) {
     Ti.API.error('This device does not support NFC capabilities!');
     return;
   }
+  nfcAdapter.begin(sessionType); // This is required for iOS only. Use "invalidate()" to invalidate a session.
+});
 
-  nfcAdapter.begin(); // This is required for iOS only. Use "invalidate()" to invalidate a session.
+nfcAdapter.addEventListener('didDetectTags', function (e) {
+    var mifare = nfcAdapter.createTagTechMifareUltralight({'tag':e.tags[0]});
+    mifare.addEventListener('didConnectTag', function (e) {
+        Ti.API.info('Connected tag object : ' + e.code);
+        alert('Tag Connected: ' + e.tag);
+    });
+    mifare.connect({mifare});
+    nfcAdapter.invalidate(sessionType);
+});
+nfcAdapter.addEventListener('didInvalidateWithError', function (e) {
+        Ti.API.info('code: ' + e.code);
 });
 
 win.add(btn);

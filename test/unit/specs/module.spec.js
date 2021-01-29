@@ -19,6 +19,75 @@ describe('ti.nfc', () => {
 			it('.moduleId', () => {
 				expect(NFC.moduleId).toBe('ti.nfc');
 			});
+
+			describe('methods', () => {
+				it('nfcAdapter should be defined', () => {
+					const nfcAdapter = NFC.createNfcAdapter();
+
+					expect(nfcAdapter).toBeDefined();
+				});
+
+				it('should have isEnabled function', () => {
+					const nfcAdapter = NFC.createNfcAdapter();
+
+					expect(nfcAdapter.isEnabled).toEqual(jasmine.any(Function));
+				});
+
+				it('should have begin function', () => {
+					const nfcAdapter = NFC.createNfcAdapter();
+
+					expect(nfcAdapter.begin).toEqual(jasmine.any(Function));
+				});
+
+				it('should have invalidate function', () => {
+					const nfcAdapter = NFC.createNfcAdapter();
+
+					expect(nfcAdapter.invalidate).toEqual(jasmine.any(Function));
+				});
+
+				it('should have createTagTechMifareUltralight function', () => {
+					const nfcAdapter = NFC.createNfcAdapter();
+
+					expect(nfcAdapter.createTagTechMifareUltralight).toEqual(jasmine.any(Function));
+				});
+
+				it('should have createTagTechNdef function', () => {
+					const nfcAdapter = NFC.createNfcAdapter();
+
+					expect(nfcAdapter.createTagTechNdef).toEqual(jasmine.any(Function));
+				});
+
+				it('should have createTagTechNfcV function', () => {
+					const nfcAdapter = NFC.createNfcAdapter();
+
+					expect(nfcAdapter.createTagTechNfcV).toEqual(jasmine.any(Function));
+				});
+
+				it('should have createTagTechISODep function', () => {
+					const nfcAdapter = NFC.createNfcAdapter();
+
+					expect(nfcAdapter.createTagTechISODep).toEqual(jasmine.any(Function));
+				});
+
+				it('should have createTagTechNfcF function', () => {
+					const nfcAdapter = NFC.createNfcAdapter();
+
+					expect(nfcAdapter.createTagTechNfcF).toEqual(jasmine.any(Function));
+				});
+
+				it('should have setOnNdefDiscovered function', () => {
+					const nfcAdapter = NFC.createNfcAdapter();
+
+					expect(nfcAdapter.setOnNdefDiscovered).toEqual(jasmine.any(Function));
+				});
+
+				it('should have setOnNdefInvalidated function', () => {
+					const nfcAdapter = NFC.createNfcAdapter();
+
+					expect(nfcAdapter.setOnNdefInvalidated).toEqual(jasmine.any(Function));
+				});
+
+			});
 		}
 
 		// TODO: guid, name
@@ -227,6 +296,22 @@ describe('ti.nfc', () => {
 			}
 
 			if (IOS) {
+				it('.NFC_TAG_ISO14443', () => {
+					expect(NFC.NFC_TAG_ISO14443).toEqual(jasmine.any(Number));
+				});
+				it('.NFC_TAG_ISO15693', () => {
+					expect(NFC.NFC_TAG_ISO15693).toEqual(jasmine.any(Number));
+				});
+				it('.NFC_TAG_ISO18092', () => {
+					expect(NFC.NFC_TAG_ISO18092).toEqual(jasmine.any(Number));
+				});
+				it('.READER_SESSION_NFC_NDEF', () => {
+					expect(NFC.READER_SESSION_NFC_NDEF).toEqual(jasmine.any(String));
+				});
+				it('.READER_SESSION_NFC_TAG', () => {
+					expect(NFC.READER_SESSION_NFC_TAG).toEqual(jasmine.any(String));
+				});
+
 				it('.INVALIDATION_ERROR_USER_CANCELED', () => {
 					expect(NFC.INVALIDATION_ERROR_USER_CANCELED).toEqual(jasmine.any(Number));
 				});
