@@ -37,12 +37,22 @@
 		DBF688341EEB4B3500009357 /* TiNfcNdefMessageProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = DBF688321EEB4B3500009357 /* TiNfcNdefMessageProxy.m */; };
 		DBF688371EEB4CB300009357 /* TiNfcNdefRecordProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = DBF688351EEB4CB300009357 /* TiNfcNdefRecordProxy.h */; };
 		DBF688381EEB4CB300009357 /* TiNfcNdefRecordProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = DBF688361EEB4CB300009357 /* TiNfcNdefRecordProxy.m */; };
+		E213783725C184E100FE0EED /* TiNfcTagProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = E213783525C184E100FE0EED /* TiNfcTagProxy.h */; };
+		E213783825C184E100FE0EED /* TiNfcTagProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = E213783625C184E100FE0EED /* TiNfcTagProxy.m */; };
+		E2DA8DD025A3526B006F1DFA /* TiNfcMiFareUltralightTagTechnology.h in Headers */ = {isa = PBXBuildFile; fileRef = E2DA8DCE25A3526B006F1DFA /* TiNfcMiFareUltralightTagTechnology.h */; };
+		E2DA8DD125A3526B006F1DFA /* TiNfcMiFareUltralightTagTechnology.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DA8DCF25A3526B006F1DFA /* TiNfcMiFareUltralightTagTechnology.m */; };
 		E2DA8DF825AEE3F6006F1DFA /* TiNfcTagTechnologyProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = E2DA8DF625AEE3F6006F1DFA /* TiNfcTagTechnologyProxy.h */; };
 		E2DA8DF925AEE3F6006F1DFA /* TiNfcTagTechnologyProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DA8DF725AEE3F6006F1DFA /* TiNfcTagTechnologyProxy.m */; };
 		E2DA8DFE25AEE4D9006F1DFA /* TiNfcNativeTagTechnologyProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = E2DA8DFC25AEE4D9006F1DFA /* TiNfcNativeTagTechnologyProxy.h */; };
 		E2DA8DFF25AEE4D9006F1DFA /* TiNfcNativeTagTechnologyProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DA8DFD25AEE4D9006F1DFA /* TiNfcNativeTagTechnologyProxy.m */; };
-		E2DA8E0C25AEE6AE006F1DFA /* TiNfcTagProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = E2DA8E0A25AEE6AD006F1DFA /* TiNfcTagProxy.h */; };
-		E2DA8E0D25AEE6AE006F1DFA /* TiNfcTagProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DA8E0B25AEE6AD006F1DFA /* TiNfcTagProxy.m */; };
+		E2DA8E2225AF1705006F1DFA /* TiNfcNDEFTagTechnology.h in Headers */ = {isa = PBXBuildFile; fileRef = E2DA8E2025AF1705006F1DFA /* TiNfcNDEFTagTechnology.h */; };
+		E2DA8E2325AF1705006F1DFA /* TiNfcNDEFTagTechnology.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DA8E2125AF1705006F1DFA /* TiNfcNDEFTagTechnology.m */; };
+		E2DA8E3025AF1AB7006F1DFA /* TiNfcVTagTechnology.h in Headers */ = {isa = PBXBuildFile; fileRef = E2DA8E2E25AF1AB7006F1DFA /* TiNfcVTagTechnology.h */; };
+		E2DA8E3125AF1AB7006F1DFA /* TiNfcVTagTechnology.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DA8E2F25AF1AB7006F1DFA /* TiNfcVTagTechnology.m */; };
+		E2DA8E3625AF1BA2006F1DFA /* TiNfcISODepTagTechnology.h in Headers */ = {isa = PBXBuildFile; fileRef = E2DA8E3425AF1BA2006F1DFA /* TiNfcISODepTagTechnology.h */; };
+		E2DA8E3725AF1BA2006F1DFA /* TiNfcISODepTagTechnology.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DA8E3525AF1BA2006F1DFA /* TiNfcISODepTagTechnology.m */; };
+		E2DA8E4225AF1EBA006F1DFA /* TiNfcFTagTechnology.h in Headers */ = {isa = PBXBuildFile; fileRef = E2DA8E4025AF1EBA006F1DFA /* TiNfcFTagTechnology.h */; };
+		E2DA8E4325AF1EBA006F1DFA /* TiNfcFTagTechnology.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DA8E4125AF1EBA006F1DFA /* TiNfcFTagTechnology.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,12 +83,22 @@
 		DBF688321EEB4B3500009357 /* TiNfcNdefMessageProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TiNfcNdefMessageProxy.m; path = Classes/TiNfcNdefMessageProxy.m; sourceTree = "<group>"; };
 		DBF688351EEB4CB300009357 /* TiNfcNdefRecordProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TiNfcNdefRecordProxy.h; path = Classes/TiNfcNdefRecordProxy.h; sourceTree = "<group>"; };
 		DBF688361EEB4CB300009357 /* TiNfcNdefRecordProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TiNfcNdefRecordProxy.m; path = Classes/TiNfcNdefRecordProxy.m; sourceTree = "<group>"; };
+		E213783525C184E100FE0EED /* TiNfcTagProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TiNfcTagProxy.h; path = Classes/TiNfcTagProxy.h; sourceTree = "<group>"; };
+		E213783625C184E100FE0EED /* TiNfcTagProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TiNfcTagProxy.m; path = Classes/TiNfcTagProxy.m; sourceTree = "<group>"; };
+		E2DA8DCE25A3526B006F1DFA /* TiNfcMiFareUltralightTagTechnology.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TiNfcMiFareUltralightTagTechnology.h; path = Classes/TiNfcMiFareUltralightTagTechnology.h; sourceTree = "<group>"; };
+		E2DA8DCF25A3526B006F1DFA /* TiNfcMiFareUltralightTagTechnology.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TiNfcMiFareUltralightTagTechnology.m; path = Classes/TiNfcMiFareUltralightTagTechnology.m; sourceTree = "<group>"; };
 		E2DA8DF625AEE3F6006F1DFA /* TiNfcTagTechnologyProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TiNfcTagTechnologyProxy.h; path = Classes/TiNfcTagTechnologyProxy.h; sourceTree = "<group>"; };
 		E2DA8DF725AEE3F6006F1DFA /* TiNfcTagTechnologyProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TiNfcTagTechnologyProxy.m; path = Classes/TiNfcTagTechnologyProxy.m; sourceTree = "<group>"; };
 		E2DA8DFC25AEE4D9006F1DFA /* TiNfcNativeTagTechnologyProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TiNfcNativeTagTechnologyProxy.h; path = Classes/TiNfcNativeTagTechnologyProxy.h; sourceTree = "<group>"; };
 		E2DA8DFD25AEE4D9006F1DFA /* TiNfcNativeTagTechnologyProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TiNfcNativeTagTechnologyProxy.m; path = Classes/TiNfcNativeTagTechnologyProxy.m; sourceTree = "<group>"; };
-		E2DA8E0A25AEE6AD006F1DFA /* TiNfcTagProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TiNfcTagProxy.h; path = Classes/TiNfcTagProxy.h; sourceTree = "<group>"; };
-		E2DA8E0B25AEE6AD006F1DFA /* TiNfcTagProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TiNfcTagProxy.m; path = Classes/TiNfcTagProxy.m; sourceTree = "<group>"; };
+		E2DA8E2025AF1705006F1DFA /* TiNfcNDEFTagTechnology.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TiNfcNDEFTagTechnology.h; path = Classes/TiNfcNDEFTagTechnology.h; sourceTree = "<group>"; };
+		E2DA8E2125AF1705006F1DFA /* TiNfcNDEFTagTechnology.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TiNfcNDEFTagTechnology.m; path = Classes/TiNfcNDEFTagTechnology.m; sourceTree = "<group>"; };
+		E2DA8E2E25AF1AB7006F1DFA /* TiNfcVTagTechnology.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TiNfcVTagTechnology.h; path = Classes/TiNfcVTagTechnology.h; sourceTree = "<group>"; };
+		E2DA8E2F25AF1AB7006F1DFA /* TiNfcVTagTechnology.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TiNfcVTagTechnology.m; path = Classes/TiNfcVTagTechnology.m; sourceTree = "<group>"; };
+		E2DA8E3425AF1BA2006F1DFA /* TiNfcISODepTagTechnology.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TiNfcISODepTagTechnology.h; path = Classes/TiNfcISODepTagTechnology.h; sourceTree = "<group>"; };
+		E2DA8E3525AF1BA2006F1DFA /* TiNfcISODepTagTechnology.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TiNfcISODepTagTechnology.m; path = Classes/TiNfcISODepTagTechnology.m; sourceTree = "<group>"; };
+		E2DA8E4025AF1EBA006F1DFA /* TiNfcFTagTechnology.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TiNfcFTagTechnology.h; path = Classes/TiNfcFTagTechnology.h; sourceTree = "<group>"; };
+		E2DA8E4125AF1EBA006F1DFA /* TiNfcFTagTechnology.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TiNfcFTagTechnology.m; path = Classes/TiNfcFTagTechnology.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,8 +202,18 @@
 				E2DA8DF725AEE3F6006F1DFA /* TiNfcTagTechnologyProxy.m */,
 				E2DA8DFC25AEE4D9006F1DFA /* TiNfcNativeTagTechnologyProxy.h */,
 				E2DA8DFD25AEE4D9006F1DFA /* TiNfcNativeTagTechnologyProxy.m */,
-				E2DA8E0A25AEE6AD006F1DFA /* TiNfcTagProxy.h */,
-				E2DA8E0B25AEE6AD006F1DFA /* TiNfcTagProxy.m */,
+				E2DA8DCE25A3526B006F1DFA /* TiNfcMiFareUltralightTagTechnology.h */,
+				E2DA8DCF25A3526B006F1DFA /* TiNfcMiFareUltralightTagTechnology.m */,
+				E2DA8E2025AF1705006F1DFA /* TiNfcNDEFTagTechnology.h */,
+				E2DA8E2125AF1705006F1DFA /* TiNfcNDEFTagTechnology.m */,
+				E2DA8E2E25AF1AB7006F1DFA /* TiNfcVTagTechnology.h */,
+				E2DA8E2F25AF1AB7006F1DFA /* TiNfcVTagTechnology.m */,
+				E2DA8E3425AF1BA2006F1DFA /* TiNfcISODepTagTechnology.h */,
+				E2DA8E3525AF1BA2006F1DFA /* TiNfcISODepTagTechnology.m */,
+				E2DA8E4025AF1EBA006F1DFA /* TiNfcFTagTechnology.h */,
+				E2DA8E4125AF1EBA006F1DFA /* TiNfcFTagTechnology.m */,
+				E213783525C184E100FE0EED /* TiNfcTagProxy.h */,
+				E213783625C184E100FE0EED /* TiNfcTagProxy.m */,
 			);
 			name = "NFC Proxy class";
 			sourceTree = "<group>";
@@ -195,12 +225,18 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2DA8E4225AF1EBA006F1DFA /* TiNfcFTagTechnology.h in Headers */,
+				E2DA8E3025AF1AB7006F1DFA /* TiNfcVTagTechnology.h in Headers */,
 				AA747D9F0F9514B9006C5449 /* TiNfc_Prefix.pch in Headers */,
 				E2DA8DF825AEE3F6006F1DFA /* TiNfcTagTechnologyProxy.h in Headers */,
 				DB4613971F8CEF2A003956CF /* TiNfcUtilities.h in Headers */,
 				DBF688331EEB4B3500009357 /* TiNfcNdefMessageProxy.h in Headers */,
 				24DD6CF91134B3F500162E58 /* TiNfcModule.h in Headers */,
-				E2DA8E0C25AEE6AE006F1DFA /* TiNfcTagProxy.h in Headers */,
+				E213783725C184E100FE0EED /* TiNfcTagProxy.h in Headers */,
+				E2DA8E3625AF1BA2006F1DFA /* TiNfcISODepTagTechnology.h in Headers */,
+				24DD6CF91134B3F500162E58 /* TiNfcModule.h in Headers */,
+				E2DA8E2225AF1705006F1DFA /* TiNfcNDEFTagTechnology.h in Headers */,
+				E2DA8DD025A3526B006F1DFA /* TiNfcMiFareUltralightTagTechnology.h in Headers */,
 				DB856C461EE98C3B00DE4334 /* TiNfcNfcAdapterProxy.h in Headers */,
 				E2DA8DFE25AEE4D9006F1DFA /* TiNfcNativeTagTechnologyProxy.h in Headers */,
 				DBF688371EEB4CB300009357 /* TiNfcNdefRecordProxy.h in Headers */,
@@ -279,11 +315,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				24DD6CFA1134B3F500162E58 /* TiNfcModule.m in Sources */,
+				E2DA8E4325AF1EBA006F1DFA /* TiNfcFTagTechnology.m in Sources */,
+				E2DA8E3125AF1AB7006F1DFA /* TiNfcVTagTechnology.m in Sources */,
+				E2DA8E2325AF1705006F1DFA /* TiNfcNDEFTagTechnology.m in Sources */,
+				E2DA8E3725AF1BA2006F1DFA /* TiNfcISODepTagTechnology.m in Sources */,
 				DBF688381EEB4CB300009357 /* TiNfcNdefRecordProxy.m in Sources */,
 				E2DA8DFF25AEE4D9006F1DFA /* TiNfcNativeTagTechnologyProxy.m in Sources */,
-				E2DA8E0D25AEE6AE006F1DFA /* TiNfcTagProxy.m in Sources */,
 				DB856C471EE98C3B00DE4334 /* TiNfcNfcAdapterProxy.m in Sources */,
 				DBF688341EEB4B3500009357 /* TiNfcNdefMessageProxy.m in Sources */,
+				E2DA8DD125A3526B006F1DFA /* TiNfcMiFareUltralightTagTechnology.m in Sources */,
+				E213783825C184E100FE0EED /* TiNfcTagProxy.m in Sources */,
 				24DE9E1211C5FE74003F90F6 /* TiNfcModuleAssets.m in Sources */,
 				DB4613981F8CEF2A003956CF /* TiNfcUtilities.m in Sources */,
 				E2DA8DF925AEE3F6006F1DFA /* TiNfcTagTechnologyProxy.m in Sources */,

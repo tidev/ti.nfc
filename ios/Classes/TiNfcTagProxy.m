@@ -27,4 +27,9 @@
   return NUMINT([_tag isAvailable]);
 }
 
+- (id<NFCTag>)tag
+{
+  return _tag;
+}
+
 @end

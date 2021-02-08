@@ -10,10 +10,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface TiNfcNativeTagTechnologyProxy : TiNfcTagTechnologyProxy {
-  NFCTagReaderSession *session;
-  id<NFCTag> tag;
-}
+@interface TiNfcNativeTagTechnologyProxy : TiNfcTagTechnologyProxy
+
+@property (nonatomic, weak) NFCTagReaderSession *session;
+@property (nonatomic, weak) TiNfcTagProxy *tag;
+
+- (id)_initWithPageContext:(id<TiEvaluator>)context andSession:(NFCTagReaderSession *)session andTag:(TiNfcTagProxy *)tag;
 
 @end
 
