@@ -80,7 +80,17 @@ nfcAdapter.addEventListener('didDetectTags', function (e) {
         alert('Tag Connected: ' + e.tag);
     });
     mifare.connect({mifare});
-    nfcAdapter.invalidate(sessionType);
+    
+       var identifier = mifare.identifier;
+       var historicalBytes = mifare.historicalBytes;
+       var sendMiFareCommand = mifare.sendMiFareCommand({data:[0xA0, 0x00]});
+       Ti.API.info('Connected tag object : ' + response);
+       alert('Tag Connected: ' + responseData);
+    
+       var sendMiFareISO7816Command = mifare.sendMiFareISO7816Command({instructionClass: 0, instructionCode: 0, p1Parameter: 0, p2Parameter: 0, expectedResponseLength: 16, data:[0xA0, 0x00]});
+        Ti.API.info('Connected tag object : ' + response);
+        alert('Tag Connected: ' + response);
+      nfcAdapter.invalidate(sessionType);
 });
 nfcAdapter.addEventListener('didInvalidateWithError', function (e) {
         Ti.API.info('code: ' + e.code);
