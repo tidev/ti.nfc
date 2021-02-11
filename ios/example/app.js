@@ -28,7 +28,8 @@
  * Finally, ensure to enable the "NFC Tag Reading" capability in your provisioning profile
  * by checking it in the Apple Developer Center (https://developer.apple.com). 
  */
-
+const IOS = (Ti.Platform.osname === 'iphone' || Ti.Platform.osname === 'ipad');
+const ANDROID = (Ti.Platform.osname === 'android');
 var nfc = require('ti.nfc');
 var sessionType = ({type:nfc.READER_SESSION_NFC_TAG, pollingOptions: [nfc.NFC_TAG_ISO14443]}    )
 var nfcAdapter = nfc.createNfcAdapter({
@@ -66,13 +67,15 @@ btn.addEventListener('click', function() {
     Ti.API.error('This device does not support NFC capabilities!');
     return;
   }
-  nfcAdapter.begin(sessionType); // This is required for iOS only. Use "invalidate()" to invalidate a session.
+    if (IOS){
+        nfcAdapter.begin(sessionType);
+    }// This is required for iOS only. Use "invalidate()" to invalidate a session.
 });
 
 nfcAdapter.addEventListener('didDetectTags', function (e) {
     var mifare = nfcAdapter.createTagTechMifareUltralight({'tag':e.tags[0]});
     mifare.addEventListener('didConnectTag', function (e) {
-        Ti.API.info('Connected tag object : ' + e.code);
+        Ti.API.info('Connected tag object : ' + e.tag);
         alert('Tag Connected: ' + e.tag);
     });
     mifare.connect({mifare});
