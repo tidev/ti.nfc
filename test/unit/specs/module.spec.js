@@ -1,4 +1,5 @@
 let NFC;
+let nfcAdapter;
 
 const IOS = (Ti.Platform.osname === 'iphone' || Ti.Platform.osname === 'ipad');
 const ANDROID = (Ti.Platform.osname === 'android');
@@ -21,68 +22,61 @@ describe('ti.nfc', () => {
 			});
 
 			describe('methods', () => {
+				beforeAll(function () {
+					nfcAdapter = NFC.createNfcAdapter();
+				});
+
 				it('nfcAdapter should be defined', () => {
-					const nfcAdapter = NFC.createNfcAdapter();
 
 					expect(nfcAdapter).toBeDefined();
 				});
 
 				it('should have isEnabled function', () => {
-					const nfcAdapter = NFC.createNfcAdapter();
 
 					expect(nfcAdapter.isEnabled).toEqual(jasmine.any(Function));
 				});
 
 				it('should have begin function', () => {
-					const nfcAdapter = NFC.createNfcAdapter();
 
 					expect(nfcAdapter.begin).toEqual(jasmine.any(Function));
 				});
 
 				it('should have invalidate function', () => {
-					const nfcAdapter = NFC.createNfcAdapter();
 
 					expect(nfcAdapter.invalidate).toEqual(jasmine.any(Function));
 				});
 
 				it('should have createTagTechMifareUltralight function', () => {
-					const nfcAdapter = NFC.createNfcAdapter();
 
 					expect(nfcAdapter.createTagTechMifareUltralight).toEqual(jasmine.any(Function));
 				});
 
 				it('should have createTagTechNdef function', () => {
-					const nfcAdapter = NFC.createNfcAdapter();
 
 					expect(nfcAdapter.createTagTechNdef).toEqual(jasmine.any(Function));
 				});
 
 				it('should have createTagTechNfcV function', () => {
-					const nfcAdapter = NFC.createNfcAdapter();
 
 					expect(nfcAdapter.createTagTechNfcV).toEqual(jasmine.any(Function));
 				});
 
 				it('should have createTagTechISODep function', () => {
-					const nfcAdapter = NFC.createNfcAdapter();
 
 					expect(nfcAdapter.createTagTechISODep).toEqual(jasmine.any(Function));
 				});
 
 				it('should have createTagTechNfcF function', () => {
-					const nfcAdapter = NFC.createNfcAdapter();
 
 					expect(nfcAdapter.createTagTechNfcF).toEqual(jasmine.any(Function));
 				});
 
 				it('should have setOnNdefDiscovered function', () => {
-					const nfcAdapter = NFC.createNfcAdapter();
 
 					expect(nfcAdapter.setOnNdefDiscovered).toEqual(jasmine.any(Function));
 				});
 
 				it('should have setOnNdefInvalidated function', () => {
-					const nfcAdapter = NFC.createNfcAdapter();
 
 					expect(nfcAdapter.setOnNdefInvalidated).toEqual(jasmine.any(Function));
 				});
