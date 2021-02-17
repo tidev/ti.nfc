@@ -10,7 +10,7 @@ module.exports = config => {
 		reporters: [ 'mocha', 'junit' ],
 		plugins: [ 'karma-*' ],
 		titanium: {
-			sdkVersion: config.sdkVersion || '9.2.0.GA'
+			sdkVersion: config.sdkVersion || '9.3.1.GA'
 		},
 		customLaunchers: {
 			android: {
