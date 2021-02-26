@@ -1,0 +1,58 @@
+name: Modules.Nfc.MifareTagTechnology
+summary: Provides access to MIFARE Ultralight properties and I/O operations on a <Modules.Nfc.NfcTag>.
+description: |
+    Use the <Modules.Nfc.createTagTechnologyMifareUltralight> method to create this tag technology.
+    See also:
+    [Mifare Ultralight](https://developer.apple.com/documentation/corenfc/nfcmifaretag?language=objc)
+    
+extends: Modules.Nfc.NativeTagTechnology
+since: "1.1.0"
+platforms: [iphone]
+
+methods:
+  - name: mifareFamily
+    summary: The MIFARE product family identifier for the tag.
+
+  - name: identifier
+    summary: The unique hardware identifier of the tag.
+
+  - name: historicalBytes
+    summary: The historical bytes extracted from an Answer To Select response.
+
+  - name: sendMiFareCommand
+    summary: Sends a native MIFARE command to the tag.
+    parameters:
+    - name: data
+      summary: hex command with length will be sent in form of data
+      type: Titanium.Buffer
+    - name: errorCode
+      type: String
+      summary: The error code; only present if an error occurred.
+    - name: errorDomain
+      type: String
+      summary: The error domain; only present if an error occurred.
+    - name: errorDescription
+      type: String
+      summary: The error description; only peresent if an error occurred.
+
+  - name: sendMiFareISO7816Command
+    summary: Sends a native MIFARE command to the tag along with other parameter.
+    parameters:
+    - name: sw1
+      summary: The SW1 command-processing status byte.
+      type: Number
+    - name: sw2
+      summary: The SW2 command-processing status byte.
+      type: Number
+    - name: apdu
+      summary: An ISO 7816-4 command APDU object.
+      type: Titanium.Buffer
+    - name: errorCode
+      type: String
+      summary: The error code; only present if an error occurred.
+    - name: errorDomain
+      type: String
+      summary: The error domain; only present if an error occurred.
+    - name: errorDescription
+      type: String
+      summary: The error description; only peresent if an error occurred.

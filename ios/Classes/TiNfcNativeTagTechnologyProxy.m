@@ -26,16 +26,23 @@
 
 - (void)connect:(id)unused
 {
-  [self.session connectToTag:self.tag
+  [self.session connectToTag:[self.tag tag]
            completionHandler:^(NSError *_Nullable error) {
              if (![self _hasListeners:@"didConnectTag"]) {
                return;
              }
+             if (error != nil) {
+               [self fireEvent:@"didConnectTag"
+                    withObject:@{
+                      @"errorCode" : NUMINTEGER([error code]),
+                      @"errorDescription" : [error localizedDescription],
+                      @"errorDomain" : [error domain],
+                      @"tag" : self.tag
+                    }];
+               return;
+             }
              [self fireEvent:@"didConnectTag"
                   withObject:@{
-                    @"errorCode" : NUMINTEGER([error code]),
-                    @"errorDescription" : [error localizedDescription],
-                    @"errorDomain" : [error domain],
                     @"tag" : self.tag
                   }];
            }];
@@ -43,7 +50,7 @@
 
 - (NSNumber *)isConnected:(id)unused
 {
-  return [NSNumber numberWithBool:self.session.connectedTag == self.tag ? YES : NO];
+  return [NSNumber numberWithBool:self.session.connectedTag == [self.tag tag] ? YES : NO];
 }
 
 @end
