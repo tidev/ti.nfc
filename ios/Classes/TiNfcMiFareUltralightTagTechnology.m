@@ -33,11 +33,11 @@
 - (void)sendMiFareCommand:(id)args
 {
   NSArray *commandData = [[args firstObject] valueForKey:@"data"];
-  unsigned int dataValue[2];
+  unsigned int dataValue[commandData.count];
   for (int i = 1; i < commandData.count; i++) {
     dataValue[i] = [commandData[i] unsignedIntValue];
   }
-  NSData *data = [[NSData alloc] initWithBytes:dataValue length:2];
+  NSData *data = [[NSData alloc] initWithBytes:dataValue length:commandData.count];
   [[self.tagProxy asNFCMiFareTag] sendMiFareCommand:data
                                   completionHandler:^(NSData *response, NSError *error) {
                                     if (error == nil) {
