@@ -40,21 +40,20 @@
   NSData *data = [[NSData alloc] initWithBytes:dataValue length:commandData.count];
   [[self.tagProxy asNFCMiFareTag] sendMiFareCommand:data
                                   completionHandler:^(NSData *response, NSError *error) {
-                                    if (error == nil) {
-                                      if (![self _hasListeners:@"didSendMiFareCommand"]) {
-                                        return;
-                                      }
-                                      TiBuffer *responseData = [[TiBuffer alloc] _initWithPageContext:[self pageContext]];
-                                      NSMutableData *responsevalue = [NSMutableData dataWithData:response];
-                                      [responseData setData:responsevalue];
-                                      [self fireEvent:@"didSendMiFareCommand"
-                                           withObject:@{
-                                             @"errorCode" : NUMINTEGER([error code]),
-                                             @"errorDescription" : [error localizedDescription],
-                                             @"errorDomain" : [error domain],
-                                             @"response" : responseData
-                                           }];
+                                    if (![self _hasListeners:@"didSendMiFareCommand"]) {
+                                      return;
                                     }
+                                    TiBuffer *responseData = [[TiBuffer alloc] _initWithPageContext:[self pageContext]];
+                                    NSMutableData *responsevalue = [NSMutableData dataWithData:response];
+                                    [responseData setData:responsevalue];
+                                    [self fireEvent:@"didConnectTag"
+                                         withObject:@{
+                                           @"errorCode" : error != nil ? NUMINTEGER([error code]) : [NSNull null],
+                                           @"errorDescription" : error != nil ? [error localizedDescription] : [NSNull null],
+                                           @"errorDomain" : error != nil ? [error domain] : [NSNull null],
+                                           @"response" : responseData
+
+                                         }];
                                   }];
 }
 
@@ -86,21 +85,20 @@
 
   [[self.tagProxy asNFCMiFareTag] sendMiFareISO7816Command:apdu
                                          completionHandler:^(NSData *responseData, uint8_t sw1, uint8_t sw2, NSError *error) {
-                                           if (error == nil) {
-                                             if (![self _hasListeners:@"didSendMiFareISO7816Command"]) {
-                                               return;
-                                             }
-                                             TiBuffer *responseDataValue = [[TiBuffer alloc] _initWithPageContext:[self pageContext]];
-                                             NSMutableData *responsevalue = [NSMutableData dataWithData:responseData];
-                                             [responseDataValue setData:responsevalue];
-                                             [self fireEvent:@"didSendMiFareISO7816Command"
-                                                  withObject:@{
-                                                    @"errorCode" : NUMINTEGER([error code]),
-                                                    @"errorDescription" : [error localizedDescription],
-                                                    @"errorDomain" : [error domain],
-                                                    @"responseData" : responseDataValue
-                                                  }];
+                                           if (![self _hasListeners:@"didSendMiFareISO7816Command"]) {
+                                             return;
                                            }
+                                           TiBuffer *responseDataValue = [[TiBuffer alloc] _initWithPageContext:[self pageContext]];
+                                           NSMutableData *responsevalue = [NSMutableData dataWithData:responseData];
+                                           [responseDataValue setData:responsevalue];
+                                           [self fireEvent:@"didSendMiFareISO7816Command"
+                                                withObject:@{
+                                                  @"errorCode" : error != nil ? NUMINTEGER([error code]) : [NSNull null],
+                                                  @"errorDescription" : error != nil ? [error localizedDescription] : [NSNull null],
+                                                  @"errorDomain" : error != nil ? [error domain] : [NSNull null],
+                                                  @"responseData" : responseDataValue
+
+                                                }];
                                          }];
 }
 @end
