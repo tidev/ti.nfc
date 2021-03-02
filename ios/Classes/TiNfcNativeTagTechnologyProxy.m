@@ -31,19 +31,13 @@
              if (![self _hasListeners:@"didConnectTag"]) {
                return;
              }
-             if (error != nil) {
-               [self fireEvent:@"didConnectTag"
-                    withObject:@{
-                      @"errorCode" : error != nil ? NUMINTEGER([error code]) : NULL,
-                      @"errorDescription" : error != nil ? [error localizedDescription] : NULL,
-                      @"errorDomain" : error != nil ? [error domain] : NULL,
-                      @"tag" : self.tagProxy
-                    }];
-               return;
-             }
              [self fireEvent:@"didConnectTag"
                   withObject:@{
+                    @"errorCode" : error != nil ? NUMINTEGER([error code]) : [NSNull null],
+                    @"errorDescription" : error != nil ? [error localizedDescription] : [NSNull null],
+                    @"errorDomain" : error != nil ? [error domain] : [NSNull null],
                     @"tag" : self.tagProxy
+
                   }];
            }];
 }
