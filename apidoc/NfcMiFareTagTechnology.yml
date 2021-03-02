@@ -24,7 +24,7 @@ methods:
     parameters:
     - name: data
       summary: hex command with length will be sent in form of data
-      type: Titanium.Buffer
+      type: Array<Number>
     - name: errorCode
       type: String
       summary: The error code; only present if an error occurred.
@@ -38,6 +38,9 @@ methods:
   - name: sendMiFareISO7816Command
     summary: Sends a native MIFARE command to the tag along with other parameter.
     parameters:
+    - name: data
+      summary: hex command with length will be sent in form of data
+      type: Array<Number>
     - name: sw1
       summary: The SW1 command-processing status byte.
       type: Number
