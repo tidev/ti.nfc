@@ -46,7 +46,7 @@
                                     TiBuffer *responseData = [[TiBuffer alloc] _initWithPageContext:[self pageContext]];
                                     NSMutableData *responsevalue = [NSMutableData dataWithData:response];
                                     [responseData setData:responsevalue];
-                                    [self fireEvent:@"didConnectTag"
+                                    [self fireEvent:@"didSendMiFareCommand"
                                          withObject:@{
                                            @"errorCode" : error != nil ? NUMINTEGER([error code]) : [NSNull null],
                                            @"errorDescription" : error != nil ? [error localizedDescription] : [NSNull null],
