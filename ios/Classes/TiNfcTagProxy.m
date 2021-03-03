@@ -20,11 +20,36 @@
   return self;
 }
 
+- (id<NFCMiFareTag>)asNFCMiFareTag
+{
+  return [_tag asNFCMiFareTag];
+}
+
+- (id<NFCISO15693Tag>)asNFCISO15693Tag
+{
+  return [_tag asNFCISO15693Tag];
+}
+
+- (id<NFCFeliCaTag>)asNFCFeliCaTag
+{
+  return [_tag asNFCFeliCaTag];
+}
+
+- (id<NFCISO7816Tag>)asNFCISO7816Tag
+{
+  return [_tag asNFCISO7816Tag];
+}
+
 #pragma mark Public API's
 
 - (NSNumber *)available
 {
   return NUMINT([_tag isAvailable]);
+}
+
+- (NSNumber *)nfcTagType
+{
+  return NUMINTEGER([_tag type]);
 }
 
 - (id<NFCTag>)tag

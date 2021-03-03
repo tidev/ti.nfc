@@ -13,6 +13,13 @@ NS_ASSUME_NONNULL_BEGIN
 @interface TiNfcTagProxy : TiProxy {
   id<NFCTag> _tag;
 }
+- (id<NFCMiFareTag>)asNFCMiFareTag;
+
+- (id<NFCISO15693Tag>)asNFCISO15693Tag;
+
+- (id<NFCFeliCaTag>)asNFCFeliCaTag;
+
+- (id<NFCISO7816Tag>)asNFCISO7816Tag;
 
 - (id)_initWithPageContext:(id<TiEvaluator>)context andTag:(id<NFCTag>)tag;
 
@@ -22,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSNumber *)available;
 
+- (NSNumber *)nfcTagType;
 @end
 
 NS_ASSUME_NONNULL_END

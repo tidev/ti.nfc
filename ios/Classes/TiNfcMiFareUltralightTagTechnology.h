@@ -13,6 +13,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TiNfcMiFareUltralightTagTechnology : TiNfcNativeTagTechnologyProxy
 
+- (NSNumber *)mifareFamily;
+
+- (TiBuffer *)identifier;
+
+- (TiBuffer *)historicalBytes;
+
+- (void)sendMiFareCommand:(id)args;
+
+- (void)sendMiFareISO7816Command:(id)args;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -16,7 +16,7 @@
 - (id)_initWithPageContext:(id<TiEvaluator>)context andSession:(NFCTagReaderSession *)session andTag:(TiNfcTagProxy *)tag
 {
   if (self = [super _initWithPageContext:context]) {
-    self.tag = tag;
+    self.tagProxy = tag;
     self.session = session;
   }
   return self;
@@ -26,24 +26,25 @@
 
 - (void)connect:(id)unused
 {
-  [self.session connectToTag:self.tag
+  [self.session connectToTag:[self.tagProxy tag]
            completionHandler:^(NSError *_Nullable error) {
              if (![self _hasListeners:@"didConnectTag"]) {
                return;
              }
              [self fireEvent:@"didConnectTag"
                   withObject:@{
-                    @"errorCode" : NUMINTEGER([error code]),
-                    @"errorDescription" : [error localizedDescription],
-                    @"errorDomain" : [error domain],
-                    @"tag" : self.tag
+                    @"errorCode" : error != nil ? NUMINTEGER([error code]) : [NSNull null],
+                    @"errorDescription" : error != nil ? [error localizedDescription] : [NSNull null],
+                    @"errorDomain" : error != nil ? [error domain] : [NSNull null],
+                    @"tag" : self.tagProxy
+
                   }];
            }];
 }
 
 - (NSNumber *)isConnected:(id)unused
 {
-  return [NSNumber numberWithBool:self.session.connectedTag == self.tag ? YES : NO];
+  return [NSNumber numberWithBool:self.session.connectedTag == [self.tagProxy tag] ? YES : NO];
 }
 
 @end
