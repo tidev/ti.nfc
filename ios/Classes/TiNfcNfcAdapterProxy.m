@@ -204,7 +204,7 @@
       NO);
 }
 
-#pragma mark NFCReaderSessionDelegate
+#pragma mark NFCTagReaderSessionDelegate
 
 - (void)tagReaderSession:(NFCTagReaderSession *)session didInvalidateWithError:(NSError *)error
 {
@@ -214,9 +214,9 @@
   }
   [self fireEvent:@"didInvalidateWithError"
        withObject:@{
-         @"cancelled" : @(error.code == 200),
-         @"message" : [error localizedDescription],
-         @"code" : NUMINTEGER([error code]),
+         @"errorCode" : error != nil ? NUMINTEGER([error code]) : [NSNull null],
+         @"errorDescription" : error != nil ? [error localizedDescription] : [NSNull null],
+         @"errorDomain" : error != nil ? [error domain] : [NSNull null],
          @"type" : @"NFCTagReaderSession"
        }];
 }

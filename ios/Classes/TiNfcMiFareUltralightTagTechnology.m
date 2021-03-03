@@ -34,7 +34,7 @@
 {
   NSArray *commandData = [[args firstObject] valueForKey:@"data"];
   unsigned int dataValue[commandData.count];
-  for (int i = 1; i < commandData.count; i++) {
+  for (int i = 0; i < commandData.count; i++) {
     dataValue[i] = [commandData[i] unsignedIntValue];
   }
   NSData *data = [[NSData alloc] initWithBytes:dataValue length:commandData.count];
@@ -51,7 +51,7 @@
                                            @"errorCode" : error != nil ? NUMINTEGER([error code]) : [NSNull null],
                                            @"errorDescription" : error != nil ? [error localizedDescription] : [NSNull null],
                                            @"errorDomain" : error != nil ? [error domain] : [NSNull null],
-                                           @"response" : responseData
+                                           @"responseDataLength" : responseData.length
 
                                          }];
                                   }];
@@ -61,7 +61,7 @@
 {
   NSArray *commandData = [[args firstObject] valueForKey:@"data"];
   unsigned int dataValue[commandData.count];
-  for (int i = 1; i < commandData.count; i++) {
+  for (int i = 0; i < commandData.count; i++) {
     dataValue[i] = [commandData[i] unsignedIntValue];
   }
   NSData *data = [[NSData alloc] initWithBytes:dataValue length:commandData.count];
@@ -96,7 +96,7 @@
                                                   @"errorCode" : error != nil ? NUMINTEGER([error code]) : [NSNull null],
                                                   @"errorDescription" : error != nil ? [error localizedDescription] : [NSNull null],
                                                   @"errorDomain" : error != nil ? [error domain] : [NSNull null],
-                                                  @"responseData" : responseDataValue
+                                                  @"responseDataLength" : responseDataValue.length
 
                                                 }];
                                          }];
