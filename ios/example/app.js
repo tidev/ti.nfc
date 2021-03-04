@@ -116,7 +116,7 @@ nfcAdapter.addEventListener('didDetectTags', function (e) {
    if (mifare){
   mifare.connect({mifare});
    }else {
-       alert('No mifare tag available to disconnect');
+       alert('No mifare tag available to connect');
    }
 });
 nfcAdapter.addEventListener('didInvalidateWithError', function (e) {
@@ -134,6 +134,7 @@ clearLogBtn.addEventListener('click', function() {
    var rowCount = logs.length;
    for (var i = rowCount ; i > -1; i--) {
        tableView.deleteRow(i);
+       logs.pop();
    }
 });
 var tableView = Titanium.UI.createTableView({
