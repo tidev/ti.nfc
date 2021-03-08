@@ -131,11 +131,8 @@ var clearLogBtn = Titanium.UI.createButton({
 });
 
 clearLogBtn.addEventListener('click', function() {
-   var rowCount = logs.length;
-   for (var i = rowCount ; i > -1; i--) {
-       tableView.deleteRow(i);
-       logs.pop();
-   }
+    logs.splice(0, logs.length);
+        setData(logs);
 });
 var tableView = Titanium.UI.createTableView({
   top: 250,
