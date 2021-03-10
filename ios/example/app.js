@@ -78,38 +78,21 @@ startSearchBtn.addEventListener('click', function() {
 nfcAdapter.begin(sessionType); // This is required for iOS only. Use "invalidate()" to invalidate a session.
 });
 nfcAdapter.addEventListener('didDetectTags', function (e) {
-    if (e.errorCode){
-        Ti.API.info('Error when detecting tag with - error code ' + e.errorCode + ' error domain: ' + e.errorDomain + ' error description ' + e.errorDescription);
-        logs.push('Error when detecting tag with - error code ' + e.errorCode + ' error domain: ' + e.errorDomain + ' error description ' + e.errorDescription);
-        setData(logs);
-    }else{
-        logs.push('Tag scanning start');
-        logs.push('Mifare tag detected');
-        setData(logs);
-    }
+    Ti.API.info('didDetectTags with message' + (e.errorCode ? (' error code: ' + e.errorCode + ' error domain: ' + e.errorDomain + ' error description: ' + e.errorDescription) : ': Tag Detected'));
+    logs.push('didDetectTags with message' + (e.errorCode ? (' error code: ' + e.errorCode + ' error domain: ' + e.errorDomain + ' error description: ' + e.errorDescription) : ': Tag Detected'));
+    setData(logs);
+    
   var mifare = nfcAdapter.createTagTechMifareUltralight({'tag':e.tags[0]});
   mifare.addEventListener('didConnectTag', function (e) {
-      if (e.errorCode){
-          Ti.API.info('Error when connectiong tag with - error code ' + e.errorCode + ' error domain: ' + e.errorDomain + ' error description ' + e.errorDescription);
-          logs.push('Error when connectiong tag with - error code ' + e.errorCode + ' error domain: ' + e.errorDomain + ' error description ' + e.errorDescription);
-          setData(logs);
-      }else{
-          Ti.API.info('Connected tag object : ' + e.tag);
-          logs.push('Mifare tag connected : '  + e.tag);
-          setData(logs);
-      }
+      Ti.API.info('didConnectTag with message' + (e.errorCode ? (' error code: ' + e.errorCode + ' error domain: ' + e.errorDomain + ' error description: ' + e.errorDescription) : ': MiFare Tag Connected'));
+      logs.push('didConnectTag with message' + (e.errorCode ? (' error code: ' + e.errorCode + ' error domain: ' + e.errorDomain + ' error description: ' + e.errorDescription) : ': MiFare Tag Connected'));
+      setData(logs);
       var sendMiFareCommand = mifare.sendMiFareCommand({data: [0x30,0x04]})
       mifare.addEventListener('didSendMiFareCommand', function (e) {
-          if (e.errorCode){
-              Ti.API.info('Error when sending command with - error code ' + e.errorCode + ' error domain: ' + e.errorDomain + ' error description ' + e.errorDescription);
-              logs.push('Error when sending command with - error code ' + e.errorCode + ' error domain: ' + e.errorDomain + ' error description ' + e.errorDescription);
-              setData(logs);
-          }else {
-              Ti.API.info('Connected tag object : ' + e.responseDataLength);
-              logs.push('Command send to Mifare tag to read page data');
-              logs.push('Length of response object : ' + e.responseDataLength);
-              setData(logs);
-          }
+          Ti.API.info('didSendMiFareCommand with message' + (e.errorCode ? (' error code: ' + e.errorCode + ' error domain: ' + e.errorDomain + ' error description: ' + e.errorDescription) : ': Mifare Command Send to read page data'));
+          logs.push('didSendMiFareCommand with message' + (e.errorCode ? (' error code: ' + e.errorCode + ' error domain: ' + e.errorDomain + ' error description: ' + e.errorDescription) : ': Mifare Command Send to read page data'));
+          logs.push('Length of response object : ' + e.responseDataLength);
+          setData(logs);
       });
       nfcAdapter.invalidate(sessionType);
   });
