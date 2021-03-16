@@ -21,6 +21,7 @@
 
 - (NSArray<TiNfcNdefRecordProxy *> *)records;
 
+- (NSArray<NFCNDEFPayload *> *)nfcNdefPayloads;
 @end
 
 #endif

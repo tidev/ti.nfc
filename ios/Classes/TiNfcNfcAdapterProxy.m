@@ -12,6 +12,7 @@
 #import "TiNfcISODepTagTechnology.h"
 #import "TiNfcMiFareUltralightTagTechnology.h"
 #import "TiNfcModule.h"
+#import "TiNfcNDEFTagProxy.h"
 #import "TiNfcNDEFTagTechnology.h"
 #import "TiNfcNdefMessageProxy.h"
 #import "TiNfcTagProxy.h"
@@ -110,7 +111,7 @@
   if ([[args firstObject] valueForKey:@"tag"] == nil) {
     return nil;
   }
-  TiNfcTagProxy *tag = [[args firstObject] valueForKey:@"tag"];
+  TiNfcNDEFTagProxy *tag = [[args firstObject] valueForKey:@"tag"];
   TiNfcNDEFTagTechnology *ndefTag = [[TiNfcNDEFTagTechnology alloc] _initWithPageContext:[self pageContext] andSession:_nfcSession andTag:tag];
   return ndefTag;
 }
@@ -158,6 +159,33 @@
 }
 
 #pragma mark NFCNDEFReaderSessionDelegate
+
+- (void)readerSession:(NFCNDEFReaderSession *)session didDetectTags:(NSArray<__kindof id<NFCNDEFTag>> *)tags
+{
+  if (![self _hasListeners:@"didDetectTags"]) {
+    return;
+  }
+  NSMutableArray *tagData = [[NSMutableArray alloc] init];
+  for (id<NFCNDEFTag> tag in tags) {
+    [tagData addObject:[[TiNfcNDEFTagProxy alloc] _initWithPageContext:[self pageContext] andTag:tag]];
+  }
+  [self fireEvent:@"didDetectTags"
+       withObject:@{
+         @"tags" : tagData,
+         @"type" : @"NFCNDEFReaderSession"
+       }];
+}
+
+- (void)readerSessionDidBecomeActive:(NFCNDEFReaderSession *)session
+{
+  if (![self _hasListeners:@"tagReaderSessionDidBecomeActive"]) {
+    return;
+  }
+  [self fireEvent:@"tagReaderSessionDidBecomeActive"
+       withObject:@{
+         @"type" : @"NFCNDEFReaderSession"
+       }];
+}
 
 - (void)readerSession:(NFCNDEFReaderSession *)session didDetectNDEFs:(NSArray<NFCNDEFMessage *> *)messages
 {

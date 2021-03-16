@@ -1,0 +1,126 @@
+---
+name: Modules.Nfc.NfcNDEFTagTechnology
+summary: Provides access to NDEF tag and I/O operations on a <Modules.Nfc.NfcNDEFTag>
+description: |
+    Use the <Modules.Nfc.createTagTechNdef> method to create this NDEF tag technology.
+extends: Titanium.Proxy
+since: "3.0.1"
+platforms: [iphone, ipad]
+createable: false
+
+methods:
+  - name: connect
+    summary: Call to connect NfcNDEFTag from session NFCNDEFReaderSession, connection success or failure result in a didConnectNDEFTag event.
+    returns:
+      type: void
+
+  - name: queryNDEFStatus
+    summary: Asks the reader session for the NDEF support status of the tag. Success/Failure result in a didQueryNDEFStatus event.
+    returns:
+      type: void
+
+  - name: readNDEF
+    summary: Retrieves an NDEF message from the tag. Success/Failure result in a didReadNDEFMessage event.
+    returns:
+      type: void
+
+  - name: writeNDEF
+    summary: Saves an NDEF message to a writable tag. Success/Failure result in a didWirteNDEFMessage event.
+    returns:
+      type: void
+
+  - name: writeLock
+    summary: Changes the NDEF tag status to read-only, preventing future write operations. Success/Failure result in a didWriteLock event.
+    returns:
+      type: void
+
+events:
+  - name: didConnectNDEFTag
+    summary: A event called when NFCNDEFReaderSession try to connect with NDEF tag
+    description: |
+        A tag stays connected until your app connects to a different tag or restarts polling. Connecting to a tag that is already connected has no effect.
+    platforms: [iphone, ipad]
+    properties:
+      - name: errorCode
+        type: Number
+        summary: The error code.
+      - name: errorDescription
+        type: String
+        summary: A string containing the localized description of the error.
+      - name: errorDomain
+        type: String
+        summary: A string containing the error domain.
+
+  - name: didQueryNDEFStatus
+    summary: Asks the reader session for the NDEF support status of the tag.
+    description: |
+        Asks the reader session (NFCNDEFReaderSession) for the NDEF support status of the tag.
+    platforms: [iphone, ipad]
+    properties:
+      - name: errorCode
+        type: Number
+        summary: The error code.
+      - name: errorDescription
+        type: String
+        summary: A string containing the localized description of the error.
+      - name: errorDomain
+        type: String
+        summary: A string containing the error domain.
+      - name: status
+        type: Number
+        summary: Constants that indicate status for an NDEF tag.
+      - name: capacity
+        type: Number
+        summary: Indicates the maximum NDEF message size, in bytes, that you can store on the tag.
+
+  - name: didReadNDEFMessage
+    summary: Retrieves an NDEF message from the tag.
+    description: |
+        Retrieves an NDEF message from the tag.
+    platforms: [iphone, ipad]
+    properties:
+      - name: errorCode
+        type: Number
+        summary: The error code.
+      - name: errorDescription
+        type: String
+        summary: A string containing the localized description of the error.
+      - name: errorDomain
+        type: String
+        summary: A string containing the error domain.
+      - name: message
+        type: Modules.Nfc.NdefMessage
+        summary: An NFC NDEF message consisting of an array of payload records.
+
+  - name: didWirteNDEFMessage
+    summary: Saves an NDEF message to a writable tag.
+    description: |
+        To determine whether the tag is writable, call queryNDEFStatus and check that the status is NFC_NDEF_READ_WRITE.
+    platforms: [iphone, ipad]
+    properties:
+      - name: errorCode
+        type: Number
+        summary: The error code.
+      - name: errorDescription
+        type: String
+        summary: A string containing the localized description of the error.
+      - name: errorDomain
+        type: String
+        summary: A string containing the error domain.
+
+  - name: didWriteLock
+    summary: Changes the NDEF tag status to read-only, preventing future write operations.
+    description: |
+        Calling this method updates the write access condition byte in the NDEF File Control of the tag's file system, thus locking the tag. This is a permanent action that you cannot undo. After locking the tag, you can no longer write data to it.
+    platforms: [iphone, ipad]
+    properties:
+      - name: errorCode
+        type: Number
+        summary: The error code.
+      - name: errorDescription
+        type: String
+        summary: A string containing the localized description of the error.
+      - name: errorDomain
+        type: String
+        summary: A string containing the error domain.
+        
