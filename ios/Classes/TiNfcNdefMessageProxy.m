@@ -36,6 +36,11 @@
   return result;
 }
 
+- (NSArray<NFCNDEFPayload *> *)nfcNdefPayloads
+{
+  return _records;
+}
+
 @end
 
 #endif
