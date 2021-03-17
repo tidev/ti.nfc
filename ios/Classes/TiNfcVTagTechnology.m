@@ -68,11 +68,16 @@
   NSNumber *blockNumberValue = [[args firstObject] valueForKey:@"blockNumber"];
   uint8_t blockNumber = [blockNumberValue unsignedCharValue];
 
-  TiBuffer *dataBlock = [[args firstObject] valueForKey:@"blockNumber"];
+  NSArray *dataBlock = [[args firstObject] valueForKey:@"blockNumber"];
+  unsigned int dataValue[dataBlock.count];
+  for (int i = 0; i < dataBlock.count; i++) {
+    dataValue[i] = [dataBlock[i] unsignedIntValue];
+  }
+  NSData *data = [[NSData alloc] initWithBytes:dataValue length:dataBlock.count];
 
   [[self.tagProxy asNFCISO15693Tag] writeSingleBlockWithRequestFlags:requestFlags
                                                          blockNumber:blockNumber
-                                                           dataBlock:dataBlock.data
+                                                           dataBlock:data
                                                    completionHandler:^(NSError *_Nullable error) {
                                                      if (![self _hasListeners:@"didWriteSingleBlockWithRequestFlags"]) {
                                                        return;
@@ -143,12 +148,18 @@
   NSNumber *requestFlagsValue = [[args firstObject] valueForKey:@"requestFlags"];
   uint8_t requestFlags = [requestFlagsValue unsignedCharValue];
 
-  TiBuffer *responseDataValue = [[args firstObject] valueForKey:@"blockNumber"];
-  NSArray *dataBlock = [[NSArray alloc] initWithObjects:responseDataValue, nil];
+  NSArray *dataBlock = [[args firstObject] valueForKey:@"blockNumber"];
+  unsigned int dataValue[dataBlock.count];
+  for (int i = 0; i < dataBlock.count; i++) {
+    dataValue[i] = [dataBlock[i] unsignedIntValue];
+  }
+  NSData *data = [[NSData alloc] initWithBytes:dataValue length:dataBlock.count];
+
+  NSArray *dataBlocks = [[NSArray alloc] initWithObjects:data, nil];
 
   [[self.tagProxy asNFCISO15693Tag] writeMultipleBlocksWithRequestFlags:requestFlags
                                                              blockRange:NSMakeRange(0, 8)
-                                                             dataBlocks:dataBlock
+                                                             dataBlocks:dataBlocks
                                                       completionHandler:^(NSError *_Nullable error) {
                                                         if (![self _hasListeners:@"didWriteMultipleBlocksWithRequestFlags"]) {
                                                           return;
@@ -305,11 +316,16 @@
 
   NSNumber *customCommandCode = [[args firstObject] valueForKey:@"customCommandCode"];
 
-  TiBuffer *customRequestParameters = [[args firstObject] valueForKey:@"customRequestParameters"];
+  NSArray *customRequestParameters = [[args firstObject] valueForKey:@"customRequestParameters"];
+  unsigned int dataValue[customRequestParameters.count];
+  for (int i = 0; i < customRequestParameters.count; i++) {
+    dataValue[i] = [customRequestParameters[i] unsignedIntValue];
+  }
+  NSData *data = [[NSData alloc] initWithBytes:dataValue length:customRequestParameters.count];
 
   [[self.tagProxy asNFCISO15693Tag] customCommandWithRequestFlag:requestFlags
                                                customCommandCode:[customCommandCode integerValue]
-                                         customRequestParameters:customRequestParameters.data
+                                         customRequestParameters:data
                                                completionHandler:^(NSData *_Nonnull customResponseParameters, NSError *_Nullable error) {
                                                  if (![self _hasListeners:@"didCustomCommandWithRequestFlag"]) {
                                                    return;
@@ -360,11 +376,16 @@
 
   NSNumber *blockNumber = [[args firstObject] valueForKey:@"blockNumber"];
 
-  TiBuffer *dataBlock = [[args firstObject] valueForKey:@"dataBlock"];
+  NSArray *dataBlock = [[args firstObject] valueForKey:@"dataBlock"];
+  unsigned int dataValue[dataBlock.count];
+  for (int i = 0; i < dataBlock.count; i++) {
+    dataValue[i] = [dataBlock[i] unsignedIntValue];
+  }
+  NSData *data = [[NSData alloc] initWithBytes:dataValue length:dataBlock.count];
 
   [[self.tagProxy asNFCISO15693Tag] extendedWriteSingleBlockWithRequestFlags:requestFlags
                                                                  blockNumber:[blockNumber integerValue]
-                                                                   dataBlock:dataBlock.data
+                                                                   dataBlock:data
                                                            completionHandler:^(NSError *_Nullable error) {
                                                              if (![self _hasListeners:@"didExtendedReadSingleBlockWithRequestFlags"]) {
                                                                return;
@@ -448,11 +469,16 @@
 
   NSNumber *cryptoSuiteIdentifier = [[args firstObject] valueForKey:@"cryptoSuiteIdentifier"];
 
-  TiBuffer *message = [[args firstObject] valueForKey:@"message"];
+  NSArray *message = [[args firstObject] valueForKey:@"message"];
+  unsigned int dataValue[message.count];
+  for (int i = 0; i < message.count; i++) {
+    dataValue[i] = [message[i] unsignedIntValue];
+  }
+  NSData *data = [[NSData alloc] initWithBytes:dataValue length:message.count];
 
   [[self.tagProxy asNFCISO15693Tag] authenticateWithRequestFlags:requestFlags
                                            cryptoSuiteIdentifier:[cryptoSuiteIdentifier integerValue]
-                                                         message:message.data
+                                                         message:data
                                                completionHandler:^(NFCISO15693ResponseFlag responseFlag, NSData *_Nonnull response, NSError *_Nullable error) {
                                                  if (![self _hasListeners:@"didAuthenticateWithRequestFlags"]) {
                                                    return;
@@ -473,11 +499,16 @@
 
   NSNumber *cryptoSuiteIdentifier = [[args firstObject] valueForKey:@"cryptoSuiteIdentifier"];
 
-  TiBuffer *message = [[args firstObject] valueForKey:@"message"];
+  NSArray *message = [[args firstObject] valueForKey:@"message"];
+  unsigned int dataValue[message.count];
+  for (int i = 0; i < message.count; i++) {
+    dataValue[i] = [message[i] unsignedIntValue];
+  }
+  NSData *data = [[NSData alloc] initWithBytes:dataValue length:message.count];
 
   [[self.tagProxy asNFCISO15693Tag] challengeWithRequestFlags:requestFlags
                                         cryptoSuiteIdentifier:[cryptoSuiteIdentifier integerValue]
-                                                      message:message.data
+                                                      message:data
                                             completionHandler:^(NSError *_Nullable error) {
                                               if (![self _hasListeners:@"didChallengeWithRequestFlags"]) {
                                                 return;
@@ -536,12 +567,17 @@
   NSNumber *requestFlagsValue = [[args firstObject] valueForKey:@"requestFlags"];
   uint8_t requestFlags = [requestFlagsValue unsignedCharValue];
 
-  TiBuffer *responseDataValue = [[args firstObject] valueForKey:@"dataBlock"];
-  NSArray *dataBlock = [[NSArray alloc] initWithObjects:responseDataValue, nil];
+  NSArray *dataBlock = [[args firstObject] valueForKey:@"dataBlock"];
+  unsigned int dataValue[dataBlock.count];
+  for (int i = 0; i < dataBlock.count; i++) {
+    dataValue[i] = [dataBlock[i] unsignedIntValue];
+  }
+  NSData *data = [[NSData alloc] initWithBytes:dataValue length:dataBlock.count];
+  NSArray *dataBlocks = [[NSArray alloc] initWithObjects:data, nil];
 
   [[self.tagProxy asNFCISO15693Tag] extendedWriteMultipleBlocksWithRequestFlags:requestFlags
                                                                      blockRange:NSMakeRange(0, 8)
-                                                                     dataBlocks:dataBlock
+                                                                     dataBlocks:dataBlocks
                                                               completionHandler:^(NSError *_Nullable error) {
                                                                 if (![self _hasListeners:@"didExtendedWriteMultipleBlocksWithRequestFlags"]) {
                                                                   return;
@@ -601,11 +637,16 @@
 
   NSNumber *keyIdentifier = [[args firstObject] valueForKey:@"keyIdentifier"];
 
-  TiBuffer *message = [[args firstObject] valueForKey:@"message"];
+  NSArray *message = [[args firstObject] valueForKey:@"message"];
+  unsigned int dataValue[message.count];
+  for (int i = 0; i < message.count; i++) {
+    dataValue[i] = [message[i] unsignedIntValue];
+  }
+  NSData *data = [[NSData alloc] initWithBytes:dataValue length:message.count];
 
   [[self.tagProxy asNFCISO15693Tag] keyUpdateWithRequestFlags:requestFlags
                                                 keyIdentifier:[keyIdentifier integerValue]
-                                                      message:message.data
+                                                      message:data
                                             completionHandler:^(NFCISO15693ResponseFlag responseFlag, NSData *_Nonnull response, NSError *_Nullable error) {
                                               if (![self _hasListeners:@"didKeyUpdateWithRequestFlags"]) {
                                                 return;
@@ -643,11 +684,15 @@
   NSNumber *flag = [[args firstObject] valueForKey:@"flag"];
   NSNumber *commandCode = [[args firstObject] valueForKey:@"commandCode"];
 
-  TiBuffer *data = [[args firstObject] valueForKey:@"data"];
-
+  NSArray *commandData = [[args firstObject] valueForKey:@"data"];
+  unsigned int dataValue[commandData.count];
+  for (int i = 0; i < commandData.count; i++) {
+    dataValue[i] = [commandData[i] unsignedIntValue];
+  }
+  NSData *data = [[NSData alloc] initWithBytes:dataValue length:commandData.count];
   [[self.tagProxy asNFCISO15693Tag] sendRequestWithFlag:[flag integerValue]
                                             commandCode:[commandCode integerValue]
-                                                   data:data.data
+                                                   data:data
                                       completionHandler:^(NFCISO15693ResponseFlag responseFlag, NSData *_Nullable data, NSError *_Nullable error) {
                                         if (![self _hasListeners:@"didReadBufferWithRequestFlags"]) {
                                           return;
