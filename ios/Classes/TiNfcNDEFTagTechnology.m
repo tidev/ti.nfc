@@ -34,11 +34,11 @@
 {
   [self.session connectToTag:[self.tagProxy tag]
            completionHandler:^(NSError *_Nullable error) {
-             if (![self _hasListeners:@"didConnectNDEFTag"]) {
+             if (![self _hasListeners:@"didConnectTag"]) {
                return;
              }
              [error code];
-             [self fireEvent:@"didConnectNDEFTag"
+             [self fireEvent:@"didConnectTag"
                   withObject:@{
                     @"errorCode" : error != nil ? NUMINTEGER([error code]) : [NSNull null],
                     @"errorDescription" : error != nil ? [error localizedDescription] : [NSNull null],
