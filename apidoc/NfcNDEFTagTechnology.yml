@@ -10,7 +10,7 @@ createable: false
 
 methods:
   - name: connect
-    summary: Call to connect NfcNDEFTag from session NFCNDEFReaderSession, connection success or failure result in a didConnectNDEFTag event.
+    summary: Call to connect NfcNDEFTag from session NFCNDEFReaderSession, connection success or failure result in a didConnectTag event.
     returns:
       type: void
 
@@ -35,7 +35,7 @@ methods:
       type: void
 
 events:
-  - name: didConnectNDEFTag
+  - name: didConnectTag
     summary: A event called when NFCNDEFReaderSession try to connect with NDEF tag
     description: |
         A tag stays connected until your app connects to a different tag or restarts polling. Connecting to a tag that is already connected has no effect.
