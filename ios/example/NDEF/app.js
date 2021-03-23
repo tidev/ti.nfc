@@ -133,11 +133,11 @@ var didQueryNDEFStatus = (e) => {
             logs.push('NDEF tag not supported');
             break;
             
-        case BLE.NFC_NDEF_READ_ONLY:
+        case nfc.NFC_NDEF_READ_ONLY:
             logs.push('NDEF tag read only');
             break;
             
-        case BLE.NFC_NDEF_READ_WRITE:
+        case nfc.NFC_NDEF_READ_WRITE:
             logs.push('NDEF tag read and write and write');
             break;
         default:
