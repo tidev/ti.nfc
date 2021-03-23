@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id)_initWithPageContext:(id<TiEvaluator>)context andTag:(id<NFCNDEFTag>)tag;
 - (id<NFCNDEFTag>)tag;
-
+- (NSNumber *)available;
 @end
 
 NS_ASSUME_NONNULL_END
