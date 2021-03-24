@@ -29,9 +29,17 @@
 * by checking it in the Apple Developer Center (https://developer.apple.com).
 */
 
+var NDEFActionType = {
+    None: 0,
+    Connect: 1,
+    QueryStatus: 2,
+    Read: 3,
+};
+
 var nfc = require('ti.nfc');
 var logs = [];
 var ndefTagTechnology;
+var actionType = NDEFActionType.None;
 var sessionType = ({type:nfc.READER_SESSION_NFC_NDEF, pollingOptions: [nfc.NFC_TAG_ISO14443]}    )
 var nfcAdapter = nfc.createNfcAdapter({
 onNdefDiscovered: handleDiscovery
@@ -54,9 +62,19 @@ function handleDiscovery(e) {
 
 //Invalidate Session
 function invalidateSession () {
+    actionType = NDEFActionType.None;
     nfcAdapter.invalidate(sessionType);
 }
 
+//Check Device Capabilities
+function isDeviceSupportNFC () {
+    if (nfcAdapter.isEnabled(sessionType)) {
+        Ti.API.error('This device support NFC capabilities!');
+        return true;
+    }
+    Ti.API.error('This device does not support NFC capabilities!');
+    return false;
+}
 // Configure UI
 var deviceWindow = Ti.UI.createWindow({
   backgroundColor: 'white',
@@ -73,12 +91,12 @@ var startSearchButton = Titanium.UI.createButton({
   top: 100,
   title: 'Scan and send NDEF connect command'
 });
+
 var startSearchButtonClick = (e) => {
-    if (!nfcAdapter.isEnabled(sessionType)) {
-        Ti.API.error('This device does not support NFC capabilities!');
-        return;
+    if (isDeviceSupportNFC()) {
+        actionType = NDEFActionType.Connect;
+        nfcAdapter.begin(sessionType); // This is required for iOS only. Use "invalidate()" to invalidate a session.
     }
-    nfcAdapter.begin(sessionType); // This is required for iOS only. Use "invalidate()" to invalidate a session.
 };
 
 //Query NDEF status button
@@ -86,11 +104,11 @@ var queryNdefStatusButton = Titanium.UI.createButton({
   top: 140,
   title: 'Query NDEF status'
 });
+
 var queryNdefStatusButtonClick = (e) => {
-    if (ndefTagTechnology) {
-        ndefTagTechnology.queryNDEFStatus();
-    } else {
-        alert('No NDEF tag available to query status');
+    if (isDeviceSupportNFC()) {
+        actionType = NDEFActionType.QueryStatus;
+        nfcAdapter.begin(sessionType);
     }
 };
 
@@ -100,10 +118,9 @@ var readNdefButton = Titanium.UI.createButton({
   title: 'Read NDEF'
 });
 var readNdefButtonClick = (e) => {
-    if (ndefTagTechnology) {
-        ndefTagTechnology.readNDEF();
-    } else {
-        alert('No NDEF tag available to read');
+    if (isDeviceSupportNFC()) {
+        actionType = NDEFActionType.Read;
+        nfcAdapter.begin(sessionType);
     }
 };
 
@@ -124,6 +141,27 @@ var didConnectTag = (e) => {
     var eventMessage = 'didConnectTag with message' + (e.errorCode ? (' error code: ' + e.errorCode + ' error domain: ' + e.errorDomain + ' error description: ' + e.errorDescription) : ': NDEF Tag Connected');
     Ti.API.info(eventMessage);
     logs.push(eventMessage);
+    
+    if (!e.errorCode) {
+        switch (actionType) {
+            case NDEFActionType.Connect:
+                invalidateSession();
+                //Connection done, no further action required
+                break;
+                
+            case NDEFActionType.QueryStatus:
+                logs.push('NDEF tag read in-progress');
+                ndefTagTechnology.queryNDEFStatus;
+                break;
+                
+            case NDEFActionType.Read:
+                logs.push('NDEF tag read in-progress');
+                ndefTagTechnology.readNDEF;
+                break;
+            default:
+                break;
+        }
+    }
     setData(logs);
 };
 
@@ -147,6 +185,8 @@ var didQueryNDEFStatus = (e) => {
     
     var eventMessage = 'Query status with - error code ' + e.errorCode + ' error domain: ' + e.errorDomain + ' error description ' + e.errorDescription + ' status ' + e.status + ' capacity ' + e.capacity;
     Ti.API.info(eventMessage);
+    
+    invalidateSession();
 };
 
 var didReadNDEFMessage = (e) => {
@@ -154,6 +194,8 @@ var didReadNDEFMessage = (e) => {
     Ti.API.info(eventMessage);
     logs.push('NDEF message read object ' + e.message);
     setData(logs);
+    
+    invalidateSession();
 };
 
 //Session Events
@@ -166,22 +208,25 @@ var tagReaderSessionDidBecomeActive = (e) => {
 
 var didDetectTags = (e) => {
     Ti.API.info('didDetectTags ' + e);
-    logs.push('didDetectTags with message' + (e.errorCode ? (' error code: ' + e.errorCode + ' error domain: ' + e.errorDomain + ' error description: ' + e.errorDescription) : ': Tag Detected'));
+    logs.push('Tag Detected');
     setData(logs);
     ndefTagTechnology = nfcAdapter.createTagTechNdef({'tag':e.tags[0]});//Create Tag Technology
     if (ndefTagTechnology){
-        addNDEFTagEvent();//Register Event
-        ndefTagTechnology.connect();
+        if (actionType === (NDEFActionType.Connect || NDEFActionType.QueryStatus || NDEFActionType.Read)) {
+            addNDEFTagEvent();//Register Event
+            ndefTagTechnology.connect;
+        }
     } else {
         alert('No NDEF tag available to connect');
     }
 };
 
 var didInvalidateWithError = (e) => {
+    logs.push('Error for NDEF action type ' + actionType);
     var eventMessage = 'Invalidate the session with - error code ' + e.errorCode + ' error domain: ' + e.errorDomain + ' error description ' + e.errorDescription
-  Ti.API.info(eventMessage);
-  logs.push(eventMessage);
-  setData(logs);
+    Ti.API.info(eventMessage);
+    logs.push(eventMessage);
+    setData(logs);
 };
 
 //Add Event Listners
