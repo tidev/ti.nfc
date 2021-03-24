@@ -1,4 +1,4 @@
-let NFC;
+const NFC = require('ti.nfc');
 let nfcAdapter;
 
 const IOS = (Ti.Platform.osname === 'iphone' || Ti.Platform.osname === 'ipad');
@@ -6,8 +6,6 @@ const ANDROID = (Ti.Platform.osname === 'android');
 
 describe('ti.nfc', () => {
 	it('can be required', () => {
-		NFC = require('ti.nfc');
-
 		expect(NFC).toBeDefined();
 	});
 
