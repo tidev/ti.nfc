@@ -176,7 +176,7 @@ var didQueryNDEFStatus = (e) => {
             break;
             
         case nfc.NFC_NDEF_READ_WRITE:
-            logs.push('NDEF tag read and write and write');
+            logs.push('NDEF tag read and write');
             break;
         default:
             break;
@@ -209,24 +209,23 @@ var tagReaderSessionDidBecomeActive = (e) => {
 var didDetectTags = (e) => {
     Ti.API.info('didDetectTags ' + e);
     logs.push('Tag Detected');
-    setData(logs);
     ndefTagTechnology = nfcAdapter.createTagTechNdef({'tag':e.tags[0]});//Create Tag Technology
     if (ndefTagTechnology){
-        if (actionType === (NDEFActionType.Connect || NDEFActionType.QueryStatus || NDEFActionType.Read)) {
-            addNDEFTagEvent();//Register Event
-            ndefTagTechnology.connect;
-        }
+        logs.push('Trying to connect tag with action type ' + actionType);
+        addNDEFTagEvent();//Register Event
+        ndefTagTechnology.connect;
     } else {
         alert('No NDEF tag available to connect');
     }
+    setData(logs);
 };
 
 var didInvalidateWithError = (e) => {
-    logs.push('Error for NDEF action type ' + actionType);
     var eventMessage = 'Invalidate the session with - error code ' + e.errorCode + ' error domain: ' + e.errorDomain + ' error description ' + e.errorDescription
     Ti.API.info(eventMessage);
     logs.push(eventMessage);
     setData(logs);
+    removeNDEFTagEventListener();
 };
 
 //Add Event Listners
@@ -292,11 +291,7 @@ navDeviceWindow.addEventListener('close', function () {
     nfcAdapter.removeEventListener('tagReaderSessionDidBecomeActive', didUpdateState);
     nfcAdapter.removeEventListener('didDetectTags', didStartAdvertising);
     nfcAdapter.removeEventListener('didInvalidateWithError', didStartAdvertising);
-    if(ndefTagTechnology) {
-        ndefTagTechnology.removeEventListener('didConnectTag', didConnectTag);
-        ndefTagTechnology.removeEventListener('didQueryNDEFStatus', didQueryNDEFStatus);
-        ndefTagTechnology.removeEventListener('didReadNDEFMessage', didReadNDEFMessage);
-    }
+    removeNDEFTagEventListener();
     startSearchButton.removeEventListener('click', startSearchButtonClick);
     clearLogBtn.removeEventListener('click', clearLogButtonClick);
     queryNdefStatusButton.removeEventListener('click', queryNdefStatusButtonClick);
@@ -304,4 +299,11 @@ navDeviceWindow.addEventListener('close', function () {
     invalidateSession();
 });
 
+function removeNDEFTagEventListener () {
+    if(ndefTagTechnology) {
+        ndefTagTechnology.removeEventListener('didConnectTag', didConnectTag);
+        ndefTagTechnology.removeEventListener('didQueryNDEFStatus', didQueryNDEFStatus);
+        ndefTagTechnology.removeEventListener('didReadNDEFMessage', didReadNDEFMessage);
+    }
+}
 navDeviceWindow.open();
