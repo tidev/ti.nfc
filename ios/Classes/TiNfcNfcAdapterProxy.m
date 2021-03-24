@@ -215,6 +215,18 @@
   // Make sure to clear the session so it can be recreated on the next attempt
   _nfcSession = nil;
 
+  _nfcTagReadersession = nil;
+  if (![self _hasListeners:@"didInvalidateWithError"]) {
+    return;
+  }
+  [self fireEvent:@"didInvalidateWithError"
+       withObject:@{
+         @"errorCode" : error != nil ? NUMINTEGER([error code]) : [NSNull null],
+         @"errorDescription" : error != nil ? [error localizedDescription] : [NSNull null],
+         @"errorDomain" : error != nil ? [error domain] : [NSNull null],
+         @"type" : @"NFCTagReaderSession"
+       }];
+
   if (!_nNdefInvalidated) {
     return;
   }
