@@ -30,6 +30,16 @@
   return historicalBytes;
 }
 
+- (NSData *)arrayToData:(NSArray *)dataBlock
+{
+  unsigned int dataValue[dataBlock.count];
+  for (int i = 0; i < dataBlock.count; i++) {
+    dataValue[i] = [dataBlock[i] unsignedIntValue];
+  }
+  NSData *data = [[NSData alloc] initWithBytes:dataValue length:dataBlock.count];
+  return data;
+}
+
 - (void)readSingleBlockWithRequestFlags:(id)args
 {
 
@@ -48,12 +58,13 @@
                                                     TiBuffer *responseData = [[TiBuffer alloc] _initWithPageContext:[self pageContext]];
                                                     NSMutableData *responsevalue = [NSMutableData dataWithData:data];
                                                     [responseData setData:responsevalue];
+
                                                     [self fireEvent:@"didReadSingleBlockWithRequestFlags"
                                                          withObject:@{
                                                            @"errorCode" : error != nil ? NUMINTEGER([error code]) : [NSNull null],
                                                            @"errorDescription" : error != nil ? [error localizedDescription] : [NSNull null],
                                                            @"errorDomain" : error != nil ? [error domain] : [NSNull null],
-                                                           @"responseDataLength" : responseData.length
+                                                           @"responseDataLength" : responseData
 
                                                          }];
                                                   }];
@@ -68,12 +79,8 @@
   NSNumber *blockNumberValue = [[args firstObject] valueForKey:@"blockNumber"];
   uint8_t blockNumber = [blockNumberValue unsignedCharValue];
 
-  NSArray *dataBlock = [[args firstObject] valueForKey:@"blockNumber"];
-  unsigned int dataValue[dataBlock.count];
-  for (int i = 0; i < dataBlock.count; i++) {
-    dataValue[i] = [dataBlock[i] unsignedIntValue];
-  }
-  NSData *data = [[NSData alloc] initWithBytes:dataValue length:dataBlock.count];
+  NSArray *dataBlock = [[args firstObject] valueForKey:@"dataBlock"];
+  NSData *data = [self arrayToData:dataBlock];
 
   [[self.tagProxy asNFCISO15693Tag] writeSingleBlockWithRequestFlags:requestFlags
                                                          blockNumber:blockNumber
@@ -137,7 +144,7 @@
                                                            @"errorCode" : error != nil ? NUMINTEGER([error code]) : [NSNull null],
                                                            @"errorDescription" : error != nil ? [error localizedDescription] : [NSNull null],
                                                            @"errorDomain" : error != nil ? [error domain] : [NSNull null],
-                                                           @"responseDataLength" : responseData.length
+                                                           @"responseDataLength" : responseData
 
                                                          }];
                                                   }];
@@ -149,11 +156,7 @@
   uint8_t requestFlags = [requestFlagsValue unsignedCharValue];
 
   NSArray *dataBlock = [[args firstObject] valueForKey:@"blockNumber"];
-  unsigned int dataValue[dataBlock.count];
-  for (int i = 0; i < dataBlock.count; i++) {
-    dataValue[i] = [dataBlock[i] unsignedIntValue];
-  }
-  NSData *data = [[NSData alloc] initWithBytes:dataValue length:dataBlock.count];
+  NSData *data = [self arrayToData:dataBlock];
 
   NSArray *dataBlocks = [[NSArray alloc] initWithObjects:data, nil];
 
@@ -198,7 +201,7 @@
   NSNumber *requestFlagsValue = [[args firstObject] valueForKey:@"requestFlags"];
   uint8_t requestFlags = [requestFlagsValue unsignedCharValue];
 
-  NSNumber *afiValue = [[args firstObject] valueForKey:@"afi"];
+  NSNumber *afiValue = [[args firstObject] valueForKey:@"applicationFamilyIdentifier"];
   uint8_t afi = [afiValue unsignedCharValue];
 
   [[self.tagProxy asNFCISO15693Tag] writeAFIWithRequestFlag:requestFlags
@@ -244,7 +247,7 @@
   NSNumber *requestFlagsValue = [[args firstObject] valueForKey:@"requestFlags"];
   uint8_t requestFlags = [requestFlagsValue unsignedCharValue];
 
-  NSNumber *dsfidValue = [[args firstObject] valueForKey:@"dsfid"];
+  NSNumber *dsfidValue = [[args firstObject] valueForKey:@"dataStorageFormatIdentifier"];
   uint8_t dsfid = [dsfidValue unsignedCharValue];
 
   [[self.tagProxy asNFCISO15693Tag] writeDSFIDWithRequestFlag:requestFlags
@@ -306,7 +309,12 @@
     if (![self _hasListeners:@"didStayQuiet"]) {
       return;
     }
-    [self _hasListeners:@"didStayQuiet"];
+    [self fireEvent:@"didStayQuiet"
+         withObject:@{
+           @"errorCode" : error != nil ? NUMINTEGER([error code]) : [NSNull null],
+           @"errorDescription" : error != nil ? [error localizedDescription] : [NSNull null],
+           @"errorDomain" : error != nil ? [error domain] : [NSNull null]
+         }];
   }];
 }
 - (void)customCommandWithRequestFlag:(id)args
@@ -317,11 +325,7 @@
   NSNumber *customCommandCode = [[args firstObject] valueForKey:@"customCommandCode"];
 
   NSArray *customRequestParameters = [[args firstObject] valueForKey:@"customRequestParameters"];
-  unsigned int dataValue[customRequestParameters.count];
-  for (int i = 0; i < customRequestParameters.count; i++) {
-    dataValue[i] = [customRequestParameters[i] unsignedIntValue];
-  }
-  NSData *data = [[NSData alloc] initWithBytes:dataValue length:customRequestParameters.count];
+  NSData *data = [self arrayToData:customRequestParameters];
 
   [[self.tagProxy asNFCISO15693Tag] customCommandWithRequestFlag:requestFlags
                                                customCommandCode:[customCommandCode integerValue]
@@ -338,7 +342,7 @@
                                                         @"errorCode" : error != nil ? NUMINTEGER([error code]) : [NSNull null],
                                                         @"errorDescription" : error != nil ? [error localizedDescription] : [NSNull null],
                                                         @"errorDomain" : error != nil ? [error domain] : [NSNull null],
-                                                        @"responseDataLength" : responseData.length
+                                                        @"data" : responseData
                                                       }];
                                                }];
 }
@@ -364,7 +368,7 @@
                                                                    @"errorCode" : error != nil ? NUMINTEGER([error code]) : [NSNull null],
                                                                    @"errorDescription" : error != nil ? [error localizedDescription] : [NSNull null],
                                                                    @"errorDomain" : error != nil ? [error domain] : [NSNull null],
-                                                                   @"responseDataLength" : responseData.length
+                                                                   @"data" : responseData
                                                                  }];
                                                           }];
 }
@@ -376,12 +380,8 @@
 
   NSNumber *blockNumber = [[args firstObject] valueForKey:@"blockNumber"];
 
-  NSArray *dataBlock = [[args firstObject] valueForKey:@"dataBlock"];
-  unsigned int dataValue[dataBlock.count];
-  for (int i = 0; i < dataBlock.count; i++) {
-    dataValue[i] = [dataBlock[i] unsignedIntValue];
-  }
-  NSData *data = [[NSData alloc] initWithBytes:dataValue length:dataBlock.count];
+  NSArray *dataBlock = [[args firstObject] valueForKey:@"blockNumber"];
+  NSData *data = [self arrayToData:dataBlock];
 
   [[self.tagProxy asNFCISO15693Tag] extendedWriteSingleBlockWithRequestFlags:requestFlags
                                                                  blockNumber:[blockNumber integerValue]
@@ -470,11 +470,7 @@
   NSNumber *cryptoSuiteIdentifier = [[args firstObject] valueForKey:@"cryptoSuiteIdentifier"];
 
   NSArray *message = [[args firstObject] valueForKey:@"message"];
-  unsigned int dataValue[message.count];
-  for (int i = 0; i < message.count; i++) {
-    dataValue[i] = [message[i] unsignedIntValue];
-  }
-  NSData *data = [[NSData alloc] initWithBytes:dataValue length:message.count];
+  NSData *data = [self arrayToData:message];
 
   [[self.tagProxy asNFCISO15693Tag] authenticateWithRequestFlags:requestFlags
                                            cryptoSuiteIdentifier:[cryptoSuiteIdentifier integerValue]
@@ -487,7 +483,9 @@
                                                       withObject:@{
                                                         @"errorCode" : error != nil ? NUMINTEGER([error code]) : [NSNull null],
                                                         @"errorDescription" : error != nil ? [error localizedDescription] : [NSNull null],
-                                                        @"errorDomain" : error != nil ? [error domain] : [NSNull null]
+                                                        @"errorDomain" : error != nil ? [error domain] : [NSNull null],
+                                                        @"responseFlag" : NUMUINT(responseFlag),
+                                                        @"data" : data
                                                       }];
                                                }];
 }
@@ -500,11 +498,7 @@
   NSNumber *cryptoSuiteIdentifier = [[args firstObject] valueForKey:@"cryptoSuiteIdentifier"];
 
   NSArray *message = [[args firstObject] valueForKey:@"message"];
-  unsigned int dataValue[message.count];
-  for (int i = 0; i < message.count; i++) {
-    dataValue[i] = [message[i] unsignedIntValue];
-  }
-  NSData *data = [[NSData alloc] initWithBytes:dataValue length:message.count];
+  NSData *data = [self arrayToData:message];
 
   [[self.tagProxy asNFCISO15693Tag] challengeWithRequestFlags:requestFlags
                                         cryptoSuiteIdentifier:[cryptoSuiteIdentifier integerValue]
@@ -534,11 +528,10 @@
                                                                     return;
                                                                   }
                                                                   [self fireEvent:@"didExtendedFastReadMultipleBlocksWithRequestFlag"
-                                                                       withObject:@{
+                                                                       withObject:@{ @"dataBlocks" : dataBlocks,
                                                                          @"errorCode" : error != nil ? NUMINTEGER([error code]) : [NSNull null],
                                                                          @"errorDescription" : error != nil ? [error localizedDescription] : [NSNull null],
-                                                                         @"errorDomain" : error != nil ? [error domain] : [NSNull null]
-                                                                       }];
+                                                                         @"errorDomain" : error != nil ? [error domain] : [NSNull null] }];
                                                                 }];
 }
 
@@ -554,11 +547,10 @@
                                                                             return;
                                                                           }
                                                                           [self fireEvent:@"didExtendedGetMultipleBlockSecurityStatusWithRequestFlag"
-                                                                               withObject:@{
+                                                                               withObject:@{ @"securityStatus" : securityStatus,
                                                                                  @"errorCode" : error != nil ? NUMINTEGER([error code]) : [NSNull null],
                                                                                  @"errorDescription" : error != nil ? [error localizedDescription] : [NSNull null],
-                                                                                 @"errorDomain" : error != nil ? [error domain] : [NSNull null]
-                                                                               }];
+                                                                                 @"errorDomain" : error != nil ? [error domain] : [NSNull null] }];
                                                                         }];
 }
 
@@ -567,12 +559,8 @@
   NSNumber *requestFlagsValue = [[args firstObject] valueForKey:@"requestFlags"];
   uint8_t requestFlags = [requestFlagsValue unsignedCharValue];
 
-  NSArray *dataBlock = [[args firstObject] valueForKey:@"dataBlock"];
-  unsigned int dataValue[dataBlock.count];
-  for (int i = 0; i < dataBlock.count; i++) {
-    dataValue[i] = [dataBlock[i] unsignedIntValue];
-  }
-  NSData *data = [[NSData alloc] initWithBytes:dataValue length:dataBlock.count];
+  NSArray *dataBlock = [[args firstObject] valueForKey:@"blockNumber"];
+  NSData *data = [self arrayToData:dataBlock];
   NSArray *dataBlocks = [[NSArray alloc] initWithObjects:data, nil];
 
   [[self.tagProxy asNFCISO15693Tag] extendedWriteMultipleBlocksWithRequestFlags:requestFlags
@@ -603,11 +591,10 @@
                                                             return;
                                                           }
                                                           [self fireEvent:@"didFastReadMultipleBlocksWithRequestFlag"
-                                                               withObject:@{
+                                                               withObject:@{ @"dataBlocks" : dataBlocks,
                                                                  @"errorCode" : error != nil ? NUMINTEGER([error code]) : [NSNull null],
                                                                  @"errorDescription" : error != nil ? [error localizedDescription] : [NSNull null],
-                                                                 @"errorDomain" : error != nil ? [error domain] : [NSNull null]
-                                                               }];
+                                                                 @"errorDomain" : error != nil ? [error domain] : [NSNull null] }];
                                                         }];
 }
 
@@ -621,12 +608,24 @@
                                                        if (![self _hasListeners:@"didGetSystemInfoAndUIDWithRequestFlag"]) {
                                                          return;
                                                        }
+                                                       TiBuffer *uidData = [[TiBuffer alloc] _initWithPageContext:[self pageContext]];
+                                                       NSMutableData *responsevalue = [NSMutableData dataWithData:uid];
+                                                       [uidData setData:responsevalue];
+                                                       NSNumber *dsfidValue = NUMINTEGER(dsfid);
+                                                       NSNumber *afiValue = NUMINTEGER(afi);
+                                                       NSNumber *blockSizeValue = NUMINTEGER(blockSize);
+                                                       NSNumber *blockCountValue = NUMINTEGER(blockCount);
+                                                       NSNumber *icReferenceValue = NUMINTEGER(icReference);
                                                        [self fireEvent:@"didGetSystemInfoAndUIDWithRequestFlag"
-                                                            withObject:@{
+                                                            withObject:@{ @"uid" : uidData,
+                                                              @"dsfid" : dsfidValue,
+                                                              @"afi" : afiValue,
+                                                              @"blockSize" : blockSizeValue,
+                                                              @"blockCount" : blockCountValue,
+                                                              @"icReference" : icReferenceValue,
                                                               @"errorCode" : error != nil ? NUMINTEGER([error code]) : [NSNull null],
                                                               @"errorDescription" : error != nil ? [error localizedDescription] : [NSNull null],
-                                                              @"errorDomain" : error != nil ? [error domain] : [NSNull null]
-                                                            }];
+                                                              @"errorDomain" : error != nil ? [error domain] : [NSNull null] }];
                                                      }];
 }
 
@@ -638,11 +637,7 @@
   NSNumber *keyIdentifier = [[args firstObject] valueForKey:@"keyIdentifier"];
 
   NSArray *message = [[args firstObject] valueForKey:@"message"];
-  unsigned int dataValue[message.count];
-  for (int i = 0; i < message.count; i++) {
-    dataValue[i] = [message[i] unsignedIntValue];
-  }
-  NSData *data = [[NSData alloc] initWithBytes:dataValue length:message.count];
+  NSData *data = [self arrayToData:message];
 
   [[self.tagProxy asNFCISO15693Tag] keyUpdateWithRequestFlags:requestFlags
                                                 keyIdentifier:[keyIdentifier integerValue]
@@ -651,12 +646,15 @@
                                               if (![self _hasListeners:@"didKeyUpdateWithRequestFlags"]) {
                                                 return;
                                               }
+                                              TiBuffer *responseData = [[TiBuffer alloc] _initWithPageContext:[self pageContext]];
+                                              NSMutableData *responsevalue = [NSMutableData dataWithData:response];
+                                              [responseData setData:responsevalue];
                                               [self fireEvent:@"didKeyUpdateWithRequestFlags"
-                                                   withObject:@{
+                                                   withObject:@{ @"response" : responseData,
+                                                     @"responseFlag" : NUMUINT(responseFlag),
                                                      @"errorCode" : error != nil ? NUMINTEGER([error code]) : [NSNull null],
                                                      @"errorDescription" : error != nil ? [error localizedDescription] : [NSNull null],
-                                                     @"errorDomain" : error != nil ? [error domain] : [NSNull null]
-                                                   }];
+                                                     @"errorDomain" : error != nil ? [error domain] : [NSNull null] }];
                                             }];
 }
 
@@ -670,12 +668,15 @@
                                                if (![self _hasListeners:@"didReadBufferWithRequestFlags"]) {
                                                  return;
                                                }
+                                               TiBuffer *responseData = [[TiBuffer alloc] _initWithPageContext:[self pageContext]];
+                                               NSMutableData *responsevalue = [NSMutableData dataWithData:data];
+                                               [responseData setData:responsevalue];
                                                [self fireEvent:@"didReadBufferWithRequestFlags"
-                                                    withObject:@{
+                                                    withObject:@{ @"data" : responseData,
+                                                      @"responseFlag" : NUMUINT(responseFlag),
                                                       @"errorCode" : error != nil ? NUMINTEGER([error code]) : [NSNull null],
                                                       @"errorDescription" : error != nil ? [error localizedDescription] : [NSNull null],
-                                                      @"errorDomain" : error != nil ? [error domain] : [NSNull null]
-                                                    }];
+                                                      @"errorDomain" : error != nil ? [error domain] : [NSNull null] }];
                                              }];
 }
 
@@ -685,11 +686,7 @@
   NSNumber *commandCode = [[args firstObject] valueForKey:@"commandCode"];
 
   NSArray *commandData = [[args firstObject] valueForKey:@"data"];
-  unsigned int dataValue[commandData.count];
-  for (int i = 0; i < commandData.count; i++) {
-    dataValue[i] = [commandData[i] unsignedIntValue];
-  }
-  NSData *data = [[NSData alloc] initWithBytes:dataValue length:commandData.count];
+  NSData *data = [self arrayToData:commandData];
   [[self.tagProxy asNFCISO15693Tag] sendRequestWithFlag:[flag integerValue]
                                             commandCode:[commandCode integerValue]
                                                    data:data
