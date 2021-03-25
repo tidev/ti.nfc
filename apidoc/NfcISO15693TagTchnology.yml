@@ -1,0 +1,621 @@
+name: Modules.Nfc.ISO15693TagTechnology
+summary: Provides access to ISO 15693 properties and I/O operations on a <Modules.Nfc.NfcTag>.
+description: |
+    The NFCTagReaderSessionDelegate receives an object that conforms to the NFCISO15693Tag protocol when the NFCTagReaderSession detects an ISO 15693-compatible tag. For the delegate to receive the tag object, your app must include the Near Field Communication Tag Reader Session Formats Entitlement.
+    For the reader session to read and write data to the tag, it must be available to the reader session. Use the isAvailable property to check the tag’s availability.
+    See also:
+    [Mifare Ultralight](https://developer.apple.com/documentation/corenfc/nfcmifaretag?language=objc)
+    
+extends: Modules.Nfc.NativeTagTechnology
+since: "1.1.0"
+platforms: [iphone]
+
+methods:
+  - name: icManufacturerCode (New)
+    summary: The IC manufacturer code comes from bits 49 through 56 of the identifier data, in accordance with ISO/IEC 7816-6:2004.
+
+  - name: icSerialNumber (New)
+    summary: The IC serial number assigned to the tag by the manufacturer.
+
+  - name:  identifier (New)
+    summary: The unique hardware identifier of the tag.
+
+  - name: RequestFlag (New)
+    summary: A set of bit mask options that, when combined, define the request flags to use when sending a command.
+
+  - name: readSingleBlockWithRequestFlags (New)
+    summary: Sends a Read Single Block command (0x20 command code), as defined in the ISO 15693-3 specification, to the tag.
+    parameters:
+    - name: flags
+      type: Number
+      summary: The request flags. The RequestFlagAddress flag is enforced by default. However, using the RequestFlagSelect flag disables the RequestFlagAddress flag.
+    - name: blockNumber
+      type: Number
+      summary: The number of the block to read. Blocks are numbered from 0 to 255 inclusively.
+    - name: data
+      type: Titanium.Buffer
+      summary: A NSData object containing the blocks of data read from the tag. If the request flags include RequestFlagOption, the first byte of the data contains the associated block security status.
+    - name: errorCode
+      type: String
+      summary: The error code; only present if an error occurred.
+    - name: errorDomain
+      type: String
+      summary: The error domain; only present if an error occurred.
+    - name: errorDescription
+      type: String
+      summary: The error description; only peresent if an error occurred.
+
+  - name: writeSingleBlockWithRequestFlags (New)
+    summary: Sends the Write Single Block command (0x21 command code), as defined in the ISO 15693-3 specification, to the tag.
+    parameters:
+    - name: flags
+      type: Number
+      summary: The request flags. The RequestFlagAddress flag is enforced by default. However, using the RequestFlagSelect flag disables the RequestFlagAddress flag.
+    - name: blockNumber
+      type: Number
+      summary: The number of the block to read. Blocks are numbered from 0 to 255 inclusively.
+    - name: dataBlock
+      type: Titanium.Buffer
+      summary: Thee block of data that would be written on the tag.
+    - name: errorCode
+      type: String
+      summary: The error code; only present if an error occurred.
+    - name: errorDomain
+      type: String
+      summary: The error domain; only present if an error occurred.
+    - name: errorDescription
+      type: String
+      summary: The error description; only peresent if an error occurred.
+
+  - name: lockBlockWithRequestFlags (New)
+    summary: Sends the Lock Block command (0x22 command code), as defined in the ISO 15693-3 specification, to the tag.
+    parameters:
+    - name: flags
+      type: Number
+      summary: The request flags. The RequestFlagAddress flag is enforced by default. However, using the RequestFlagSelect flag disables the RequestFlagAddress flag.
+    - name: blockNumber
+      type: Number
+      summary: The number of the block to read. Blocks are numbered from 0 to 255 inclusively.
+    - name: errorCode
+      type: String
+      summary: The error code; only present if an error occurred.
+    - name: errorDomain
+      type: String
+      summary: The error domain; only present if an error occurred.
+    - name: errorDescription
+      type: String
+      summary: The error description; only peresent if an error occurred.
+
+  - name: readMultipleBlocksWithRequestFlags (New)
+    summary: Sends the Read Multiple Blocks command (0x23 command code), as defined in the ISO 15693-3 specification, to the tag.
+    parameters:
+    - name: flags
+      type: Number
+      summary: The request flags. The RequestFlagAddress flag is enforced by default. However, using the RequestFlagSelect flag disables the RequestFlagAddress flag.
+    - name: blockNumber
+      type: Number
+      summary: The number of the block to read. Blocks are numbered from 0 to 255 inclusively.
+    - name: dataBlock
+      type: Titanium.Buffer
+      summary: Thee block of data that would be written on the tag.
+    - name: errorCode
+      type: String
+      summary: The error code; only present if an error occurred.
+    - name: errorDomain
+      type: String
+      summary: The error domain; only present if an error occurred.
+    - name: errorDescription
+      type: String
+      summary: The error description; only peresent if an error occurred.
+
+  - name: writeMultipleBlocksWithRequestFlags (New)
+    summary: Sends the Write Multiple Blocks command (0x24 command code), as defined in the ISO 15693-3 specification, to the tag.
+    parameters:
+    - name: flags
+      type: Number
+      summary: The request flags. The RequestFlagAddress flag is enforced by default. However, using the RequestFlagSelect flag disables the RequestFlagAddress flag.
+    - name: blockNumber
+      type: Number
+      summary: The number of the block to read. Blocks are numbered from 0 to 255 inclusively.
+    - name: dataBlock
+      type: Titanium.Buffer
+      summary: Thee block of data that would be written on the tag.
+    - name: errorCode
+      type: String
+      summary: The error code; only present if an error occurred.
+    - name: errorDomain
+      type: String
+      summary: The error domain; only present if an error occurred.
+    - name: errorDescription
+      type: String
+      summary: The error description; only peresent if an error occurred.
+
+  - name: getMultipleBlockSecurityStatusWithRequestFlag (New)
+    summary: Sends the Get Multiple Block Security Status command (0x2C command code), as defined in the ISO 15693-3 specification, to the tag.
+    parameters:
+    - name: flags
+      type: Number
+      summary: The request flags. The RequestFlagAddress flag is enforced by default. However, using the RequestFlagSelect flag disables the RequestFlagAddress flag.
+    - name: blockRange
+      type: Number
+      summary: the range of the block
+    - name: securityStatus
+      type: Number
+      summary: security status of code.
+    - name: errorCode
+      type: String
+      summary: The error code; only present if an error occurred.
+    - name: errorDomain
+      type: String
+      summary: The error domain; only present if an error occurred.
+    - name: errorDescription
+      type: String
+      summary: The error description; only peresent if an error occurred.
+
+  - name: writeAFIWithRequestFlag (New)
+    summary: Sends the Write AFI command (0x27 command code), as defined in the ISO 15693-3 specification, to the tag.
+    parameters:
+    - name: flags
+      type: Number
+      summary: The request flags. The RequestFlagAddress flag is enforced by default. However, using the RequestFlagSelect flag disables the RequestFlagAddress flag.
+    - name: afi
+      type: Number
+      summary: afi
+    - name: errorCode
+      type: String
+      summary: The error code; only present if an error occurred.
+    - name: errorDomain
+      type: String
+      summary: The error domain; only present if an error occurred.
+    - name: errorDescription
+      type: String
+      summary: The error description; only peresent if an error occurred.
+
+
+  - name: lockAFIWithRequestFlag (New)
+    summary: Sends the Lock AFI command (0x28 command code), as defined in the ISO 15693-3 specification, to the tag.
+    parameters:
+    - name: flags
+      type: Number
+      summary: The request flags. The RequestFlagAddress flag is enforced by default. However, using the RequestFlagSelect flag disables the RequestFlagAddress flag.
+    - name: errorCode
+      type: String
+      summary: The error code; only present if an error occurred.
+    - name: errorDomain
+      type: String
+      summary: The error domain; only present if an error occurred.
+    - name: errorDescription
+      type: String
+      summary: The error description; only peresent if an error occurred.
+
+  - name: writeDSFIDWithRequestFlag (New)
+    summary: Sends the Write DSFID command (0x29 command code), as defined in the ISO 15693-3 specification, to the tag.
+    parameters:
+    - name: flags
+      type: Number
+      summary: The request flags. The RequestFlagAddress flag is enforced by default. However, using the RequestFlagSelect flag disables the RequestFlagAddress flag.
+    - name: dsfid
+      type: Number
+      summary: dsfid
+    - name: errorCode
+      type: String
+      summary: The error code; only present if an error occurred.
+    - name: errorDomain
+      type: String
+      summary: The error domain; only present if an error occurred.
+    - name: errorDescription
+      type: String
+      summary: The error description; only peresent if an error occurred.
+
+  - name: resetToReadyWithRequestFlags (New)
+    summary: Sends the Reset To Ready command (0x26 command code), as defined in the ISO 15693-3 specification, to the tag.
+    parameters:
+    - name: flags
+      type: Number
+      summary: The request flags. The RequestFlagAddress flag is enforced by default. However, using the RequestFlagSelect flag disables the RequestFlagAddress flag.
+    - name: errorCode
+      type: String
+      summary: The error code; only present if an error occurred.
+    - name: errorDomain
+      type: String
+      summary: The error domain; only present if an error occurred.
+    - name: errorDescription
+      type: String
+      summary: The error description; only peresent if an error occurred.
+
+  - name: selectWithRequestFlags (New)
+    summary: Sends the Select command (0x25 command code), as defined in the ISO 15693-3 specification, to the tag.
+    parameters:
+    - name: flags
+      type: Number
+      summary: The request flags. The RequestFlagAddress flag is enforced by default. However, using the RequestFlagSelect flag disables the RequestFlagAddress flag.
+    - name: errorCode
+      type: String
+      summary: The error code; only present if an error occurred.
+    - name: errorDomain
+      type: String
+      summary: The error domain; only present if an error occurred.
+    - name: errorDescription
+      type: String
+      summary: The error description; only peresent if an error occurred.
+
+  - name: stayQuiet (New)
+    summary: Sends a Stay Quiet command (0x02 command code), as defined in the ISO 15693-3 specification, to the tag.
+    parameters:
+    - name: errorCode
+      type: String
+      summary: The error code; only present if an error occurred.
+    - name: errorDomain
+      type: String
+      summary: The error domain; only present if an error occurred.
+    - name: errorDescription
+      type: String
+      summary: The error description; only peresent if an error occurred.
+
+
+  - name: customCommandWithRequestFlag (New)
+    summary: Sends a custom command (0xA0 to 0xDF command code), as defined in the ISO 15693-3 specification, to the tag.
+    parameters:
+    - name: flags
+      type: Number
+      summary: The request flags. The RequestFlagAddress flag is enforced by default. However, using the RequestFlagSelect flag disables the RequestFlagAddress flag.
+    - name: customCommandCode
+      type: Number
+      summary: custom command code used to send with request flag.
+    - name: customRequestparameterss
+      type: Titanium.Buffer
+      summary: request parameter will be send with request flag.
+    - name: customResponseparameterss
+      type: Titanium.Buffer
+      summary: custom response parameter.
+    - name: errorCode
+      type: String
+      summary: The error code; only present if an error occurred.
+    - name: errorDomain
+      type: String
+      summary: The error domain; only present if an error occurred.
+    - name: errorDescription
+      type: String
+      summary: The error description; only peresent if an error occurred.
+
+  - name: extendedReadSingleBlockWithRequestFlags (New)
+    summary: Sends the Extended Read Single Block command (0x30 command code), as defined in the NFC Forum Type 5 tag specification, to the tag.
+    parameters:
+    - name: flags
+      type: Number
+      summary: The request flags. The RequestFlagAddress flag is enforced by default. However, using the RequestFlagSelect flag disables the RequestFlagAddress flag.
+    - name: blockNumber
+      type: Number
+      summary: The number of the block to read. Blocks are numbered from 0 to 255 inclusively.
+    - name: data
+      type: Titanium.Buffer
+      summary: data received from tag
+    - name: errorCode
+      type: String
+      summary: The error code; only present if an error occurred.
+    - name: errorDomain
+      type: String
+      summary: The error domain; only present if an error occurred.
+    - name: errorDescription
+      type: String
+      summary: The error description; only peresent if an error occurred.
+
+  - name: extendedWriteSingleBlockWithRequestFlags (New)
+    summary: Sends the Extended Write Single Block command (0x31 command code), as defined in the NFC Forum Type 5 tag specification, to the tag.
+    parameters:
+    - name: flags
+      type: Number
+      summary: The request flags. The RequestFlagAddress flag is enforced by default. However, using the RequestFlagSelect flag disables the RequestFlagAddress flag.
+    - name: blockNumber
+      type: Number
+      summary: The number of the block to read. Blocks are numbered from 0 to 255 inclusively.
+    - name: dataBlock
+      type: Titanium.Buffer
+      summary: Thee block of data that would be written on the tag.
+    - name: errorCode
+      type: String
+      summary: The error code; only present if an error occurred.
+    - name: errorDomain
+      type: String
+      summary: The error domain; only present if an error occurred.
+    - name: errorDescription
+      type: String
+      summary: The error description; only peresent if an error occurred.
+
+  - name: extendedLockBlockWithRequestFlags (New)
+    summary: Sends the Extended Lock Single Block command (0x32 command code), as defined in the NFC Forum Type 5 tag specification, to the tag.
+    parameters:
+    - name: flags
+      type: Number
+      summary: The request flags. The RequestFlagAddress flag is enforced by default. However, using the RequestFlagSelect flag disables the RequestFlagAddress flag.
+    - name: blockNumber
+      type: Number
+      summary: The number of the block to read. Blocks are numbered from 0 to 255 inclusively.
+    - name: errorCode
+      type: String
+      summary: The error code; only present if an error occurred.
+    - name: errorDomain
+      type: String
+      summary: The error domain; only present if an error occurred.
+    - name: errorDescription
+      type: String
+      summary: The error description; only peresent if an error occurred.
+
+  - name: extendedReadMultipleBlocksWithRequestFlags (New)
+    summary: Sends the Extended Read Multiple Block command (0x33 command code), as defined in the NFC Forum Type 5 tag specification, to the tag.
+    parameters:
+    - name: flags
+      type: Number
+      summary: The request flags. The RequestFlagAddress flag is enforced by default. However, using the RequestFlagSelect flag disables the RequestFlagAddress flag.
+    - name: blockNumber
+      type: Number
+      summary: The number of the block to read. Blocks are numbered from 0 to 255 inclusively.
+    - name: dataBlock
+      type: Titanium.Buffer
+      summary: Thee block of data that would be written on the tag.
+    - name: errorCode
+      type: String
+      summary: The error code; only present if an error occurred.
+    - name: errorDomain
+      type: String
+      summary: The error domain; only present if an error occurred.
+    - name: errorDescription
+      type: String
+      summary: The error description; only peresent if an error occurred.
+
+  - name: lockDSFIDWithRequestFlag (New)
+    parameters:
+    - name: flags
+      type: Number
+      summary: The request flags. The RequestFlagAddress flag is enforced by default. However, using the RequestFlagSelect flag disables the RequestFlagAddress flag.
+    - name: errorCode
+      type: String
+      summary: The error code; only present if an error occurred.
+    - name: errorDomain
+      type: String
+      summary: The error domain; only present if an error occurred.
+    - name: errorDescription
+      type: String
+      summary: The error description; only peresent if an error occurred.
+
+  - name: authenticateWithRequestFlags (New)
+    parameters:
+    - name: flags
+      type: Number
+      summary: The request flags. The RequestFlagAddress flag is enforced by default. However, using the RequestFlagSelect flag disables the RequestFlagAddress flag.
+    - name: cryptoSuiteIdentifier
+      type: Number
+      summary: crypto suite identifier value
+    - name: message
+      type: Titanium.Buffer
+      summary: message that will be send to tag
+    - name: responseFlag
+      type: Number
+      summary: response flag we get from flag.
+    - name: response
+      type: Titanium.Buffer
+      summary: response from the tag.
+    - name: errorCode
+      type: String
+      summary: The error code; only present if an error occurred.
+    - name: errorDomain
+      type: String
+      summary: The error domain; only present if an error occurred.
+    - name: errorDescription
+      type: String
+      summary: The error description; only peresent if an error occurred.
+
+  - name: challengeWithRequestFlags (New)
+    parameters:
+    - name: flags
+      type: Number
+      summary: The request flags. The RequestFlagAddress flag is enforced by default. However, using the RequestFlagSelect flag disables the RequestFlagAddress flag.
+    - name: cryptoSuiteIdentifier
+      type: Number
+      summary: crypto suite identifier value
+    - name: message
+      type: Titanium.Buffer
+      summary: message that will be send to tag
+    - name: errorCode
+      type: String
+      summary: The error code; only present if an error occurred.
+    - name: errorDomain
+      type: String
+      summary: The error domain; only present if an error occurred.
+    - name: errorDescription
+      type: String
+      summary: The error description; only peresent if an error occurred.
+
+
+  - name: extendedFastReadMultipleBlocksWithRequestFlag (New)
+    parameters:
+    - name: flags
+      type: Number
+      summary: The request flags. The RequestFlagAddress flag is enforced by default. However, using the RequestFlagSelect flag disables the RequestFlagAddress flag.
+    - name: blockNumber
+      type: Number
+      summary: The number of the block to read. Blocks are numbered from 0 to 255 inclusively.
+    - name: dataBlock
+      type: Titanium.Buffer
+      summary: Thee block of data that would be written on the tag.
+    - name: errorCode
+      type: String
+      summary: The error code; only present if an error occurred.
+    - name: errorDomain
+      type: String
+      summary: The error domain; only present if an error occurred.
+    - name: errorDescription
+      type: String
+      summary: The error description; only peresent if an error occurred.
+
+  - name: extendedGetMultipleBlockSecurityStatusWithRequestFlag (New)
+    parameters:
+    - name: flags
+      type: Number
+      summary: The request flags. The RequestFlagAddress flag is enforced by default. However, using the RequestFlagSelect flag disables the RequestFlagAddress flag.
+    - name: blockNumber
+      type: Number
+      summary: The number of the block to read. Blocks are numbered from 0 to 255 inclusively.
+    - name: securityStatus
+      type: Number
+      summary: security status of the tag.
+    - name: errorCode
+      type: String
+      summary: The error code; only present if an error occurred.
+    - name: errorDomain
+      type: String
+      summary: The error domain; only present if an error occurred.
+    - name: errorDescription
+      type: String
+      summary: The error description; only peresent if an error occurred.
+
+  - name: extendedWriteMultipleBlocksWithRequestFlags (New)
+    parameters:
+    - name: flags
+      type: Number
+      summary: The request flags. The RequestFlagAddress flag is enforced by default. However, using the RequestFlagSelect flag disables the RequestFlagAddress flag.
+    - name: blockNumber
+      type: Number
+      summary: The number of the block to read. Blocks are numbered from 0 to 255 inclusively.
+    - name: dataBlock
+      type: Titanium.Buffer
+      summary: Thee block of data that would be written on the tag.
+    - name: errorCode
+      type: String
+      summary: The error code; only present if an error occurred.
+    - name: errorDomain
+      type: String
+      summary: The error domain; only present if an error occurred.
+    - name: errorDescription
+      type: String
+      summary: The error description; only peresent if an error occurred.
+
+  - name: fastReadMultipleBlocksWithRequestFlag (New)
+    parameters:
+    - name: flags
+      type: Number
+      summary: The request flags. The RequestFlagAddress flag is enforced by default. However, using the RequestFlagSelect flag disables the RequestFlagAddress flag.
+    - name: blockNumber
+      type: Number
+      summary: The number of the block to read. Blocks are numbered from 0 to 255 inclusively.
+    - name: dataBlock
+      type: Titanium.Buffer
+      summary: Thee block of data that would be written on the tag.
+    - name: errorCode
+      type: String
+      summary: The error code; only present if an error occurred.
+    - name: errorDomain
+      type: String
+      summary: The error domain; only present if an error occurred.
+    - name: errorDescription
+      type: String
+      summary: The error description; only peresent if an error occurred.
+
+  - name: getSystemInfoAndUIDWithRequestFlag (New)
+    parameters:
+    - name: flags
+      type: Number
+      summary: The request flags. The RequestFlagAddress flag is enforced by default. However, using the RequestFlagSelect flag disables the RequestFlagAddress flag.
+    - name: dsfid
+      type: Number
+      summary: dsfid of tag
+    - name: afi
+      type: Number
+      summary: afi  of tag
+    - name: blockSize
+      type: Number
+      summary: block size of tag data.
+    - name: blockCount
+      type: Number
+      summary: block count of tag.
+    - name: icReference
+      type: Number
+      summary: id reference of tag.
+    - name: uid
+      type: Titanium.Buffer
+      summary: uid of tag
+    - name: errorCode
+      type: String
+      summary: The error code; only present if an error occurred.
+    - name: errorDomain
+      type: String
+      summary: The error domain; only present if an error occurred.
+    - name: errorDescription
+      type: String
+      summary: The error description; only peresent if an error occurred.
+
+  - name: keyUpdateWithRequestFlags (New)
+    parameters:
+    - name: flags
+      type: Number
+      summary: The request flags. The RequestFlagAddress flag is enforced by default. However, using the RequestFlagSelect flag disables the RequestFlagAddress flag.
+    - name: keyIdentifier
+      type: Number
+      summary: key identifier of tag
+    - name: message
+      type: Titanium.Buffer
+      summary: message send to tag
+    - name: responseFlag
+      type: Number
+      summary: response flag from tag 
+    - name: response
+      type: Titanium.Buffer
+      summary: response from tag
+    - name: errorCode
+      type: String
+      summary: The error code; only present if an error occurred.
+    - name: errorDomain
+      type: String
+      summary: The error domain; only present if an error occurred.
+    - name: errorDescription
+      type: String
+      summary: The error description; only peresent if an error occurred.
+
+
+  - name: readBufferWithRequestFlags (New)
+    parameters:
+    - name: flags
+      type: Number
+      summary: The request flags. The RequestFlagAddress flag is enforced by default. However, using the RequestFlagSelect flag disables the RequestFlagAddress flag.
+    - name: responseFlag
+      type: Number
+      summary: response flag with tag
+    - name: data
+      type: Titanium.Buffer
+      summary: data with tag
+    - name: errorCode
+      type: String
+      summary: The error code; only present if an error occurred.
+    - name: errorDomain
+      type: String
+      summary: The error domain; only present if an error occurred.
+    - name: errorDescription
+      type: String
+      summary: The error description; only peresent if an error occurred.
+
+  - name: sendRequestWithFlag (New)
+    parameters:
+    - name: flags
+      type: Number
+      summary: The request flags. The RequestFlagAddress flag is enforced by default. However, using the RequestFlagSelect flag disables the RequestFlagAddress flag.
+    - name: commandCode
+      type: Number
+      summary: command code to send with flag.
+    - name: data
+      type: Titanium.Buffer
+      summary: Thee data that will send with flag.
+    - name: responseFlag
+      type: Number
+      summary: response flag found with tag
+    - name: data
+      type: Titanium.Buffer
+      summary: data with tag
+    - name: errorCode
+      type: String
+      summary: The error code; only present if an error occurred.
+    - name: errorDomain
+      type: String
+      summary: The error domain; only present if an error occurred.
+    - name: errorDescription
+      type: String
+      summary: The error description; only peresent if an error occurred.
