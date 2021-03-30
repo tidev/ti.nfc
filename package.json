@@ -1,6 +1,6 @@
 {
   "name": "@titanium-sdk/ti.nfc",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "Titanium NFC module.",
   "scripts": {
     "ci": "node updater/index.js ci",
@@ -62,7 +62,7 @@
     "karma-jasmine": "^3.3.1",
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
-    "karma-titanium-launcher": "^0.7.4",
+    "karma-titanium-launcher": "^0.8.1",
     "lint-staged": "^10.0.7",
     "titanium-docgen": "^4.2.0"
   },
