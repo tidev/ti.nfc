@@ -72,7 +72,8 @@ description: |
                     <application>
                         <activity android:name=".TagviewerActivity"
                           android:label="TagViewer" android:theme="@style/Theme.Titanium"
-                          android:configChanges="keyboardHidden|orientation">
+                          android:configChanges="keyboardHidden|orientation"
+                          android:exported="true">
                             <intent-filter>
                                 <action android:name="android.nfc.action.TECH_DISCOVERED"/>
                                 <category android:name="android.intent.category.DEFAULT"/>
