@@ -17,11 +17,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (id)_initWithPageContext:(id<TiEvaluator>)context
                 andSession:(NFCNDEFReaderSession *)session
                     andTag:(TiNfcNDEFTagProxy *)tag;
-- (void)connect;
-- (void)queryNDEFStatus;
-- (void)readNDEF;
+- (void)connect:(id)unused;
+- (void)queryNDEFStatus:(id)unused;
+- (void)readNDEF:(id)unused;
 - (void)writeNDEF:(id)args;
-- (void)writeLock;
+- (void)writeLock:(id)unused;
 
 @end
 

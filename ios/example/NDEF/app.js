@@ -1,33 +1,33 @@
 /*
-* NFC Tag Viewer Example Application
-*
-* This application demonstrates how to use the iOS 11+ NFC module.
-*
-* Ensure to include the required entitlements to the <ios> section of your tiapp.xml:
-*
-*   <entitlements>
-*     <dict>
-*       <key>com.apple.developer.nfc.readersession.formats</key>
-*       <array>
-*         <string>NDEF</string>
-*       </array>
-*     </dict>
-*   </entitlements>
-*
-* Also, ensure to include the NFC-privacy key in your <ios> section of your tiapp.xml
-*
-*    <plist>
-*      <dict>
-*        <!-- Your other Info.plist settings -->
-*        ...
-*        <key>NFCReaderUsageDescription</key>
-*        <string>YOUR_PRIVACY_DESCRIPTION</string>
-*      </dict>
-*    </plist>
-*
-* Finally, ensure to enable the "NFC Tag Reading" capability in your provisioning profile
-* by checking it in the Apple Developer Center (https://developer.apple.com).
-*/
+ * NFC Tag Viewer Example Application
+ *
+ * This application demonstrates how to use the iOS 11+ NFC module.
+ *
+ * Ensure to include the required entitlements to the <ios> section of your tiapp.xml:
+ *
+ *   <entitlements>
+ *     <dict>
+ *       <key>com.apple.developer.nfc.readersession.formats</key>
+ *       <array>
+ *         <string>NDEF</string>
+ *       </array>
+ *     </dict>
+ *   </entitlements>
+ *
+ * Also, ensure to include the NFC-privacy key in your <ios> section of your tiapp.xml
+ *
+ *    <plist>
+ *      <dict>
+ *        <!-- Your other Info.plist settings -->
+ *        ...
+ *        <key>NFCReaderUsageDescription</key>
+ *        <string>YOUR_PRIVACY_DESCRIPTION</string>
+ *      </dict>
+ *    </plist>
+ *
+ * Finally, ensure to enable the "NFC Tag Reading" capability in your provisioning profile
+ * by checking it in the Apple Developer Center (https://developer.apple.com).
+ */
 
 var NDEFActionType = {
     None: 0,
@@ -40,9 +40,12 @@ var nfc = require('ti.nfc');
 var logs = [];
 var ndefTagTechnology;
 var actionType = NDEFActionType.None;
-var sessionType = ({type:nfc.READER_SESSION_NFC_NDEF, pollingOptions: [nfc.NFC_TAG_ISO14443]}    )
+var sessionType = ({
+    type: nfc.READER_SESSION_NFC_NDEF,
+    pollingOptions: [nfc.NFC_TAG_ISO14443]
+})
 var nfcAdapter = nfc.createNfcAdapter({
-onNdefDiscovered: handleDiscovery
+    onNdefDiscovered: handleDiscovery
 });
 
 function handleDiscovery(e) {
@@ -57,19 +60,19 @@ function handleDiscovery(e) {
             }
         }
     }
-    Ti.API.info(data);
+    console.log(data);
 }
 
 //Invalidate Session
-function invalidateSession () {
+function invalidateSession() {
     actionType = NDEFActionType.None;
     nfcAdapter.invalidate(sessionType);
 }
 
 //Check Device Capabilities
-function isDeviceSupportNFC () {
+function isDeviceSupportNFC() {
     if (nfcAdapter.isEnabled(sessionType)) {
-        Ti.API.error('This device support NFC capabilities!');
+        Ti.API.info('This device supports NFC capabilities!');
         return true;
     }
     Ti.API.error('This device does not support NFC capabilities!');
@@ -77,19 +80,21 @@ function isDeviceSupportNFC () {
 }
 // Configure UI
 var deviceWindow = Ti.UI.createWindow({
-  backgroundColor: 'white',
-  title: 'NDEF Sample',
-  titleAttributes: { color: 'blue' }
+    backgroundColor: 'white',
+    title: 'NDEF Sample',
+    titleAttributes: {
+        color: 'blue'
+    }
 });
 
 var navDeviceWindow = Ti.UI.iOS.createNavigationWindow({
-  window: deviceWindow
+    window: deviceWindow
 });
 
 //Scan button
 var startSearchButton = Titanium.UI.createButton({
-  top: 100,
-  title: 'Scan and send NDEF connect command'
+    top: 100,
+    title: 'Scan and send NDEF connect command'
 });
 
 var startSearchButtonClick = (e) => {
@@ -101,8 +106,8 @@ var startSearchButtonClick = (e) => {
 
 //Query NDEF status button
 var queryNdefStatusButton = Titanium.UI.createButton({
-  top: 140,
-  title: 'Query NDEF status'
+    top: 140,
+    title: 'Query NDEF status'
 });
 
 var queryNdefStatusButtonClick = (e) => {
@@ -114,8 +119,8 @@ var queryNdefStatusButtonClick = (e) => {
 
 //Read NDEF button
 var readNdefButton = Titanium.UI.createButton({
-  top: 180,
-  title: 'Read NDEF'
+    top: 180,
+    title: 'Read NDEF'
 });
 var readNdefButtonClick = (e) => {
     if (isDeviceSupportNFC()) {
@@ -141,22 +146,22 @@ var didConnectTag = (e) => {
     var eventMessage = 'didConnectTag with message' + (e.errorCode ? (' error code: ' + e.errorCode + ' error domain: ' + e.errorDomain + ' error description: ' + e.errorDescription) : ': NDEF Tag Connected');
     Ti.API.info(eventMessage);
     logs.push(eventMessage);
-    
+
     if (!e.errorCode) {
         switch (actionType) {
             case NDEFActionType.Connect:
                 invalidateSession();
                 //Connection done, no further action required
                 break;
-                
+
             case NDEFActionType.QueryStatus:
                 logs.push('NDEF tag read in-progress');
-                ndefTagTechnology.queryNDEFStatus;
+                ndefTagTechnology.queryNDEFStatus();
                 break;
-                
+
             case NDEFActionType.Read:
                 logs.push('NDEF tag read in-progress');
-                ndefTagTechnology.readNDEF;
+                ndefTagTechnology.readNDEF();
                 break;
             default:
                 break;
@@ -170,11 +175,11 @@ var didQueryNDEFStatus = (e) => {
         case nfc.NFC_NDEF_NOT_SUPPORTED:
             logs.push('NDEF tag not supported');
             break;
-            
+
         case nfc.NFC_NDEF_READ_ONLY:
             logs.push('NDEF tag read only');
             break;
-            
+
         case nfc.NFC_NDEF_READ_WRITE:
             logs.push('NDEF tag read and write');
             break;
@@ -182,10 +187,10 @@ var didQueryNDEFStatus = (e) => {
             break;
     }
     setData(logs);
-    
+
     var eventMessage = 'Query status with - error code ' + e.errorCode + ' error domain: ' + e.errorDomain + ' error description ' + e.errorDescription + ' status ' + e.status + ' capacity ' + e.capacity;
     Ti.API.info(eventMessage);
-    
+
     invalidateSession();
 };
 
@@ -194,7 +199,7 @@ var didReadNDEFMessage = (e) => {
     Ti.API.info(eventMessage);
     logs.push('NDEF message read object ' + e.message);
     setData(logs);
-    
+
     invalidateSession();
 };
 
@@ -209,11 +214,13 @@ var tagReaderSessionDidBecomeActive = (e) => {
 var didDetectTags = (e) => {
     Ti.API.info('didDetectTags ' + e);
     logs.push('Tag Detected');
-    ndefTagTechnology = nfcAdapter.createTagTechNdef({'tag':e.tags[0]});//Create Tag Technology
-    if (ndefTagTechnology){
+    ndefTagTechnology = nfcAdapter.createTagTechNdef({
+        'tag': e.tags[0]
+    }); //Create Tag Technology
+    if (ndefTagTechnology) {
         logs.push('Trying to connect tag with action type ' + actionType);
-        addNDEFTagEvent();//Register Event
-        ndefTagTechnology.connect;
+        addNDEFTagEvent(); //Register Event
+        ndefTagTechnology.connect();
     } else {
         alert('No NDEF tag available to connect');
     }
@@ -238,7 +245,7 @@ clearLogButton.addEventListener('click', clearLogButtonClick);
 queryNdefStatusButton.addEventListener('click', queryNdefStatusButtonClick);
 readNdefButton.addEventListener('click', readNdefButtonClick);
 
-function addNDEFTagEvent(){
+function addNDEFTagEvent() {
     ndefTagTechnology.addEventListener('didConnectTag', didConnectTag);
     ndefTagTechnology.addEventListener('didQueryNDEFStatus', didQueryNDEFStatus);
     ndefTagTechnology.addEventListener('didReadNDEFMessage', didReadNDEFMessage);
@@ -246,36 +253,39 @@ function addNDEFTagEvent(){
 
 //Logs tableview
 var tableView = Titanium.UI.createTableView({
-  top: 250,
-  scrollable: true,
-  backgroundColor: 'White',
-  separatorColor: '#DBE1E2',
-  bottom: '5%',
+    top: 250,
+    scrollable: true,
+    backgroundColor: 'White',
+    separatorColor: '#DBE1E2',
+    bottom: '5%',
 });
 var tbl_data = [];
+
 function setData(list) {
-  tbl_data.splice(0, tbl_data.length);
-  if (list.length > 0) {
-      var initalValue = list.length - 1;
-      for (var i = initalValue; i >= 0; i--) {
-          var btDevicesRow = Ti.UI.createTableViewRow({
-              height: 50,
-              row: i,
-              hasChild: true
-          });
-          var uuidLabel = Ti.UI.createLabel({
-              left: 5,
-              right: 5,
-              color: 'blue',
-              top: 5,
-              font: { fontSize: 11 },
-              text: list[i]
-          });
-          btDevicesRow.add(uuidLabel);
-          tbl_data.push(btDevicesRow);
-      }
-  }
-  tableView.setData(tbl_data);
+    tbl_data.splice(0, tbl_data.length);
+    if (list.length > 0) {
+        var initalValue = list.length - 1;
+        for (var i = initalValue; i >= 0; i--) {
+            var btDevicesRow = Ti.UI.createTableViewRow({
+                height: 50,
+                row: i,
+                hasChild: true
+            });
+            var uuidLabel = Ti.UI.createLabel({
+                left: 5,
+                right: 5,
+                color: 'blue',
+                top: 5,
+                font: {
+                    fontSize: 11
+                },
+                text: list[i]
+            });
+            btDevicesRow.add(uuidLabel);
+            tbl_data.push(btDevicesRow);
+        }
+    }
+    tableView.setData(tbl_data);
 }
 setData(logs);
 
@@ -299,8 +309,8 @@ navDeviceWindow.addEventListener('close', function () {
     invalidateSession();
 });
 
-function removeNDEFTagEventListener () {
-    if(ndefTagTechnology) {
+function removeNDEFTagEventListener() {
+    if (ndefTagTechnology) {
         ndefTagTechnology.removeEventListener('didConnectTag', didConnectTag);
         ndefTagTechnology.removeEventListener('didQueryNDEFStatus', didQueryNDEFStatus);
         ndefTagTechnology.removeEventListener('didReadNDEFMessage', didReadNDEFMessage);

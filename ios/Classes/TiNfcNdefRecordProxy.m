@@ -34,12 +34,40 @@
 
 - (TiBlob *)payload
 {
-  return [[TiBlob alloc] initWithData:[[TiNfcUtilities NDEFContentFromData:_record.payload] dataUsingEncoding:NSUTF8StringEncoding] mimetype:@"text/plain"];
+  return [[TiBlob alloc] initWithData:_record.payload mimetype:self.type];
+}
+
+- (NSString *)text
+{
+  NSString *value;
+
+  switch (_record.typeNameFormat) {
+  case NFCTypeNameFormatNFCWellKnown: {
+    NSURL *url = [_record wellKnownTypeURIPayload];
+    if (url) {
+      value = url.absoluteString;
+    } else {
+      NSLocale *locale;
+      value = [_record wellKnownTypeTextPayloadWithLocale:&locale];
+    }
+    break;
+  }
+
+  case NFCTypeNameFormatAbsoluteURI: {
+    value = [[NSString alloc] initWithData:_record.payload encoding:NSUTF8StringEncoding];
+    break;
+  }
+
+  default:
+    value = nil;
+  }
+
+  return value;
 }
 
 - (NSString *)type
 {
-  return [TiNfcUtilities typeFromNDEFData:[_record type]];
+  return [[NSString alloc] initWithData:_record.type encoding:NSUTF8StringEncoding];
 }
 
 - (NSNumber *)tnf

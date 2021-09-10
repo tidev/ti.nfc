@@ -23,6 +23,8 @@
 
 - (TiBlob *)payload;
 
+- (NSString *)text;
+
 - (NSString *)type;
 
 - (NSNumber *)tnf;

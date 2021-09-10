@@ -30,7 +30,7 @@
 
 #pragma mark Public API's
 
-- (void)connect
+- (void)connect:(id)unused
 {
   [self.session connectToTag:[self.tagProxy tag]
            completionHandler:^(NSError *_Nullable error) {
@@ -47,7 +47,7 @@
            }];
 }
 
-- (void)queryNDEFStatus
+- (void)queryNDEFStatus:(id)unused
 {
   [[self.tagProxy tag] queryNDEFStatusWithCompletionHandler:^(NFCNDEFStatus status, NSUInteger capacity, NSError *_Nullable error) {
     if (error == nil) {
@@ -66,7 +66,7 @@
   }];
 }
 
-- (void)readNDEF
+- (void)readNDEF:(id)unused
 {
   [[self.tagProxy tag] readNDEFWithCompletionHandler:^(NFCNDEFMessage *message, NSError *error) {
     if (error == nil) {
@@ -105,7 +105,7 @@
                }];
 }
 
-- (void)writeLock
+- (void)writeLock:(id)unused
 {
   [[self.tagProxy tag] writeLockWithCompletionHandler:^(NSError *_Nullable error) {
     if (error == nil) {
