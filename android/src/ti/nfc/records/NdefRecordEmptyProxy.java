@@ -8,36 +8,40 @@
 
 package ti.nfc.records;
 
-import org.appcelerator.kroll.annotations.Kroll;
-
-import ti.nfc.NfcModule;
 import android.nfc.NdefRecord;
+import org.appcelerator.kroll.annotations.Kroll;
+import ti.nfc.NfcModule;
 
 @Kroll.proxy(creatableInModule = NfcModule.class)
-public class NdefRecordEmptyProxy extends NdefRecordProxy 
+public class NdefRecordEmptyProxy extends NdefRecordProxy
 {
-	public NdefRecordEmptyProxy() {
+	public NdefRecordEmptyProxy()
+	{
 		super();
 	}
-	
-	private NdefRecordEmptyProxy(NdefRecord record) {
+
+	private NdefRecordEmptyProxy(NdefRecord record)
+	{
 		super(record);
 	}
-	
+
 	@Override
-	public NdefRecord getRecord() {
+	public NdefRecord getRecord()
+	{
 		byte[] empty = new byte[] {};
-		
-		return new NdefRecord(NdefRecord.TNF_EMPTY, empty, empty, empty);	
+
+		return new NdefRecord(NdefRecord.TNF_EMPTY, empty, empty, empty);
 	}
-	
-	public static NdefRecordEmptyProxy parse(NdefRecord record) {
+
+	public static NdefRecordEmptyProxy parse(NdefRecord record)
+	{
 		NdefRecordEmptyProxy proxy = new NdefRecordEmptyProxy(record);
-		
+
 		return proxy;
 	}
 
-	public static boolean isValid(NdefRecord record) {
+	public static boolean isValid(NdefRecord record)
+	{
 		short tnf = record.getTnf();
 		return (tnf == NdefRecord.TNF_EMPTY);
 	}

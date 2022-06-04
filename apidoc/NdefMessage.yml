@@ -13,7 +13,6 @@ platforms: [android, iphone]
 excludes:
     methods: [addEventListener, fireEvent, removeEventListener, applyProperties]
     properties: [bubbleParent]
-    
 methods:
   - name: toByte
     summary: Return the NDEF message as raw bytes.

@@ -27,6 +27,11 @@
   return @"ti.nfc";
 }
 
+- (NSString *)apiName
+{
+  return @"Ti.NFC";
+}
+
 #pragma mark Lifecycle
 
 - (void)startup
@@ -35,6 +40,16 @@
 
   NSLog(@"[DEBUG] %@ loaded", self);
 }
+
+MAKE_SYSTEM_STR(READER_SESSION_NFC_NDEF, @"NFCNDEFReaderSession");
+MAKE_SYSTEM_STR(READER_SESSION_NFC_TAG, @"NFCTagReaderSession");
+MAKE_SYSTEM_PROP(NFC_TAG_ISO14443, NFCPollingISO14443);
+MAKE_SYSTEM_PROP(NFC_TAG_ISO15693, NFCPollingISO15693);
+MAKE_SYSTEM_PROP(NFC_TAG_ISO18092, NFCPollingISO18092);
+
+MAKE_SYSTEM_PROP(NFC_NDEF_NOT_SUPPORTED, NFCNDEFStatusNotSupported);
+MAKE_SYSTEM_PROP(NFC_NDEF_READ_ONLY, NFCNDEFStatusReadOnly);
+MAKE_SYSTEM_PROP(NFC_NDEF_READ_WRITE, NFCNDEFStatusReadWrite);
 
 #if IS_IOS_11
 MAKE_SYSTEM_PROP(TNF_EMPTY, NFCTypeNameFormatEmpty);

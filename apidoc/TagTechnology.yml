@@ -55,42 +55,44 @@ examples:
     example: |
         This example uses the TECH_NDEF tag technology to write a <Modules.Nfc.NdefMessage> message to a tag.
 
-            var tech = nfc.createTagTechnologyNdef({
-                tag: scannedTag
-            });
+        ``` javascript
+        var tech = nfc.createTagTechnologyNdef({
+            tag: scannedTag
+        });
 
-            if (!tech.isValid()) {
-                alert("Failed to create Ndef tag type");
-                return;
+        if (!tech.isValid()) {
+            alert("Failed to create Ndef tag type");
+            return;
+        }
+
+        // Attempt to write an Ndef record to the tag
+        try {
+            tech.connect();
+
+            // It's possible that the tag is not writable, so we need to check first.
+            if (!tech.isWritable()) {
+                alert ("Tag is not writable");
+            } else {
+                // Create a new message to write to the tag
+                var date = new Date();
+                var textRecord = nfc.createNdefRecordText({
+                    text: "Titanium NFC module. Tag updated on " + date.toLocaleString() + "!!!"
+                });
+                var msg = nfc.createNdefMessage({
+                    records: [ textRecord ]
+                });
+            
+                // Write to the tag
+                tech.writeNdefMessage(msg);
             }
-
-            // Attempt to write an Ndef record to the tag
-            try {
-                tech.connect();
-
-                // It's possible that the tag is not writable, so we need to check first.
-                if (!tech.isWritable()) {
-                    alert ("Tag is not writable");
-                } else {
-                    // Create a new message to write to the tag
-                    var date = new Date();
-                    var textRecord = nfc.createNdefRecordText({
-                        text: "Titanium NFC module. Tag updated on " + date.toLocaleString() + "!!!"
-                    });
-                    var msg = nfc.createNdefMessage({
-                        records: [ textRecord ]
-                    });
-                
-                    // Write to the tag
-                    tech.writeNdefMessage(msg);
-                }
-            } catch (e) {
-                alert("Error: " + e.message);
-            } finally {
-                if (tech.isConnected()) {
-                    tech.close();
-                }
+        } catch (e) {
+            alert("Error: " + e.message);
+        } finally {
+            if (tech.isConnected()) {
+                tech.close();
             }
+        }
+        ```
 
 ---
 name: Modules.Nfc.TagTechnologyIsoDep
@@ -100,7 +102,6 @@ description: |
 
     See also:
     [IsoDep](http://developer.android.com/reference/android/nfc/tech/IsoDep.html)
-
 extends: Modules.Nfc.TagTechnology
 since: "1.1.0"
 platforms: [android]
@@ -161,7 +162,6 @@ description: |
 
     See also:
     [MifareClassic](http://developer.android.com/reference/android/nfc/tech/MifareClassic.html)
-
 extends: Modules.Nfc.TagTechnology
 since: "1.1.0"
 platforms: [android]
@@ -419,7 +419,6 @@ description: |
 
     See also:
     [NdefFormatable](http://developer.android.com/reference/android/nfc/tech/NdefFormatable.html)
-
 extends: Modules.Nfc.TagTechnology
 since: "1.1.0"
 platforms: [android]
@@ -450,7 +449,6 @@ description: |
 
     See also:
     [Ndef](http://developer.android.com/reference/android/nfc/tech/Ndef.html)
-
 extends: Modules.Nfc.TagTechnology
 since: "1.1.0"
 platforms: [android]
@@ -518,7 +516,6 @@ description: |
 
     See also:
     [NfcA](http://developer.android.com/reference/android/nfc/tech/NfcA.html)
-
 extends: Modules.Nfc.TagTechnology
 since: "1.1.0"
 platforms: [android]
@@ -574,7 +571,6 @@ description: |
 
     See also:
     [NfcB](http://developer.android.com/reference/android/nfc/tech/NfcB.html)
-
 extends: Modules.Nfc.TagTechnology
 since: "1.1.0"
 platforms: [android]
@@ -618,7 +614,6 @@ description: |
 
     See also:
     [NfcF](http://developer.android.com/reference/android/nfc/tech/NfcF.html)
-
 extends: Modules.Nfc.TagTechnology
 since: "1.1.0"
 platforms: [android]
@@ -674,7 +669,6 @@ description: |
 
     See also:
     [NfcV](http://developer.android.com/reference/android/nfc/tech/NfcV.html)
-
 extends: Modules.Nfc.TagTechnology
 since: "1.1.0"
 platforms: [android]

@@ -1,8 +1,9 @@
-@Library('pipeline-library') _
+#!groovy
+library 'pipeline-library'
 
 buildModule {
 	// defaults:
-	//nodeVersion = '4.7.3' // Must have version set up on Jenkins master before it can be changed
-	sdkVersion = '7.1.0.GA'
+	sdkVersion = '9.3.1.GA'
 	androidAPILevel = '25' // if changed, must install on build nodes
+	iosLabels = 'osx && xcode-12'
 }

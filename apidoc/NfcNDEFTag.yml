@@ -1,0 +1,17 @@
+---
+name: Modules.Nfc.NfcNDEFTag
+summary: An interface for interacting with an NDEF tag.
+description: |
+    It provide the interface for NFC Data Exchange Format (NDEF) tag. 
+extends: Titanium.Proxy
+since: "3.0.1"
+platforms: [iphone, ipad]
+createable: false
+
+methods:
+  - name: available
+    summary: A value that determines whether the NDEF tag is available in the current reader session.
+    platforms: [iphone]
+    returns:
+        type: Number 
+        

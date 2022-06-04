@@ -1,0 +1,13 @@
+node_modules
+
+anvil/
+
+android/bin/
+android/build/
+android/dist/
+ios/build/
+ios/dist/
+
+# FIXME: these should not be excluded long-term
+android/example/
+ios/example/

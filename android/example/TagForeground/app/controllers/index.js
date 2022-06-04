@@ -16,7 +16,8 @@
  *        <activity android:name=".TagForegroundActivity"
  *            android:label="TagForeground" android:theme="@style/Theme.Titanium"
  *            android:configChanges="keyboardHidden|orientation"
- *            android:launchMode="singleTask">
+ *            android:launchMode="singleTask"
+ *            android:exported="true">
  *          <intent-filter>
  *            <action android:name="android.intent.action.MAIN" />
  *            <category android:name="android.intent.category.LAUNCHER" />

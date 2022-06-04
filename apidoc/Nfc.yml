@@ -36,11 +36,13 @@ description: |
     ### Configure iOS: Capabilities and Provisioning Profiles
     
     -   Required capabilities:
-      
-            <key>com.apple.developer.nfc.readersession.formats</key>
-            <array>
-                <string>NDEF</string>
-            </array>
+
+        ``` xml
+        <key>com.apple.developer.nfc.readersession.formats</key>
+        <array>
+            <string>NDEF</string>
+        </array>
+        ```
 
     -   Provisioning Profile entitled with the NFC Tag Reading capability
 
@@ -59,36 +61,39 @@ description: |
         - Add the NFC permissions to your Android configuration
         - Replace the NFC specific intent filters with filters appropriate for your application.
   
-                <android xmlns:android="http://schemas.android.com/apk/res/android">
-                    <manifest>
-                        <!-- Required NFC permissions -->
-                        <uses-permission android:name="android.permission.NFC" />
-                        <uses-feature android:name="android.hardware.nfc" android:required="true" /> 
-                        
-                        <!-- NFC Intent filters -->
-                        <application>
-                            <activity android:name=".TagviewerActivity"
-                             android:label="TagViewer" android:theme="@style/Theme.Titanium"
-                             android:configChanges="keyboardHidden|orientation">
-                                <intent-filter>
-                                    <action android:name="android.nfc.action.TECH_DISCOVERED"/>
-                                    <category android:name="android.intent.category.DEFAULT"/>
-                                </intent-filter>
+            ``` xml
+            <android xmlns:android="http://schemas.android.com/apk/res/android">
+                <manifest>
+                    <!-- Required NFC permissions -->
+                    <uses-permission android:name="android.permission.NFC" />
+                    <uses-feature android:name="android.hardware.nfc" android:required="true" /> 
+                    
+                    <!-- NFC Intent filters -->
+                    <application>
+                        <activity android:name=".TagviewerActivity"
+                          android:label="TagViewer" android:theme="@style/Theme.Titanium"
+                          android:configChanges="keyboardHidden|orientation"
+                          android:exported="true">
+                            <intent-filter>
+                                <action android:name="android.nfc.action.TECH_DISCOVERED"/>
+                                <category android:name="android.intent.category.DEFAULT"/>
+                            </intent-filter>
 
-                                <intent-filter>
-                                    <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
-                                    <category android:name="android.intent.category.DEFAULT"/>
-                                    <data android:mimeType="text/plain" />
-                                </intent-filter>
+                            <intent-filter>
+                                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+                                <category android:name="android.intent.category.DEFAULT"/>
+                                <data android:mimeType="text/plain" />
+                            </intent-filter>
 
-                                <intent-filter>
-                                    <action android:name="android.nfc.action.TAG_DISCOVERED"/>
-                                    <category android:name="android.intent.category.DEFAULT"/>
-                                </intent-filter>
-                            </activity>
-                        </application>
-                    </manifest>
-                </android>
+                            <intent-filter>
+                                <action android:name="android.nfc.action.TAG_DISCOVERED"/>
+                                <category android:name="android.intent.category.DEFAULT"/>
+                            </intent-filter>
+                        </activity>
+                    </application>
+                </manifest>
+            </android>
+            ```
 
         Note that if you are using [foreground dispatching](http://developer.android.com/guide/topics/connectivity/nfc/advanced-nfc.html#foreground-dispatch)
         you do not need to define intent filters in the application's tiapp.xml file.
@@ -97,7 +102,9 @@ description: |
 
     -   Use `require` to access this module from JavaScript:
 
-            var nfc = require('ti.nfc');
+        ``` javascript
+        var nfc = require('ti.nfc');
+        ```
 
         The `nfc` variable is a reference to the Module object.
 
@@ -108,28 +115,31 @@ description: |
         Adapter should be created after the activity has been opened. You can use the window `open` event to know
         when the activity has been opened. 
 
-            $.index.addEventListener('open', function(e) {
-                nfcAdapter = nfc.createNfcAdapter({
-                    onNdefDiscovered: handleDiscovery,
-                    onTagDiscovered: handleDiscovery, // Android-only
-                    onTechDiscovered: handleDiscovery // Android-only
-                });
-
-                if (!nfcAdapter.isEnabled()) {
-                    Ti.API.error('NFC is not enabled on this device!');
-                    return;
-                }
+        ``` javascript
+        $.index.addEventListener('open', function(e) {
+            nfcAdapter = nfc.createNfcAdapter({
+                onNdefDiscovered: handleDiscovery,
+                onTagDiscovered: handleDiscovery, // Android-only
+                onTechDiscovered: handleDiscovery // Android-only
             });
+
+            if (!nfcAdapter.isEnabled()) {
+                Ti.API.error('NFC is not enabled on this device!');
+                return;
+            }
+        });
+        ```
 
     ### Handling Intents (Android)
 
     -   NFC Intents are dispatched to an activity by the Android tag dispatch system. When your activity receives a new intent,
         it must forward the intent to the `onNewIntent` method of the NFC adapter for processing.
 
-            
-            Ti.Android.currentActivity.addEventListener('newintent', function (e) {
-                nfcAdapter.onNewIntent(e.intent);
-            });
+        ``` javascript
+        Ti.Android.currentActivity.addEventListener('newintent', function (e) {
+            nfcAdapter.onNewIntent(e.intent);
+        });
+        ```
 
         If your application is started as the result of an NFC intent, that intent will automatically be processed when the
         NFC module is loaded.
@@ -140,14 +150,16 @@ description: |
         When using foreground dispatching, you must process the `pause` and `resume` events on the activity and enable or disable
         foreground dispatching.
 
-            var currentActivity = Ti.Android.currentActivity;
+        ``` javascript
+        var currentActivity = Ti.Android.currentActivity;
 
-            currentActivity.addEventListener('resume', function(e) {
-                nfcAdapter.enableForegroundDispatch(dispatchFilter);
-            });
-            currentActivity.addEventListener('pause', function(e) {
-                nfcAdapter.disableForegroundDispatch();
-            });
+        currentActivity.addEventListener('resume', function(e) {
+            nfcAdapter.enableForegroundDispatch(dispatchFilter);
+        });
+        currentActivity.addEventListener('pause', function(e) {
+            nfcAdapter.disableForegroundDispatch();
+        });
+        ```
 
     ### Example applications
 
@@ -169,9 +181,7 @@ platforms: [android, iphone]
 excludes:
     methods: [addEventListener, fireEvent, removeEventListener, applyProperties]
     properties: [bubbleParent]
-
 properties:
-
   - name: ACTION_NDEF_DISCOVERED
     summary: |
         Intent to start an activity when a tag with NDEF payload is discovered.
@@ -689,39 +699,41 @@ examples:
         This example demonstrates the proper technique for creating an NFC adapter. 
         The NFC Adapter should be created after the window has been opened.
 
-            var nfc = require('ti.nfc');
-            var nfcAdapter = null;
+        ``` javascript
+        var nfc = require('ti.nfc');
+        var nfcAdapter = null;
 
-            $.index.addEventListener('open', function(e) {
-                // Must wait until the activity has been opened before setting up NFC
-                // Create the NFC adapter to be associated with this activity. 
-                // There should only be ONE adapter created per activity.
-                nfcAdapter = nfc.createNfcAdapter({
-                    onNdefDiscovered: handleDiscovery,
-                    onTagDiscovered: handleDiscovery, // Android-only
-                    onTechDiscovered: handleDiscovery // Android-only
-                });
-
-                // It's possible that the device does not support NFC. Check it here
-                // before we go any further. For iOS, right now this is decided 
-                // internally by the system. 
-                if (OS_ANDROID) {
-                    if (!nfcAdapter.isEnabled()) {
-                        alert('NFC is not enabled on this device');
-                        return;
-                    }
-                    Ti.Android.currentActivity.addEventListener('newintent', function (e) {
-                        nfcAdapter.onNewIntent(e.intent);
-                    });
-                    
-                // iOS needs to be told to scan
-                } else if (OS_IOS) {
-                    nfcAdapter.begin();
-                }
+        $.index.addEventListener('open', function(e) {
+            // Must wait until the activity has been opened before setting up NFC
+            // Create the NFC adapter to be associated with this activity. 
+            // There should only be ONE adapter created per activity.
+            nfcAdapter = nfc.createNfcAdapter({
+                onNdefDiscovered: handleDiscovery,
+                onTagDiscovered: handleDiscovery, // Android-only
+                onTechDiscovered: handleDiscovery // Android-only
             });
-            
-            function handleDiscovery(e) {
-                alert(JSON.stringify(e, null, 2));
-            }
 
-            $.index.open();
+            // It's possible that the device does not support NFC. Check it here
+            // before we go any further. For iOS, right now this is decided 
+            // internally by the system. 
+            if (OS_ANDROID) {
+                if (!nfcAdapter.isEnabled()) {
+                    alert('NFC is not enabled on this device');
+                    return;
+                }
+                Ti.Android.currentActivity.addEventListener('newintent', function (e) {
+                    nfcAdapter.onNewIntent(e.intent);
+                });
+                
+            // iOS needs to be told to scan
+            } else if (OS_IOS) {
+                nfcAdapter.begin();
+            }
+        });
+        
+        function handleDiscovery(e) {
+            alert(JSON.stringify(e, null, 2));
+        }
+
+        $.index.open();
+        ```
