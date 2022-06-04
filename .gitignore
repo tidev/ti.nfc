@@ -15,3 +15,4 @@ android/.settings/
 
 node_modules/
 TESTS-*.xml
+.DS_Store

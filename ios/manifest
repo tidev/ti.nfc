@@ -4,11 +4,12 @@
 #
 version: 4.1.0
 apiversion: 2
-architectures: armv7 arm64 i386 x86_64
+architectures: arm64 x86_64
 description: ti.nfc
 author: Hans Knoechel
 license: Apache 2
 copyright: Copyright (c) 2017-present by Appcelerator
+mac: true
 
 # these should not be edited
 name: ti.nfc
