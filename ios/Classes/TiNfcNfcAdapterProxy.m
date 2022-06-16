@@ -61,7 +61,7 @@
 
 - (NSNumber *)isEnabled:(id)type
 {
-  if (![TiUtils isIOSVersionOrGreater:@"13.0"]) {
+  if (![TiUtils isIOSVersionOrGreater:@"11.0"]) {
     return @(NO);
   }
   NSString *sessionType = [[type firstObject] valueForKey:@"type"];
@@ -202,7 +202,7 @@
           [result addObject:[[TiNfcNdefMessageProxy alloc] _initWithPageContext:[self pageContext] andRecords:message.records]];
         }
 
-        [_ndefDiscoveredCallback call:@[ @{
+        [self->_ndefDiscoveredCallback call:@[ @{
           @"messages" : result.allObjects
         } ]
                            thisObject:self];
@@ -233,7 +233,7 @@
 
   TiThreadPerformOnMainThread(
       ^{
-        [_nNdefInvalidated call:@[ @{
+        [self->_nNdefInvalidated call:@[ @{
           @"cancelled" : @(error.code == 200),
           @"message" : [error localizedDescription],
           @"code" : NUMINTEGER([error code]),
