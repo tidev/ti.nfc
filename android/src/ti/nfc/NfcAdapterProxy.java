@@ -179,6 +179,37 @@ public class NfcAdapterProxy extends KrollProxy
 	}
 
 	@Kroll.method
+	public void enableReader(KrollFunction callback)
+	{
+		if (_adapter != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			_adapter.enableReaderMode(TiApplication.getAppCurrentActivity(), new NfcAdapter.ReaderCallback() {
+				@Override
+				public void onTagDiscovered(Tag tag) {
+					KrollDict event = new KrollDict();
+					NfcTagProxy tagProxy = new NfcTagProxy(tag);
+					event.put(NfcConstants.PROPERTY_TAG, tagProxy);
+					Log.d(NfcConstants.LCAT, "tagproxy: " + tagProxy.getId());
+					callback.callAsync(getKrollObject(), event);
+				}
+			}, NfcAdapter.FLAG_READER_NFC_A |
+					NfcAdapter.FLAG_READER_NFC_B |
+					NfcAdapter.FLAG_READER_NFC_F |
+					NfcAdapter.FLAG_READER_NFC_BARCODE |
+					NfcAdapter.FLAG_READER_NFC_V |
+					NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK |
+					NfcAdapter.FLAG_READER_NO_PLATFORM_SOUNDS, null);
+		}
+	}
+
+	@Kroll.method
+	public void disableReader()
+	{
+		if (_adapter != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			_adapter.disableReaderMode(TiApplication.getAppCurrentActivity());
+		}
+	}
+
+	@Kroll.method
 	public void onNewIntent(IntentProxy intentProxy)
 	{
 		if (intentProxy != null) {
