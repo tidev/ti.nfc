@@ -51,7 +51,7 @@
     "@seadub/danger-plugin-junit": "^0.1.2",
     "@seadub/danger-plugin-titanium-module": "0.0.7",
     "clang-format": "^1.4.0",
-    "commitizen": "^4.0.3",
+    "commitizen": "^4.3.0",
     "danger": "^10.2.1",
     "eslint": "^7.3.1",
     "eslint-config-axway": "^4.5.0",
@@ -64,7 +64,7 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-titanium-launcher": "^0.8.1",
     "lint-staged": "^10.0.7",
-    "titanium-docgen": "^4.2.0"
+    "titanium-docgen": "^4.10.3"
   },
   "dependencies": {},
   "husky": {
