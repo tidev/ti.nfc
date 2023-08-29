@@ -87,7 +87,7 @@ public class NfcForegroundDispatchFilter extends KrollProxy
 			_intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		}
 
-		_pendingIntent = PendingIntent.getActivity(activity, 0, _intent, PendingIntent.FLAG_IMMUTABLE);
+		_pendingIntent = PendingIntent.getActivity(activity, 0, _intent, PendingIntent.FLAG_MUTABLE);
 	}
 
 	private void parseIntent(Object prop)
