@@ -30,29 +30,49 @@
   return historicalBytes;
 }
 
+NSString *getHexString(NSData *data)
+{
+  NSUInteger capacity = data.length * 2;
+  NSMutableString *sbuf = [NSMutableString stringWithCapacity:capacity];
+  const unsigned char *buf = data.bytes;
+  NSInteger i;
+  for (i = 0; i < data.length; ++i) {
+    [sbuf appendFormat:@"%02lX", (unsigned long)buf[i]];
+  }
+  return sbuf;
+}
+
+NSData *arrayToData(NSArray *array)
+{
+  Byte bytes[[array count]];
+  for (int i = 0; i < [array count]; i++) {
+    bytes[i] = [[array objectAtIndex:i] integerValue];
+  }
+  NSData *payload = [[NSData alloc] initWithBytes:bytes length:[array count]];
+  return payload;
+}
+
 - (void)sendMiFareCommand:(id)args
 {
   NSArray *commandData = [[args firstObject] valueForKey:@"data"];
-  unsigned int dataValue[commandData.count];
-  for (int i = 0; i < commandData.count; i++) {
-    dataValue[i] = [commandData[i] unsignedIntValue];
-  }
-  NSData *data = [[NSData alloc] initWithBytes:dataValue length:commandData.count];
+  NSData *data = arrayToData(commandData);
   [[self.tagProxy asNFCMiFareTag] sendMiFareCommand:data
                                   completionHandler:^(NSData *response, NSError *error) {
                                     if (![self _hasListeners:@"didSendMiFareCommand"]) {
                                       return;
                                     }
+
                                     TiBuffer *responseData = [[TiBuffer alloc] _initWithPageContext:[self pageContext]];
                                     NSMutableData *responsevalue = [NSMutableData dataWithData:response];
                                     [responseData setData:responsevalue];
+
                                     [self fireEvent:@"didSendMiFareCommand"
                                          withObject:@{
                                            @"errorCode" : error != nil ? NUMINTEGER([error code]) : [NSNull null],
                                            @"errorDescription" : error != nil ? [error localizedDescription] : [NSNull null],
                                            @"errorDomain" : error != nil ? [error domain] : [NSNull null],
-                                           @"responseDataLength" : responseData.length
-
+                                           @"responseDataLength" : responseData.length,
+                                           @"hex" : getHexString(response)
                                          }];
                                   }];
 }
