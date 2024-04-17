@@ -82,7 +82,7 @@ var deviceWindow = Ti.UI.createWindow({
   titleAttributes: { color: 'blue' }
 });
 
-var navDeviceWindow = Ti.UI.iOS.createNavigationWindow({
+var navDeviceWindow = Ti.UI.createNavigationWindow({
   window: deviceWindow
 });
 

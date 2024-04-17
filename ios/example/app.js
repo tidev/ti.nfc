@@ -61,7 +61,7 @@ var deviceWindow = Ti.UI.createWindow({
   title: 'Mifare Sample',
   titleAttributes: { color: 'blue' }
 });
-var navDeviceWindow = Ti.UI.iOS.createNavigationWindow({
+var navDeviceWindow = Ti.UI.createNavigationWindow({
   window: deviceWindow
 });
 
@@ -81,7 +81,7 @@ nfcAdapter.addEventListener('didDetectTags', function (e) {
     Ti.API.info('didDetectTags with message' + (e.errorCode ? (' error code: ' + e.errorCode + ' error domain: ' + e.errorDomain + ' error description: ' + e.errorDescription) : ': Tag Detected'));
     logs.push('didDetectTags with message' + (e.errorCode ? (' error code: ' + e.errorCode + ' error domain: ' + e.errorDomain + ' error description: ' + e.errorDescription) : ': Tag Detected'));
     setData(logs);
-    
+
   var mifare = nfcAdapter.createTagTechMifareUltralight({'tag':e.tags[0]});
   mifare.addEventListener('didConnectTag', function (e) {
       Ti.API.info('didConnectTag with message' + (e.errorCode ? (' error code: ' + e.errorCode + ' error domain: ' + e.errorDomain + ' error description: ' + e.errorDescription) : ': MiFare Tag Connected'));
