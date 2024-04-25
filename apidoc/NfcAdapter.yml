@@ -73,6 +73,25 @@ methods:
         summary: A filter specifying intent, intent filters and technology lists used to match dispatch intents.
         type: Modules.Nfc.NfcForegroundDispatchFilter
 
+  - name: disableReader
+    since: "5.1.0"
+    platforms: [android]
+    summary: Disable reader mode in the current activity.
+
+  - name: enableReader
+    since: "5.1.0"
+    platforms: [android]
+    summary: Enable reader mode in the current activity.
+    description: |
+        In this mode the NFC controller will only act as an NFC tag reader/writer, thus disabling any peer-to-peer (Android Beam) and card-emulation modes of the NFC adapter on this device.
+
+        See also:
+        [Android Developer - enableReaderMode](https://developer.android.com/reference/android/nfc/NfcAdapter.html#enableReaderMode(android.app.Activity,%20android.nfc.NfcAdapter.ReaderCallback,%20int,%20android.os.Bundle))
+    parameters:
+      - name: Callback
+        summary: Tag data
+        type: Callback
+
   - name: enableForegroundNdefPush
     since: "1.0.0"
     platforms: [android]
