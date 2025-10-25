@@ -2,7 +2,7 @@
 # this is your module manifest and used by Titanium
 # during compilation, packaging, distribution, etc.
 #
-version: 5.0.0
+version: 6.0.0
 apiversion: 4
 architectures: arm64-v8a armeabi-v7a x86 x86_64
 description: Near Field Communication (NFC)
@@ -15,4 +15,4 @@ name: nfc
 moduleid: ti.nfc
 guid: 50513178-f1da-40e1-8031-75c08db86d6f
 platform: android
-minsdk: 9.0.0
+minsdk: 12.7.0
