@@ -185,7 +185,7 @@ public class NfcAdapterProxy extends KrollProxy
 						null);
 			}
 		} else {
-			Log.e(NfcConstants.LCAT, "Missing success callback function");
+			Log.e(NfcConstants.LCAT, "Missing 'discovered' callback function");
 		}
 	}
 

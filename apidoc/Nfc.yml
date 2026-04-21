@@ -1,11 +1,11 @@
 ---
 name: Modules.Nfc
 summary: |
-    A cross-platform Near-Field-Communication (NFC) module for iOS and Android. 
+    A cross-platform Near-Field-Communication (NFC) module for iOS and Android.
     Download the latest release via [Github](https://github.com/appcelerator-modules/ti.nfc/releases).
 description: |
-    This module provides access to Near Field Communication (NFC) functionality, 
-    allowing applications to read and write (Android-only) NFC tags. 
+    This module provides access to Near Field Communication (NFC) functionality,
+    allowing applications to read and write (Android-only) NFC tags.
     A "tag" may actually be another device that appears as a tag.
 
     ### NFC Resources
@@ -23,18 +23,18 @@ description: |
     - **Android**
       - Android 4.1 (API 16) and later
       - An NFC capable device
-    
+
     - **iOS**
       - iOS 11 and later
       - iPhone 7 / iPhone 7 Plus and later
 
     ### Getting Started
 
-    -   View the [Using Titanium Modules](http://docs.appcelerator.com/platform/latest/#!/guide/Using_Titanium_Modules) 
+    -   View the [Using Titanium Modules](http://docs.appcelerator.com/platform/latest/#!/guide/Using_Titanium_Modules)
         document for instructions on getting started with using this module in your application.
-        
+
     ### Configure iOS: Capabilities and Provisioning Profiles
-    
+
     -   Required capabilities:
 
         ``` xml
@@ -50,24 +50,24 @@ description: |
 
     -   The Android [tag dispatch system](http://developer.android.com/guide/topics/connectivity/nfc/nfc.html#tag-dispatch)
         is responsible for dispatching NFC messages to the appropriate application. In the
-        situation where you are not using foreground dispatching, you will need to define intent-filters in the 
+        situation where you are not using foreground dispatching, you will need to define intent-filters in the
         tiapp.xml file to specify which types of NFC messages the application wants to receive. By using intent-filters in
         the tiapp.xml file, the application will be automatically started if a matching
-        NFC message is dispatched. 
-  
+        NFC message is dispatched.
+
         Add code similar to the following to your tiapp.xml file:
 
         - Replace occurrences of the activity name (`Tagviewer`) with your activity name.
         - Add the NFC permissions to your Android configuration
         - Replace the NFC specific intent filters with filters appropriate for your application.
-  
+
             ``` xml
             <android xmlns:android="http://schemas.android.com/apk/res/android">
                 <manifest>
                     <!-- Required NFC permissions -->
                     <uses-permission android:name="android.permission.NFC" />
-                    <uses-feature android:name="android.hardware.nfc" android:required="true" /> 
-                    
+                    <uses-feature android:name="android.hardware.nfc" android:required="true" />
+
                     <!-- NFC Intent filters -->
                     <application>
                         <activity android:name=".TagviewerActivity"
@@ -111,9 +111,9 @@ description: |
     ### Creating an Adapter
 
     -   The NFC adapter gives you access to the features of the NFC device. The NFC adapter proxy is always
-        associated with the activity that was the current activity when it was created. Therefore, the NFC 
+        associated with the activity that was the current activity when it was created. Therefore, the NFC
         Adapter should be created after the activity has been opened. You can use the window `open` event to know
-        when the activity has been opened. 
+        when the activity has been opened.
 
         ``` javascript
         $.index.addEventListener('open', function(e) {
@@ -169,9 +169,9 @@ description: |
         - `TagForeground` demonstrates how to read NFC tags only when the application is in the foreground.
         - `TagViewer` demonstrates how to receive NFC tag intents even when the application is not running.
         - `TagWriter` demonstrates how to write to an NFC tag using the Ndef tag technology data format.
-        
+
     -   iOS example applications are located in the `example/ios` folder of the module:
-        
+
         - `TagViewer` demonstrates how to receive NFC tags even when the application is running.
 
 extends: Titanium.Module
@@ -235,7 +235,7 @@ properties:
 
   - name: TNF_MIME_MEDIA
     summary: |
-        Used with ndefRecord records.    
+        Used with ndefRecord records.
         Indicates the type field contains a media-type BNF construct, defined by RFC 2046.
     type: Number
     permission: read-only
@@ -244,7 +244,7 @@ properties:
 
   - name: TNF_UNCHANGED
     summary: |
-        Used with ndefRecord records.    
+        Used with ndefRecord records.
         Indicates the payload is an intermediate or final chunk of a chunked NDEF Record.
     type: Number
     permission: read-only
@@ -253,7 +253,7 @@ properties:
 
   - name: TNF_UNKNOWN
     summary: |
-        Used with ndefRecord records.    
+        Used with ndefRecord records.
         Indicates the payload type is unknown.
     type: Number
     permission: read-only
@@ -262,7 +262,7 @@ properties:
 
   - name: TNF_WELL_KNOWN
     summary: |
-        Used with ndefRecord records.    
+        Used with ndefRecord records.
         Indicates the type field contains a well-known RTD type name.
     type: Number
     permission: read-only
@@ -271,52 +271,52 @@ properties:
 
   - name: RTD_ALTERNATIVE_CARRIER
     summary: |
-        Used with ndefRecord records.    
+        Used with ndefRecord records.
         RTD Alternative Carrier type. For use with TNF_WELL_KNOWN.
     type: String
     permission: read-only
-    since: "1.0.0"     
+    since: "1.0.0"
     platforms: [android]
 
   - name: RTD_HANDOVER_CARRIER
     summary: |
-        Used with ndefRecord records.    
+        Used with ndefRecord records.
         RTD Handover Carrier type. For use with TNF_WELL_KNOWN.
     type: String
     permission: read-only
-    since: "1.0.0"     
+    since: "1.0.0"
     platforms: [android]
 
   - name: RTD_HANDOVER_REQUEST
     summary: |
-        Used with ndefRecord records.    
+        Used with ndefRecord records.
         RTD Handover Request type. For use with TNF_WELL_KNOWN.
     type: String
     permission: read-only
-    since: "1.0.0"  
+    since: "1.0.0"
     platforms: [android]
 
   - name: RTD_HANDOVER_SELECT
     summary: |
-        Used with ndefRecord records.    
+        Used with ndefRecord records.
         RTD Handover Select type. For use with TNF_WELL_KNOWN.
     type: String
     permission: read-only
-    since: "1.0.0"  
+    since: "1.0.0"
     platforms: [android]
 
   - name: RTD_SMART_POSTER
     summary: |
-        Used with ndefRecord records.    
+        Used with ndefRecord records.
         RTD Smart Poster type. For use with TNF_WELL_KNOWN.
     type: String
     permission: read-only
-    since: "1.0.0"  
+    since: "1.0.0"
     platforms: [android]
 
   - name: RTD_TEXT
     summary: |
-        Used with ndefRecord records.    
+        Used with ndefRecord records.
         RTD Text type. For use with TNF_WELL_KNOWN.
     type: String
     permission: read-only
@@ -325,11 +325,11 @@ properties:
 
   - name: RTD_URI
     summary: |
-        Used with ndefRecord records.    
+        Used with ndefRecord records.
         RTD URI type. For use with TNF_WELL_KNOWN.
     type: String
     permission: read-only
-    since: "1.0.0"  
+    since: "1.0.0"
     platforms: [android]
 
   - name: TECH_ISODEP
@@ -337,7 +337,7 @@ properties:
         Available tag technology used with getTechList and AdapterProxy.
     type: Number
     permission: read-only
-    since: "1.0.0"  
+    since: "1.0.0"
     platforms: [android]
 
   - name: TECH_MIFARE_CLASSIC
@@ -345,7 +345,7 @@ properties:
         Available tag technology used with getTechList and AdapterProxy.
     type: Number
     permission: read-only
-    since: "1.0.0"  
+    since: "1.0.0"
     platforms: [android]
 
   - name: TECH_MIFARE_ULTRALIGHT
@@ -353,7 +353,7 @@ properties:
         Available tag technology used with getTechList and AdapterProxy.
     type: Number
     permission: read-only
-    since: "1.0.0"  
+    since: "1.0.0"
     platforms: [android]
 
   - name: TECH_NDEF
@@ -361,7 +361,7 @@ properties:
         Available tag technology used with getTechList and AdapterProxy.
     type: Number
     permission: read-only
-    since: "1.0.0"  
+    since: "1.0.0"
     platforms: [android]
 
   - name: TECH_NDEFFORMATABLE
@@ -369,7 +369,7 @@ properties:
         Available tag technology used with getTechList and AdapterProxy.
     type: Number
     permission: read-only
-    since: "1.0.0"  
+    since: "1.0.0"
     platforms: [android]
 
   - name: TECH_NFCA
@@ -377,7 +377,7 @@ properties:
         Available tag technology used with getTechList and AdapterProxy.
     type: Number
     permission: read-only
-    since: "1.0.0"  
+    since: "1.0.0"
     platforms: [android]
 
   - name: TECH_NFCB
@@ -385,7 +385,7 @@ properties:
         Available tag technology used with getTechList and AdapterProxy.
     type: Number
     permission: read-only
-    since: "1.0.0"  
+    since: "1.0.0"
     platforms: [android]
 
   - name: TECH_NFCF
@@ -393,7 +393,7 @@ properties:
         Available tag technology used with getTechList and AdapterProxy.
     type: Number
     permission: read-only
-    since: "1.0.0"  
+    since: "1.0.0"
     platforms: [android]
 
   - name: TECH_NFCV
@@ -401,25 +401,25 @@ properties:
         Available tag technology used with getTechList and AdapterProxy.
     type: Number
     permission: read-only
-    since: "1.0.0"  
+    since: "1.0.0"
     platforms: [android]
 
   - name: ENCODING_UTF8
     summary: |
-        Used with ndefRecord records.    
+        Used with ndefRecord records.
         Indicates UTF-8 text encoding.
     type: String
     permission: read-only
-    since: "1.0.0"         
+    since: "1.0.0"
     platforms: [android]
 
   - name: ENCODING_UTF16
     summary: |
-        Used with ndefRecord records.    
+        Used with ndefRecord records.
         Indicates UTF-16 text encoding.
     type: String
     permission: read-only
-    since: "1.0.0"  
+    since: "1.0.0"
     platforms: [android]
 
   - name: RECOMMENDED_ACTION_UNKNOWN
@@ -427,7 +427,7 @@ properties:
         Used with NdefSmartPoster records (RTD_SMART_POSTER).
     type: Number
     permission: read-only
-    since: "1.0.0"  
+    since: "1.0.0"
     platforms: [android]
 
   - name: RECOMMENDED_ACTION_DO_ACTION
@@ -435,7 +435,7 @@ properties:
         Used with NdefSmartPoster records (RTD_SMART_POSTER).
     type: Number
     permission: read-only
-    since: "1.0.0"  
+    since: "1.0.0"
     platforms: [android]
 
   - name: RECOMMENDED_ACTION_SAVE_FOR_LATER
@@ -443,7 +443,7 @@ properties:
         Used with NdefSmartPoster records (RTD_SMART_POSTER).
     type: Number
     permission: read-only
-    since: "1.0.0"  
+    since: "1.0.0"
     platforms: [android]
 
   - name: RECOMMENDED_ACTION_OPEN_FOR_EDITING
@@ -451,7 +451,7 @@ properties:
         Used with NdefSmartPoster records (RTD_SMART_POSTER).
     type: Number
     permission: read-only
-    since: "1.0.0"  
+    since: "1.0.0"
     platforms: [android]
 
   - name: TAG_TYPE_NFC_FORUM_TYPE_1
@@ -615,88 +615,137 @@ properties:
     permission: read-only
     since: "1.1.0"
     platforms: [android]
-    
+
   - name: INVALIDATION_ERROR_USER_CANCELED
     summary: The user canceled the reader session.
     type: Number
     permission: read-only
     since: "2.0.0"
     platforms: [iphone]
-    
+
   - name: INVALIDATION_ERROR_SESSION_TIMEOUT
     summary: The reader session timed out.
     type: Number
     permission: read-only
     since: "2.0.0"
     platforms: [iphone]
-    
+
   - name: INVALIDATION_ERROR_SESSION_TERMINATED_UNEXPECTEDLY
     summary: The reader session terminated unexpectedly.
     type: Number
     permission: read-only
     since: "2.0.0"
     platforms: [iphone]
-    
+
   - name: INVALIDATION_ERROR_SYSTEM_IS_BUSY
     summary: The reader session failed because the system is busy.
     type: Number
     permission: read-only
     since: "2.0.0"
     platforms: [iphone]
-    
+
   - name: INVALIDATION_ERROR_FIRST_NDEF_TAG_READ
     summary: The first NDEF tag read by this session is invalid.
     type: Number
     permission: read-only
     since: "2.0.0"
     platforms: [iphone]
-    
+
   - name: ERROR_UNSUPPORTED_FEATURE
     summary: The reader session does not support this feature.
     type: Number
     permission: read-only
     since: "2.0.0"
     platforms: [iphone]
-    
+
   - name: ERROR_SECURITY_VIOLATION
-    summary: A security violation associated with the reader session has occurred.    
+    summary: A security violation associated with the reader session has occurred.
     type: Number
     permission: read-only
     since: "2.0.0"
     platforms: [iphone]
-    
+
   - name: TRANSCEIVE_ERROR_TAG_CONNECTION_LOST
-    summary: Connection to the tag has been lost.      
+    summary: Connection to the tag has been lost.
     type: Number
     permission: read-only
     since: "2.0.0"
     platforms: [iphone]
-    
+
   - name: TRANSCEIVE_ERROR_RETRY_EXCEEDED
     summary: Too many retries have occurred.
     type: Number
     permission: read-only
     since: "2.0.0"
     platforms: [iphone]
-    
+
   - name: TRANSCEIVE_ERROR_TAG_RESPONSE_ERROR
     summary: The tag has responded with an error.
     type: Number
     permission: read-only
     since: "2.0.0"
     platforms: [iphone]
-    
+
   - name: COMMAND_CONFIGURATION_ERROR_INVALID_PARAMETERS
-    summary: The tag has been configured with invalid parameters.        
+    summary: The tag has been configured with invalid parameters.
     type: Number
     permission: read-only
     since: "2.0.0"
     platforms: [iphone]
 
+  - name: FLAG_READER_NFC_A
+    summary: Setting this flag enables polling for Nfc-A technology.
+    type: Number
+    permission: read-only
+    since: "7.0.0"
+    platforms: [android]
+
+  - name: FLAG_READER_NFC_B
+    summary: Setting this flag enables polling for Nfc-B technology.
+    type: Number
+    permission: read-only
+    since: "7.0.0"
+    platforms: [android]
+
+  - name: FLAG_READER_NFC_F
+    summary: Setting this flag enables polling for Nfc-F technology.
+    type: Number
+    permission: read-only
+    since: "7.0.0"
+    platforms: [android]
+
+  - name: FLAG_READER_NFC_V
+    summary: Setting this flag enables polling for Nfc-V technology.
+    type: Number
+    permission: read-only
+    since: "7.0.0"
+    platforms: [android]
+
+  - name: FLAG_READER_NFC_BARCODE
+    summary: Setting this flag enables polling for NfcBarcode technology.
+    type: Number
+    permission: read-only
+    since: "7.0.0"
+    platforms: [android]
+
+  - name: FLAG_READER_NO_PLATFORM_SOUNDS
+    summary: Setting this flag allows the caller to prevent the platform from playing sounds when it discovers a tag.
+    type: Number
+    permission: read-only
+    since: "7.0.0"
+    platforms: [android]
+
+  - name: FLAG_READER_SKIP_NDEF_CHECK
+    summary: Setting this flag allows the caller to prevent the platform from performing an NDEF check on the tags it finds.
+    type: Number
+    permission: read-only
+    since: "7.0.0"
+    platforms: [android]
+
 examples:
   - title: Creating NFC Adapter (iOS & Android)
     example: |
-        This example demonstrates the proper technique for creating an NFC adapter. 
+        This example demonstrates the proper technique for creating an NFC adapter.
         The NFC Adapter should be created after the window has been opened.
 
         ``` javascript
@@ -705,7 +754,7 @@ examples:
 
         $.index.addEventListener('open', function(e) {
             // Must wait until the activity has been opened before setting up NFC
-            // Create the NFC adapter to be associated with this activity. 
+            // Create the NFC adapter to be associated with this activity.
             // There should only be ONE adapter created per activity.
             nfcAdapter = nfc.createNfcAdapter({
                 onNdefDiscovered: handleDiscovery,
@@ -714,8 +763,8 @@ examples:
             });
 
             // It's possible that the device does not support NFC. Check it here
-            // before we go any further. For iOS, right now this is decided 
-            // internally by the system. 
+            // before we go any further. For iOS, right now this is decided
+            // internally by the system.
             if (OS_ANDROID) {
                 if (!nfcAdapter.isEnabled()) {
                     alert('NFC is not enabled on this device');
@@ -724,13 +773,13 @@ examples:
                 Ti.Android.currentActivity.addEventListener('newintent', function (e) {
                     nfcAdapter.onNewIntent(e.intent);
                 });
-                
+
             // iOS needs to be told to scan
             } else if (OS_IOS) {
                 nfcAdapter.begin();
             }
         });
-        
+
         function handleDiscovery(e) {
             alert(JSON.stringify(e, null, 2));
         }
