@@ -134,6 +134,21 @@ public class NfcModule extends KrollModule
 	@Kroll.constant
 	public static final int MIFARE_ULTRALIGHT_TYPE_UNKNOWN = MifareUltralight.TYPE_UNKNOWN;
 
+	@Kroll.constant
+	public static final int FLAG_READER_NFC_A = NfcAdapter.FLAG_READER_NFC_A;
+	@Kroll.constant
+	public static final int FLAG_READER_NFC_B = NfcAdapter.FLAG_READER_NFC_B;
+	@Kroll.constant
+	public static final int FLAG_READER_NFC_F = NfcAdapter.FLAG_READER_NFC_F;
+	@Kroll.constant
+	public static final int FLAG_READER_NFC_V = NfcAdapter.FLAG_READER_NFC_V;
+	@Kroll.constant
+	public static final int FLAG_READER_NFC_BARCODE = NfcAdapter.FLAG_READER_NFC_BARCODE;
+	@Kroll.constant
+	public static final int FLAG_READER_NO_PLATFORM_SOUNDS = NfcAdapter.FLAG_READER_NO_PLATFORM_SOUNDS;
+	@Kroll.constant
+	public static final int FLAG_READER_SKIP_NDEF_CHECK = NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK;
+
 	public NfcModule()
 	{
 		super();
