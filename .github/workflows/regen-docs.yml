@@ -1,0 +1,35 @@
+name: Regen Docs
+
+# Tells titaniumsdk.com to recompile this module's API docs.
+#
+# Fires on a change to apidoc/ and on a published release, rather than on every
+# merged pull request, so a direct push to the default branch is not missed.
+on:
+  push:
+    branches: [master]
+    paths: ['apidoc/**']
+  release:
+    types: [published]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    name: Lint
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+
+      - run: npm ci
+      - run: npm run lint:docs
+
+  # The dispatch itself lives in titanium-www so the payload shape is defined
+  # once for all 17 source repos instead of copied into each.
+  notify:
+    needs: lint
+    uses: tidev/titanium-www/.github/workflows/notify-api-docs.yml@main
+    secrets:
+      dispatch-token: ${{ secrets.REGEN_DOCS_GITHUB_TOKEN }}
