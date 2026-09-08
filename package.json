@@ -3,7 +3,6 @@
   "version": "7.0.0",
   "description": "Titanium NFC module.",
   "scripts": {
-    "ci": "node updater/index.js ci",
     "commit": "git-cz",
     "format": "npm run format:android && npm run format:ios && npm run format:js",
     "format:android": "npm run lint:android -- --fix",
@@ -42,7 +41,6 @@
       "android"
     ]
   },
-  "main": "updater",
   "devDependencies": {
     "@commitlint/cli": "^9.0.1",
     "@commitlint/config-conventional": "^9.0.1",
