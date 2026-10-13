@@ -30,7 +30,7 @@ methods:
         type: Boolean
 
   - name: onNewIntent
-    since: "1.0.0"  
+    since: "1.0.0"
     platforms: [android]
     summary: Processes a new intent received by an application.
     description: |
@@ -39,7 +39,7 @@ methods:
         started MUST be passed to this method in order to be processed and parsed for processing by your
         application. If the intent is recognized as an NFC action, this method will call your
         `onNdefDiscovered`, `onTagDiscovered`, or `onTechDiscovered' callback with the parsed information.
-        You should add an event listener to the current activity for the `newintent` event in your application 
+        You should add an event listener to the current activity for the `newintent` event in your application
         and call this method with the received intent.
     parameters:
       - name: intent
@@ -47,19 +47,19 @@ methods:
         type: Titanium.Android.Intent
   - name: disableForegroundDispatch
     since: "1.0.0"
-    platforms: [android]    
+    platforms: [android]
     summary: Disable foreground dispatch to the current activity.
 
   - name: disableForegroundNdefPush
     since: "1.0.0"
-    platforms: [android]   
+    platforms: [android]
     summary: Disable NDEF message push over P2P.
     description: |
         This method was deprecated in API level 14. Use `setNdefPushMessage` instead.
 
   - name: enableForegroundDispatch
     since: "1.0.0"
-    platforms: [android]   
+    platforms: [android]
     summary: Enable foreground dispatch to the current activity.
     description: |
         The foreground dispatch system allows an activity to intercept an intent and claim priority over other activities that handle the same intent.
@@ -79,7 +79,7 @@ methods:
     summary: Disable reader mode in the current activity.
 
   - name: enableReader
-    since: "5.1.0"
+    since: "7.0.0"
     platforms: [android]
     summary: Enable reader mode in the current activity.
     description: |
@@ -88,9 +88,9 @@ methods:
         See also:
         [Android Developer - enableReaderMode](https://developer.android.com/reference/android/nfc/NfcAdapter.html#enableReaderMode(android.app.Activity,%20android.nfc.NfcAdapter.ReaderCallback,%20int,%20android.os.Bundle))
     parameters:
-      - name: Callback
-        summary: Tag data
-        type: Callback
+      - name: parameters
+        summary: Reader parameter
+        type: ReaderParameter
 
   - name: enableForegroundNdefPush
     since: "1.0.0"
@@ -130,7 +130,7 @@ methods:
 properties:
   - name: invalidateAfterFirstRead
     summary: |
-        Session will automatically invalidate after the first NDEF tag is read 
+        Session will automatically invalidate after the first NDEF tag is read
         successfully when this is set to `true`, and the `error` callback will
         return <Modules.Nfc.INVALIDATION_ERROR_FIRST_NDEF_TAG_READ> in this case.
     platforms: [iphone]
@@ -140,7 +140,7 @@ properties:
   - name: onPushComplete
     summary: Callback function to execute on successful Android Beam operation.
     description: |
-        This method is only available on Android 4.0 (API 14) and above. 
+        This method is only available on Android 4.0 (API 14) and above.
 
         See also:
         [setOnNdefPushCompleteCallback](http://developer.android.com/reference/android/nfc/NfcAdapter.html#setOnNdefPushCompleteCallback(android.nfc.NfcAdapter.OnNdefPushCompleteCallback, android.app.Activity, android.app.Activity...))
@@ -153,7 +153,7 @@ properties:
     summary: Callback function used to dynamically generated NDEF messsages to send using Android Beam.
     description: |
         The callback function must return an NDEF message to be used for the Android Beam operation.
-        This method is only available on Android 4.0 (API 14) and above. 
+        This method is only available on Android 4.0 (API 14) and above.
 
         See also:
         [setNdefPushMessageCallback](http://developer.android.com/reference/android/nfc/NfcAdapter.html#setNdefPushMessageCallback(android.nfc.NfcAdapter.CreateNdefMessageCallback, android.app.Activity, android.app.Activity...))
@@ -212,7 +212,7 @@ examples:
         This example uses foreground dispatch to receive NDEF messages only when the application is in the foreground.
 
         ``` javascript
-        // Create the NFC adapter to be associated with this activity. 
+        // Create the NFC adapter to be associated with this activity.
         // There should only be ONE adapter created per activity.
         nfcAdapter = nfc.createNfcAdapter({
             onNdefDiscovered: handleDiscovery,
@@ -265,7 +265,7 @@ examples:
         This example sets a default push message to send using Android Beam.
 
         ``` javascript
-        // Create the NFC adapter to be associated with this activity. 
+        // Create the NFC adapter to be associated with this activity.
         // There should only be ONE adapter created per activity.
         nfcAdapter = nfc.createNfcAdapter({});
 
@@ -291,7 +291,7 @@ examples:
         This example uses the push message callback to dynamically create the NDEF message as needed.
 
         ``` javascript
-        // Create the NFC adapter to be associated with this activity. 
+        // Create the NFC adapter to be associated with this activity.
         // There should only be ONE adapter created per activity.
         nfcAdapter = nfc.createNfcAdapter({
             onPushMessage: function() {
@@ -306,7 +306,7 @@ examples:
                 }
                 return nfc.createNdefMessage({
                     records: [
-                        ndefRecord 
+                        ndefRecord
                     ]
                 });
             }
@@ -368,3 +368,19 @@ properties:
     summary: The error code returned if an error occurred while reading the tag.
     type: Number
     platforms: [iphone]
+
+---
+name: ReaderParameter
+since: "7.0.0"
+platforms: [android]
+summary: Argument passed to the reader.
+properties:
+  - name: discovered
+    summary: Method called when tag is discovered. Contains a tag property in the event
+    type: Callback
+    platforms: [android]
+
+  - name: flags
+    summary: Flags for the ReaderMode. Check NfC.FLAG_READER_*
+    type: int
+    platforms: [android]

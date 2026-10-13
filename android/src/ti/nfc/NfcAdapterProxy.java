@@ -8,11 +8,16 @@
 
 package ti.nfc;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
+import android.nfc.tech.Ndef;
+import android.nfc.tech.NdefFormatable;
 import android.os.Build;
 import android.os.Message;
 import android.os.Parcelable;
@@ -151,27 +156,36 @@ public class NfcAdapterProxy extends KrollProxy
 		return (_adapter != null) ? _adapter.isEnabled() : false;
 	}
 
+	@SuppressLint("InlinedApi")
 	@Kroll.method
-	public void enableReader(KrollFunction callback)
+	public void enableReader(KrollDict options)
 	{
-		if (_adapter != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-			_adapter.enableReaderMode(TiApplication.getAppCurrentActivity(),
-									  new NfcAdapter.ReaderCallback() {
-										  @Override
-										  public void onTagDiscovered(Tag tag)
-										  {
-											  KrollDict event = new KrollDict();
-											  NfcTagProxy tagProxy = new NfcTagProxy(tag);
-											  event.put(NfcConstants.PROPERTY_TAG, tagProxy);
-											  Log.d(NfcConstants.LCAT, "tagproxy: " + tagProxy.getId());
-											  callback.callAsync(getKrollObject(), event);
-										  }
-									  },
-									  NfcAdapter.FLAG_READER_NFC_A | NfcAdapter.FLAG_READER_NFC_B
-										  | NfcAdapter.FLAG_READER_NFC_F | NfcAdapter.FLAG_READER_NFC_BARCODE
-										  | NfcAdapter.FLAG_READER_NFC_V | NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK
-										  | NfcAdapter.FLAG_READER_NO_PLATFORM_SOUNDS,
-									  null);
+		if (options.containsKeyAndNotNull("discovered")) {
+			int flags = NfcAdapter.FLAG_READER_NFC_A | NfcAdapter.FLAG_READER_NFC_B
+					| NfcAdapter.FLAG_READER_NFC_F | NfcAdapter.FLAG_READER_NFC_BARCODE
+					| NfcAdapter.FLAG_READER_NFC_V;
+
+			KrollFunction callback = (KrollFunction) options.get("discovered");
+			if (options.containsKeyAndNotNull("flags")) {
+				flags = options.getInt("flags");
+			}
+			if (_adapter != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+				_adapter.enableReaderMode(TiApplication.getAppCurrentActivity(),
+						new NfcAdapter.ReaderCallback() {
+							@Override
+							public void onTagDiscovered(Tag tag) {
+								KrollDict event = new KrollDict();
+								NfcTagProxy tagProxy = new NfcTagProxy(tag);
+								event.put(NfcConstants.PROPERTY_TAG, tagProxy);
+								Log.d(NfcConstants.LCAT, "tagproxy: " + tagProxy.getId());
+								callback.callAsync(getKrollObject(), event);
+							}
+						},
+						flags,
+						null);
+			}
+		} else {
+			Log.e(NfcConstants.LCAT, "Missing 'discovered' callback function");
 		}
 	}
 
